@@ -8,7 +8,7 @@ class Game: public BaseEngine{
         /* START OF TESTING ONLY */
         Texture text; Sprite* sprite_test;
         Texture bg;   Sprite* background;
-        Texture dirt; Sprite* dirt_sprite;
+        // Texture dirt; Sprite* dirt_sprite;
         /* END OF TESTING ONLY */
     public:
         void init();
