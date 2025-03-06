@@ -1,6 +1,15 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+/* Objects Folder */
+// #include "Objects/Entity.h"
+// #include "Objects/enemies/Pookie.cpp"
+#include "Objects/Drillku.cpp"
+
+/* Components */
+#include "Components/AttackComp.cpp"
+#include "Components/MovementComp.cpp"
+
 /* Game Folder */
 #include "Game/Game.cpp"
 #include "Game/BaseEngine.cpp"

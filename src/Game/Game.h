@@ -2,6 +2,7 @@
 
 #include "BaseEngine.h"
 #include "../Utility/configurations.h"
+#include "../Objects/Drillku.h"
 
 class Game: public BaseEngine{
     private:
@@ -10,6 +11,8 @@ class Game: public BaseEngine{
         Texture bg;   Sprite* background;
         // Texture dirt; Sprite* dirt_sprite;
         /* END OF TESTING ONLY */
+
+        Drillku* player;
     public:
         void init();
         void update(Time deltaTime);
