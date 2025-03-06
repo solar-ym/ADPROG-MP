@@ -1,21 +1,19 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
+
+/* Game Folder */
+#include "Game/Game.cpp"
+#include "Game/BaseEngine.cpp"
+
+/* Utilities Folder */
+#include "Utility/configurations.h"
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CMake SFML Project");
-    window.setFramerateLimit(144);
-
-    while (window.isOpen())
-    {
-        while (const std::optional event = window.pollEvent())
-        {
-            if (event->is<sf::Event::Closed>())
-            {
-                window.close();
-            }
-        }
-
-        window.clear();
-        window.display();
-    }
+    Game game;
+    game.run("DRILLKU", 
+            (DIRT_WIDTH + MENU_WIDTH) * TILE_SIZE,
+            (DIRT_HEIGHT + SKY_HEIGHT) * TILE_SIZE);
+    return 0;
+    
 }
