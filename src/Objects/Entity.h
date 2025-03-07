@@ -18,12 +18,8 @@
 
 class Entity {
     protected:
-    // static variables 
         String entName;
-        
-
     // variables that change
-        Vector2i location;
     public:
         Entity() {}
         Entity(string name) {
@@ -32,4 +28,5 @@ class Entity {
         
         // virtual void update() = 0;
         virtual void draw(RenderWindow *window) = 0;
+        virtual Sprite* getEntSprite() = 0;
 };

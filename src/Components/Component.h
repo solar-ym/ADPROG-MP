@@ -4,7 +4,7 @@
 #include "../Objects/Entity.h"
 
 class Component {
-    private:
+    protected:
         string compName;
         Entity* owner;
     public:

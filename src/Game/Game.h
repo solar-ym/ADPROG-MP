@@ -6,11 +6,7 @@
 
 class Game: public BaseEngine{
     private:
-        /* START OF TESTING ONLY */
-        Texture text; Sprite* sprite_test;
         Texture bg;   Sprite* background;
-        // Texture dirt; Sprite* dirt_sprite;
-        /* END OF TESTING ONLY */
 
         Drillku* player;
     public:

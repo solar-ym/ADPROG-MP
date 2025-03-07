@@ -5,6 +5,7 @@
 class BaseEngine{
     private:
         RenderWindow window;
+    protected:
         const Time TimePerFrame = seconds(1.0f / 60.0f);
     public:
         virtual void init() = 0;

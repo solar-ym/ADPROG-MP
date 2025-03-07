@@ -25,9 +25,15 @@ class Drillku : public Entity {
         void mikuMove(float x, float y);
 
         void setLives(ALTER_LIFE changeType);
-        void update(Keyboard::Scan keyCode);
 
+        // attack-related
+        void unextendHair();
+        void extendHair();
+        void setHairExtendBool(int type, bool newValue);
+        
+        void update();
         void draw(RenderWindow *window);
 
-        
+        MovementComp* getMoveComp();
+        Sprite* getEntSprite();
 };
