@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "EntityAttack.h"
 #include "../Components/MovementComp.h"
 #include "../Components/AttackComp.h"
 
@@ -13,14 +14,12 @@ class Drillku : public Entity {
         MovementComp* movement;
         AttackComp* attack;
 
-        Sprite* attackSprite;
-        Texture attTexture;
+        EntityAttack* attackSprite;
 
         Sprite* entSprite;
-        Texture entTexture;
     public:
         Drillku();
-        Drillku(string name);
+        Drillku(string name, string textureName);
 
         void mikuMove(float x, float y);
 
@@ -31,6 +30,7 @@ class Drillku : public Entity {
         void extendHair();
         void setHairExtendBool(int type, bool newValue);
         
+        void initialize();
         void update();
         void draw(RenderWindow *window);
 

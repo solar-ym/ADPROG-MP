@@ -2,16 +2,14 @@
 
 Drillku :: Drillku() {}
 
-Drillku :: Drillku (string name) : 
-            Entity(name) {
+Drillku :: Drillku (string name, string textureName) : Entity(name) {
+    
+    GD_GameResource* res = GD_GameResource::createInstance();
+    IntRect rect = (*res->getAtlas())[textureName];
+    entSprite = new Sprite(*res->getTexture(),rect);
 
-    if (entTexture.loadFromFile("../../sprites/MIKU_attack.png"))
-        entSprite = new Sprite(entTexture);
-
-    if (attTexture.loadFromFile("../../sprites/ATTACK_drillku.png"))
-        attackSprite = new Sprite(attTexture);
-    attackSprite->setPosition({entSprite->getPosition().x+50, entSprite->getPosition().y});
-    attackSprite->setTextureRect(IntRect({140, 0}, {10,50})); 
+    attackSprite = new EntityAttack(entSprite, "ATTACK_drillku.png");
+    attackSprite->alterTextureRect(IntRect({140, 0}, {10,50})); 
 
     movement = new MovementComp("MovementComp", movement->PLAYER, entSprite);
     attack = new AttackComp("AttackComp", attackSprite);
@@ -47,8 +45,14 @@ void Drillku :: setHairExtendBool(int type, bool newValue) {
     else attack->setExtendBool(newValue);
 }
 
+// GENERAL
+
+void Drillku :: initialize() {
+    
+}
+
 void Drillku :: update() {
-    attackSprite->setPosition({entSprite->getPosition().x+50, entSprite->getPosition().y});
+    attackSprite->setSpritePosition(entSprite);
     attack->reorient(entSprite);
     extendHair();
     unextendHair();
@@ -56,7 +60,8 @@ void Drillku :: update() {
 
 void Drillku :: draw(RenderWindow *window) {
     window->draw(*entSprite);
-    window->draw(*attackSprite);
+    if (attackSprite->getVisibility())
+        attackSprite->draw(window);
 }
 
 // GETTERS

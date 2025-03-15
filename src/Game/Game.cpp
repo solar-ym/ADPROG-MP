@@ -1,16 +1,15 @@
 #include "Game.h"
 
 void Game::init(){
-    /* START OF TESTING ONLY */
-
-    player = new Drillku("Player");
+    player = new Drillku("Player", "MIKU_walk1");
     player->mikuMove(0, TILE_SIZE*8);
 
     if(bg.loadFromFile("../../sprites/background.png")){
         background = new Sprite(bg);
         background->setPosition(Vector2f(0.0f, 0.0f));
     }
-    /* END OF TESTING ONLY */
+
+    sceneManager = sceneManager->createInstance();
 }
 
 void Game::update(Time deltaTime) {
@@ -40,7 +39,6 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode){
         player->getMoveComp()->move(player->getMoveComp()->RIGHT);
     }
 
-    /* END OF TESTING ONLY */
     if(keyCode == sf::Keyboard::Scan::Z) {
         player->setHairExtendBool(0, true);
     }
@@ -50,6 +48,10 @@ void Game::keyReleaseTrigger(Keyboard::Scan keyCode) {
     if(keyCode == sf::Keyboard::Scan::Z) {
         player->setHairExtendBool(1, true);
     }
+}
+
+void Game :: initializeVeggieList() {
+    // push back all veggies here 
 }
 
 Game::~Game(){}

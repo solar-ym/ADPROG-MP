@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../Utility/configurations.h"
+#include "../Game/GD_GameResource.h"
+#include "GameObject.h"
 
 /*
     ANIMATED
@@ -16,17 +18,12 @@
     flowers
 */
 
-class Entity {
-    protected:
-        String entName;
-    // variables that change
+class Entity : public GameObject {
     public:
         Entity() {}
-        Entity(string name) {
-            entName = name;
-        }
+        Entity(string name) : GameObject(name) {}
         
-        // virtual void update() = 0;
-        virtual void draw(RenderWindow *window) = 0;
-        virtual Sprite* getEntSprite() = 0;
+        void initialize() {};
+        void update() {};
+        void draw(RenderWindow *window) {};
 };

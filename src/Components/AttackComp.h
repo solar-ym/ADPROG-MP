@@ -1,17 +1,18 @@
 #pragma once
 
 #include "Component.h"
+#include "../Objects/EntityAttack.h"
 
 class AttackComp : public Component {
     private:
         enum ALTER_POS {INCREASE, DECREASE};
-        Sprite* attackSprite;
+        EntityAttack* attackSprite;
         int pos = 140;
 
         bool shouldUnextend = false;
         bool shouldExtend = false;
     public:
-        AttackComp(string name, Sprite* attackSprite);
+        AttackComp(string name, EntityAttack* attackSprite);
         void extend();
         void unextend();
         void reorient(Sprite* owner);

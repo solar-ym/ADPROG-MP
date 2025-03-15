@@ -1,15 +1,15 @@
 #include "AttackComp.h"
 
-AttackComp :: AttackComp(string name, Sprite* attackSprite) 
+AttackComp :: AttackComp(string name, EntityAttack* attackSprite) 
     : Component("name") {  
         this->attackSprite = attackSprite;
 }
 
 void AttackComp :: extend() {
-    if (attackSprite->getTextureRect().size.x < 150) {
+    if (attackSprite->getTextRect_X() < 150) {
         makePos(DECREASE);
-        attackSprite->setTextureRect(IntRect({pos,0}, {
-            attackSprite->getTextureRect().size.x + 10,
+        attackSprite->alterTextureRect(IntRect({pos,0}, {
+            attackSprite->getTextRect_X() + 10,
             50
         }));
     } else {
@@ -19,10 +19,10 @@ void AttackComp :: extend() {
 
 void AttackComp :: unextend() {
     shouldExtend = false;
-    if (attackSprite->getTextureRect().size.x > 10) {
+    if (attackSprite->getTextRect_X() > 10) {
         makePos(INCREASE);
-        attackSprite->setTextureRect(IntRect({pos,0}, 
-            {attackSprite->getTextureRect().size.x - 10,
+        attackSprite->alterTextureRect(IntRect({pos,0}, 
+            {attackSprite->getTextRect_X() - 10,
             50}));
     } else {
         shouldUnextend = false;
@@ -31,7 +31,7 @@ void AttackComp :: unextend() {
 
 void AttackComp :: reorient(Sprite* owner) {
     //fix rotation here
-    attackSprite->setRotation(owner->getRotation());
+    attackSprite->setSpriteRotation(owner->getRotation());
 }
 
 void AttackComp :: makePos(ALTER_POS alterType) {

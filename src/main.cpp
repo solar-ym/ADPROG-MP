@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 
 /* Objects Folder */
-// #include "Objects/Entity.h"
 // #include "Objects/enemies/Pookie.cpp"
 #include "Objects/Drillku.cpp"
 
@@ -13,6 +12,8 @@
 /* Game Folder */
 #include "Game/Game.cpp"
 #include "Game/BaseEngine.cpp"
+#include "Game/GD_AtlasParserM.cpp"
+#include "Game/GD_GameResource.cpp"
 
 /* Utilities Folder */
 #include "Utility/configurations.h"
