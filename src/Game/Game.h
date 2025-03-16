@@ -4,13 +4,15 @@
 #include "../Utility/configurations.h"
 #include "../Objects/Drillku.h"
 #include "../Objects/Veggie.h"
+#include "../Objects/Background.h"
 #include "../Scenes/SceneManager.h"
+#include "../Scenes/StartingScene.h"
 
 class Game: public BaseEngine{
     private:
         // TEMPORARY    
-            Texture bg;   Sprite* background;
             Drillku* player;
+            Background* background;
 
         SceneManager* sceneManager;
         vector<Veggie*> fruitList;

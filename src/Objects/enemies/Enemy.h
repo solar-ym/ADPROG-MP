@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../Components/Component.h"
+#include "../../Components/Component.h"
 
 class Enemy : public Entity {
     private:
@@ -15,7 +15,7 @@ class Enemy : public Entity {
 
         void addComponent(Component* newComp);
 
-        void initialize() {};
-        void update() {};
-        void draw(RenderWindow *window) {};
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
 };

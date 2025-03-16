@@ -16,4 +16,13 @@ class Component {
         void attachComponent(Entity* owner) {
             this->owner = owner;
         }
+
+        Entity* getOwner() {
+            return owner;
+        }
+        string getName() {
+            return compName;
+        }
+
+        // virtual void perform(sf::Time deltaTime) = 0;
 };

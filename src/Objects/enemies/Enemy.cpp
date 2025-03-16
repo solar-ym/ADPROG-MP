@@ -17,5 +17,5 @@ void Enemy :: initialize() {}
 void Enemy :: update() {}
 
 void Enemy :: draw(RenderWindow *window) {
-
+    window->draw(*entSprite);
 }

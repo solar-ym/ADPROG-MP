@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../Utility/configurations.h"
-#include "../Objects/GameObject.h"
+#include "../Objects/Background.h"
+#include "../Objects/UIAsset.h"
+#include "../ObjectManipulation/Factories.h"
 
 class Scene{
     private:
@@ -28,6 +30,7 @@ class Scene{
                 obj->update();
         }
         virtual void draw(RenderWindow* window){
+            // cout << "[scene] attempting to draw" << endl;
             for(GameObject* obj: objects)
                 obj->draw(window);
         }
