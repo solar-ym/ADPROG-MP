@@ -10,9 +10,13 @@ void Game::init(){
     cout << "Game Launched" << endl;
 
     sceneManager = new SceneManager();
-    sceneManager->registerScene(new StartingScene("Starting Screen"));
-
     cout << "Scene Manager successfully created" << endl;
+
+    sceneManager->registerScene(new StartingScene("Starting Screen"));
+    cout << "Starting screen successfully created" << endl;
+
+    sceneManager->registerScene(new BattleScene("Battle Screen", 1));
+    cout << "Battle screen successfully created" << endl;
 
     sceneManager->loadScene(sceneManager->SCREEN_starting);
 
@@ -21,19 +25,15 @@ void Game::init(){
 
 void Game::update(Time deltaTime) {
     // player->update();
-    sceneManager->updateCurrentScene(deltaTime);
+    // cout << sceneManager->getCurrentScene() << endl;
+    sceneManager->updateCurrentScene();
 }
 
 void Game::draw(RenderWindow *window){
-    /* START OF TESTING ONLY */
-    // window->draw(*background);
-    // window->draw(*dirt_sprite);
-    // player->draw(window);
-    /* END OF TESTING ONLY */
     sceneManager->drawCurrentScene(window);
 }
 
-void Game::keyPressTrigger(Keyboard::Scan keyCode){
+void Game::keyPressTrigger(Keyboard::Scan keyCode) {
     if (sceneManager->getCurrentScene() != sceneManager->SCREEN_starting && 
         sceneManager->getCurrentScene() != sceneManager->SCREEN_ending) {
         // Battle Controls
@@ -50,7 +50,14 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode){
         if(keyCode == sf::Keyboard::Scan::Z) {
             player->setHairExtendBool(0, true);
         }
-    } 
+    } else {
+        if (keyCode == sf::Keyboard::Scan::Space) {
+            cout << "Attempting to load battle..." << endl;
+            sceneManager->loadScene(sceneManager->SCREEN_round1);
+            cout << "   > Success." << endl;
+            
+        }
+    }
 }
 
 void Game::keyReleaseTrigger(Keyboard::Scan keyCode) {

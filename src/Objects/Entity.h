@@ -19,6 +19,9 @@
 */
 
 class Entity : public GameObject {
+    private:
+        int x;
+        int y;
     public:
         Entity() {}
         Entity(string name) : GameObject(name) {}

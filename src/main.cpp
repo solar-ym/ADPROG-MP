@@ -14,9 +14,14 @@
 #include "Game/BaseEngine.cpp"
 #include "Game/GD_AtlasParserM.cpp"
 #include "Game/GD_GameResource.cpp"
+#include "Game/RoundDataLoader.cpp"
+
+/* Scenes Folder */
+#include "Scenes/SceneManager.cpp"
 
 /* Utilities Folder */
 #include "Utility/configurations.h"
+#include "Utility/SpriteManip.cpp"
 
 int main()
 {
@@ -24,6 +29,14 @@ int main()
     game.run("DRILLKU", 
             (DIRT_WIDTH + MENU_WIDTH) * TILE_SIZE,
             (DIRT_HEIGHT + SKY_HEIGHT) * TILE_SIZE);
+
+    // RoundDataLoader rdl;
+    // vector<int> x = rdl.loadData(1);
+
+    // for (int data : x) {
+    //     cout << data << endl;
+    // }
+
     return 0;
     
 }

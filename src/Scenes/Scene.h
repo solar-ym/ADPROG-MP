@@ -4,6 +4,7 @@
 #include "../Objects/Background.h"
 #include "../Objects/UIAsset.h"
 #include "../ObjectManipulation/Factories.h"
+#include "../Utility/SpriteManip.h"
 
 class Scene{
     private:

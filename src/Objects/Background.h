@@ -12,6 +12,7 @@ class Background : public Entity {
             GD_GameResource* res = GD_GameResource::createInstance();
             IntRect rect = (*res->getAtlas())[textureName];
             entSprite = new Sprite(*res->getTexture(),rect);
+            entSprite->setPosition({0,0});
         }
 
         void initialize() {}

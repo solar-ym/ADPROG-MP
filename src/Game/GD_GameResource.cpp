@@ -3,9 +3,9 @@
 GD_GameResource* GD_GameResource::myInstance = nullptr;
 
 GD_GameResource::GD_GameResource(){
-    if(texture.loadFromFile("../../sprites/miku_spritesheet.png")
+    if(texture.loadFromFile("../../sprites/digDrillkuSpritesheet.png")
             && font.openFromFile("../../sprites/GlacialIndifference-Regular.otf") ){
-        atlas = createDictionary("../../sprites/miku.atlas");
+        atlas = createDictionary("../../sprites/digDrillkuSpritesheet.atlas");
 	}
 }
 
