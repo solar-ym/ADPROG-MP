@@ -1,13 +1,13 @@
 #include "Game.h"
 
 void Game::init(){
-    // player = new Drillku("Player", "MIKU_walk1");
-    // player->mikuMove(0, TILE_SIZE*8);
-
-    // background = new Background("BG1_norm");
-
-    // sceneManager = sceneManager->createInstance();
     cout << "Game Launched" << endl;
+
+    if (player != nullptr) {
+        player = new Drillku("Player", "MIKU_walk1");
+        cout << "Player created." << endl;
+
+    }
 
     sceneManager = new SceneManager();
     cout << "Scene Manager successfully created" << endl;
@@ -15,7 +15,7 @@ void Game::init(){
     sceneManager->registerScene(new StartingScene("Starting Screen"));
     cout << "Starting screen successfully created" << endl;
 
-    sceneManager->registerScene(new BattleScene("Battle Screen", 1));
+    sceneManager->registerScene(new BattleScene("Battle Screen", 1, player));
     cout << "Battle screen successfully created" << endl;
 
     sceneManager->loadScene(sceneManager->SCREEN_starting);
@@ -48,6 +48,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
         }
 
         if(keyCode == sf::Keyboard::Scan::Z) {
+            if (player->getHairVisibility() == false) player->toggleHairVisibility();
             player->setHairExtendBool(0, true);
         }
     } else {

@@ -73,3 +73,11 @@ MovementComp* Drillku :: getMoveComp() {
 Sprite* Drillku :: getEntSprite() {
     return entSprite;
 }
+
+void Drillku :: toggleHairVisibility() {
+    attackSprite->toggleVisibility();
+}
+
+bool Drillku :: getHairVisibility() {
+    return attackSprite->getVisibility();
+}

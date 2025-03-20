@@ -31,7 +31,7 @@ class Tunnel : public Entity {
 
         void setTileXY(int xV, int yV) {
             x = xV; y = yV;
-            entSprite->setPosition({TILE_SIZE*(x), TILE_SIZE*(y)+(TILE_SIZE*2)});
+            entSprite->setPosition({TILE_SIZE*(x), TILE_SIZE*(y)+(TILE_SIZE*3)});
         }
         int getTileX() {
             return x;

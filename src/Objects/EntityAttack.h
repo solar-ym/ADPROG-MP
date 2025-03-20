@@ -8,7 +8,7 @@ class EntityAttack : public Entity {
     private:
         Sprite* attackSprite;
         Texture attTexture;
-        bool isVisible;
+        bool isVisible = false;
     public:
         EntityAttack() {}
         EntityAttack(Sprite* owner, string textureName) {

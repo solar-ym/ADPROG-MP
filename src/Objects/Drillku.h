@@ -34,6 +34,9 @@ class Drillku : public Entity {
         void update();
         void draw(RenderWindow *window);
 
+        void toggleHairVisibility();
+        bool getHairVisibility();
+
         MovementComp* getMoveComp();
         Sprite* getEntSprite();
 };

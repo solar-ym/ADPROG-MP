@@ -26,6 +26,7 @@ void AttackComp :: unextend() {
             50}));
     } else {
         shouldUnextend = false;
+        attackSprite->toggleVisibility();
     }
 }
 
