@@ -4,6 +4,8 @@
 
 class Background : public Entity {
     private:
+        int x;
+        int y;
         Sprite* entSprite;
         Texture tex;
     public:
@@ -15,6 +17,10 @@ class Background : public Entity {
             entSprite->setPosition({0,0});
         }
 
+        void setTileXY(int xV, int yV) {}
+        int getTileX() { return x; }
+        int getTileY() { return y; }
+
         void initialize() {}
         void update() {}
         void draw(RenderWindow *window) {
@@ -25,5 +31,9 @@ class Background : public Entity {
         void manualCreation(string textureName) {
             if (tex.loadFromFile(textureName))
                 entSprite = new Sprite(tex);
+        }
+
+        Sprite* getSprite() {
+            return entSprite;
         }
 };

@@ -27,11 +27,12 @@ class Tunnel : public Entity {
             }
             
             entSprite = new Sprite(*res->getTexture(),rect);
+            entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
         }
 
         void setTileXY(int xV, int yV) {
             x = xV; y = yV;
-            entSprite->setPosition({TILE_SIZE*(x), TILE_SIZE*(y)+(TILE_SIZE*3)});
+            entSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
         }
         int getTileX() {
             return x;

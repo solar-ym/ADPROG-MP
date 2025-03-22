@@ -10,6 +10,9 @@ class Drillku : public Entity {
         enum ALTER_LIFE {INCREASELIVES, DECREASELIVES, RESETLIVES};
         int livesLeft = 3;
 
+        int x = 0;
+        int y = 0;
+
         // components
         MovementComp* movement;
         AttackComp* attack;
@@ -21,7 +24,7 @@ class Drillku : public Entity {
         Drillku();
         Drillku(string name, string textureName);
 
-        void mikuMove(float x, float y);
+        // void mikuMove(float x, float y);
 
         void setLives(ALTER_LIFE changeType);
 
@@ -29,6 +32,10 @@ class Drillku : public Entity {
         void unextendHair();
         void extendHair();
         void setHairExtendBool(int type, bool newValue);
+
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
         
         void initialize();
         void update();
@@ -38,5 +45,6 @@ class Drillku : public Entity {
         bool getHairVisibility();
 
         MovementComp* getMoveComp();
-        Sprite* getEntSprite();
+        AttackComp* getAtkComp();
+        Sprite* getSprite();
 };

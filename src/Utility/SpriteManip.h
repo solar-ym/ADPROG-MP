@@ -1,15 +1,15 @@
 #pragma once
 // Originally Sir's "GD_Trn"
 
-#include "../Objects/Tunnel.h"
+#include "../Objects/Entity.h"
 
 class SpriteManip {
 	public:
-	    static void moveUp(Tunnel* obj);
-	    static void moveDown(Tunnel* obj);
-	    static void moveLeft(Tunnel* obj);
-	    static void moveRight(Tunnel* obj);
-	    static void turnLeft(Tunnel* obj);
-	    static void turnRight(Tunnel* obj);
-	    static void moveToRand(Tunnel* obj,int gridSize);
+	    static void moveUp(Entity* obj);
+	    static void moveDown(Entity* obj);
+	    static void moveLeft(Entity* obj);
+	    static void moveRight(Entity* obj);
+	    static void turnLeft(Entity* obj);
+	    static void turnRight(Entity* obj);
+	    static void moveToRand(Entity* obj,int gridSize);
 };

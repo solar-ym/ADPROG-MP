@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Component.h"
+#include "MovementComp.h"
 #include "../Objects/EntityAttack.h"
 
 class AttackComp : public Component {
@@ -15,7 +15,7 @@ class AttackComp : public Component {
         AttackComp(string name, EntityAttack* attackSprite);
         void extend();
         void unextend();
-        void reorient(Sprite* owner);
+        void reorient();
 
         void makePos(ALTER_POS alterType);
 

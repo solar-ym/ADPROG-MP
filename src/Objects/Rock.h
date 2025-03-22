@@ -4,6 +4,8 @@
 
 class Rock : public Entity {
     private:
+        int x;
+        int y;
         Sprite* entSprite;
     public:
         Rock() {}
@@ -13,9 +15,17 @@ class Rock : public Entity {
             entSprite = new Sprite(*res->getTexture(),rect);
         }
 
+        void setTileXY(int xV, int yV) {}
+        int getTileX() { return x; }
+        int getTileY() { return y; }
+
         void initialize() {}
         void update() {}
         void draw(RenderWindow *window) {
             window->draw(*entSprite);
+        }
+
+        Sprite* getSprite() {
+            return entSprite;
         }
 };

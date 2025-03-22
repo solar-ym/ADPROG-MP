@@ -5,6 +5,8 @@
 
 class Enemy : public Entity {
     private:
+        int x;
+        int y;
         // components
         vector<Component*> comps;
 
@@ -15,7 +17,13 @@ class Enemy : public Entity {
 
         void addComponent(Component* newComp);
 
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
+
         void initialize();
         void update();
         void draw(RenderWindow *window);
+
+        Sprite* getSprite();
 };

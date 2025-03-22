@@ -3,12 +3,14 @@
 Drillku :: Drillku() {}
 
 Drillku :: Drillku (string name, string textureName) : Entity(name) {
-    
     GD_GameResource* res = GD_GameResource::createInstance();
     IntRect rect = (*res->getAtlas())[textureName];
     entSprite = new Sprite(*res->getTexture(),rect);
 
-    attackSprite = new EntityAttack(entSprite, "ATTACK_drillku.png");
+    entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
+    setTileXY(6,6);
+
+    attackSprite = new EntityAttack(this, "ATTACK_drillku.png");
     attackSprite->alterTextureRect(IntRect({140, 0}, {10,50})); 
 
     movement = new MovementComp("MovementComp", movement->PLAYER, entSprite);
@@ -16,10 +18,6 @@ Drillku :: Drillku (string name, string textureName) : Entity(name) {
 
     movement->attachComponent(this);
     attack->attachComponent(this);
-}
-
-void Drillku :: mikuMove(float x, float y) {
-    entSprite->move({x,y});
 }
 
 void Drillku :: setLives(ALTER_LIFE changeType) {
@@ -45,6 +43,19 @@ void Drillku :: setHairExtendBool(int type, bool newValue) {
     else attack->setExtendBool(newValue);
 }
 
+// POSITION
+
+void Drillku :: setTileXY(int xV, int yV) {
+    x = xV; y = yV;
+    entSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
+}
+int Drillku :: getTileX() {
+    return x;
+}
+int Drillku :: getTileY() {
+    return y;
+}
+
 // GENERAL
 
 void Drillku :: initialize() {
@@ -52,10 +63,9 @@ void Drillku :: initialize() {
 }
 
 void Drillku :: update() {
-    attackSprite->setSpritePosition(entSprite);
-    attack->reorient(entSprite);
     extendHair();
     unextendHair();
+    movement->move();
 }
 
 void Drillku :: draw(RenderWindow *window) {
@@ -70,7 +80,11 @@ MovementComp* Drillku :: getMoveComp() {
     return movement;
 }
 
-Sprite* Drillku :: getEntSprite() {
+AttackComp* Drillku :: getAtkComp() {
+    return attack;
+}
+
+Sprite* Drillku :: getSprite() {
     return entSprite;
 }
 

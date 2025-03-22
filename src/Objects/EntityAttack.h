@@ -6,20 +6,17 @@
 
 class EntityAttack : public Entity {
     private:
+        int x;
+        int y;
+        
         Sprite* attackSprite;
         Texture attTexture;
         bool isVisible = false;
     public:
         EntityAttack() {}
-        EntityAttack(Sprite* owner, string textureName) {
-            // GD_GameResource* res = GD_GameResource::createInstance();
-            // IntRect rect = (*res->getAtlas())[textureName];
-            // attackSprite = new Sprite(*res->getTexture(),rect);
-
+        EntityAttack(Entity* owner, string textureName) {
             if (attTexture.loadFromFile("../../sprites/" + textureName))
                 attackSprite = new Sprite(attTexture);
-            
-            attackSprite->setPosition({owner->getPosition().x+50, owner->getPosition().y});
         }
 
         void toggleVisibility() {
@@ -34,14 +31,25 @@ class EntityAttack : public Entity {
         void setSpriteRotation(Angle newRotation) {
             attackSprite->setRotation(newRotation);
         }
-        void setSpritePosition(Sprite* owner) {
-            attackSprite->setPosition({owner->getPosition().x+50, owner->getPosition().y});
+        void setSpritePosition(float x, float y) {
+            attackSprite->setPosition({x, y});
         }
+
+        void setTileXY(int xV, int yV) {
+            x = xV; y = yV;
+            attackSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
+        }
+        int getTileX() { return x; }
+        int getTileY() { return y; }
 
         void initialize() {}
         void update() {} 
         void draw(RenderWindow *window) { 
             window->draw(*attackSprite); 
+        }
+
+        Sprite* getSprite() {
+            return attackSprite;
         }
 
         int getTextRect_X() {

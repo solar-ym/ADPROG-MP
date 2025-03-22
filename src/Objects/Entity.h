@@ -19,12 +19,15 @@
 */
 
 class Entity : public GameObject {
-    private:
-        int x;
-        int y;
     public:
         Entity() {}
         Entity(string name) : GameObject(name) {}
+
+        virtual void setTileXY(int xV, int yV) = 0;
+        virtual int getTileX() = 0;
+        virtual int getTileY() = 0;
+
+        virtual Sprite* getSprite() = 0;
         
         void initialize() {};
         void update() {};

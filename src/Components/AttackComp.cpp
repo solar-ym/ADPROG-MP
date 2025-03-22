@@ -30,9 +30,36 @@ void AttackComp :: unextend() {
     }
 }
 
-void AttackComp :: reorient(Sprite* owner) {
-    //fix rotation here
-    attackSprite->setSpriteRotation(owner->getRotation());
+void AttackComp :: reorient() {
+    Vector2f ownerLoc = owner->getSprite()->getPosition();
+    float offset = TILE_SIZE/2;
+    float adjustedTileSize = TILE_SIZE + offset;
+    
+    MovementComp* moveComp = dynamic_cast<Drillku*>(owner)->getMoveComp();
+    bool isFlipped = moveComp->checkFlipped();
+
+    if (moveComp->isFacing() == MovementComp::UP) {
+        attackSprite->setSpriteRotation(degrees(-90));
+        if (!isFlipped)
+            attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y-offset);
+        else 
+        attackSprite->setSpritePosition(ownerLoc.x-4, ownerLoc.y-offset);
+    }
+    if (moveComp->isFacing() == MovementComp::DOWN) {
+        attackSprite->setSpriteRotation(degrees(90));
+        if (!isFlipped)
+            attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y+offset);
+        else 
+        attackSprite->setSpritePosition(ownerLoc.x+4, ownerLoc.y+offset);
+    }
+    if (moveComp->isFacing() == MovementComp::LEFT) {
+        attackSprite->setSpriteRotation(degrees(180));
+        attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y+4);
+    }
+    if (moveComp->isFacing() == MovementComp::RIGHT) {
+        attackSprite->setSpriteRotation(degrees(0));
+        attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y-offset);
+    }
 }
 
 void AttackComp :: makePos(ALTER_POS alterType) {

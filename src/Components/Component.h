@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Utility/configurations.h"
+#include "../Utility/SpriteManip.h"
 #include "../Objects/Entity.h"
 
 class Component {

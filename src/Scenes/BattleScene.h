@@ -17,11 +17,6 @@ class BattleScene : public Scene {
 
         RoundDataLoader dataLoader;
     public:
-        /* 
-            scene name, number of tunnels, binary array of enemy type in
-            each tunnel from left to right top-down where 0 = pookie and
-            1 = geygar
-        */
         BattleScene(string name, int roundNum, Drillku* player) : Scene(name) {
             roundData.clear();
             this->roundNum = roundNum;
@@ -74,23 +69,23 @@ class BattleScene : public Scene {
 
             switch (type) {
                 case 0:
-                    SpriteManip::turnLeft(tunnelCap1);
                     tunnelCap1->setTileXY(x, y);
+                    SpriteManip::turnLeft(tunnelCap1);
 
-                    SpriteManip::turnLeft(tunnelMiddle);
                     tunnelMiddle->setTileXY(x+1, y);
+                    SpriteManip::turnLeft(tunnelMiddle);
 
+                    tunnelCap2->setTileXY(x+2, y);
                     SpriteManip::turnRight(tunnelCap2);
-                    tunnelCap2->setTileXY(x+3, y-1);
                     break;
                 case 1:
                     tunnelCap1->setTileXY(x, y);
 
                     tunnelMiddle->setTileXY(x, y+1);
 
+                    tunnelCap2->setTileXY(x, y+2);
                     SpriteManip::turnRight(tunnelCap2);
                     SpriteManip::turnRight(tunnelCap2);
-                    tunnelCap2->setTileXY(x+1, y+3);
                     break;
                 default: 
                     cout << "[ BATTLE SCENE ] Tunnel Creation failed. Invalid tunnel orientation." << endl;
