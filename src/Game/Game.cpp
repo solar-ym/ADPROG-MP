@@ -23,8 +23,6 @@ void Game::init(){
 }
 
 void Game::update(Time deltaTime) {
-    // player->update();
-    // cout << sceneManager->getCurrentScene() << endl;
     sceneManager->updateCurrentScene();
 }
 
