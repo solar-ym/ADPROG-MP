@@ -63,6 +63,9 @@ void Drillku :: initialize() {
 }
 
 void Drillku :: update() {
+    x = (entSprite->getPosition().x / TILE_SIZE);
+    y = (entSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
+
     extendHair();
     unextendHair();
     movement->move();

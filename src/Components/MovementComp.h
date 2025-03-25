@@ -12,10 +12,13 @@ class MovementComp : public Component {
         MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSprite);
 
         void move();
+        void reCenter(MOVE_TYPE from);
+        // MOVE_TYPE reCenter(MOVE_TYPE from);
+        void invertTexture();
+
         void setMovingBool(bool value);
         void setMovementType(MOVE_TYPE moveType);
-
-        void invertTexture();
+        
         MOVE_TYPE isFacing();
         bool checkFlipped();
     private:

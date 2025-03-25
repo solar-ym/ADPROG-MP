@@ -35,31 +35,45 @@ void Game::draw(RenderWindow *window){
 void Game::keyPressTrigger(Keyboard::Scan keyCode) {
     if (sceneManager->getCurrentScene() != sceneManager->SCREEN_starting && 
         sceneManager->getCurrentScene() != sceneManager->SCREEN_ending) {
-        // Battle Controls
+
+        MovementComp* moveComp = player->getMoveComp();
+        MovementComp::MOVE_TYPE isFacing = moveComp->isFacing();
+
+        // MOVEMENT
         if (keyCode == sf::Keyboard::Scan::W) {
-            // player->getMoveComp()->move(player->getMoveComp()->UP);
-            player->getMoveComp()->setMovementType(player->getMoveComp()->UP);
-            player->getMoveComp()->setMovingBool(true);
+            if (isFacing == MovementComp::LEFT || isFacing == MovementComp::RIGHT)
+                moveComp->reCenter(MovementComp::UP);
+            moveComp->setMovementType(MovementComp::UP);
+            moveComp->setMovingBool(true);
+
         } else if (keyCode == sf::Keyboard::Scan::S) {
-            // player->getMoveComp()->move(player->getMoveComp()->DOWN);
-            player->getMoveComp()->setMovementType(player->getMoveComp()->DOWN);
-            player->getMoveComp()->setMovingBool(true);
+            if (isFacing == MovementComp::LEFT || isFacing == MovementComp::RIGHT)
+                moveComp->reCenter(MovementComp::DOWN);
+            moveComp->setMovementType(MovementComp::DOWN);
+            moveComp->setMovingBool(true);
+
         } else if (keyCode == sf::Keyboard::Scan::A) {
-            // player->getMoveComp()->move(player->getMoveComp()->LEFT);
-            player->getMoveComp()->setMovementType(player->getMoveComp()->LEFT);
-            player->getMoveComp()->setMovingBool(true);
+            if (isFacing == MovementComp::UP || isFacing == MovementComp::DOWN)
+                moveComp->reCenter(MovementComp::LEFT);
+            moveComp->setMovementType(MovementComp::LEFT);
+            moveComp->setMovingBool(true);
+
         } else if (keyCode == sf::Keyboard::Scan::D) {
-            // player->getMoveComp()->move(player->getMoveComp()->RIGHT);
-            player->getMoveComp()->setMovementType(player->getMoveComp()->RIGHT);
-            player->getMoveComp()->setMovingBool(true);
+            if (isFacing == MovementComp::UP || isFacing == MovementComp::DOWN)
+                moveComp->reCenter(MovementComp::RIGHT);
+            moveComp->setMovementType(MovementComp::RIGHT);
+            moveComp->setMovingBool(true);
+
         } 
 
+        // ATTACKING
         if(keyCode == sf::Keyboard::Scan::Z) {
             if (player->getHairVisibility() == false) player->toggleHairVisibility();
             player->setHairExtendBool(0, true);
             player->getAtkComp()->reorient();
         }
-
+        
+        // TEMPORARY
         if (keyCode == sf::Keyboard::Scan::I) {
             player->getMoveComp()->invertTexture();
         }

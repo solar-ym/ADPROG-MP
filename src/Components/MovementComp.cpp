@@ -59,13 +59,49 @@ void MovementComp :: move() {
     }
 }
 
-void MovementComp :: setMovingBool(bool value) {
-    isMoving = value;
-}
 
-void MovementComp :: setMovementType(MOVE_TYPE moveType) {
-    movementType = moveType;
-    facing = moveType;
+void MovementComp :: reCenter(MOVE_TYPE from) {
+    int x = owner->getTileX();      float realX = ownerSprite->getPosition().x;
+    int y = owner->getTileY();      float realY = ownerSprite->getPosition().y;
+    y += 2;
+
+    bool belowY = realY >= (y * TILE_SIZE)+25 && realY <= (y+1 * TILE_SIZE);
+    bool aboveY = realY <= (y+1 * TILE_SIZE)-25 && realY >= (y * TILE_SIZE);
+
+    bool leftX = realX <= (x * TILE_SIZE)+25 && realX >= (x * TILE_SIZE);
+    bool rightX = realX >= (x+1 * TILE_SIZE)-25 && realX <= (x+1 * TILE_SIZE);
+
+    y -= 2;
+    switch (from) {
+        case LEFT: 
+        case RIGHT:
+            if (facing == UP && aboveY)
+                owner->setTileXY(x, y-1);
+            else if (facing == UP && belowY)
+                owner->setTileXY(x, y);
+            else if (facing == DOWN && belowY)
+                owner->setTileXY(x, y+1);
+            else if (facing == DOWN && aboveY)
+                owner->setTileXY(x, y);
+            else 
+                owner->setTileXY(x, y);
+            break;
+        case UP:
+        case DOWN:
+            if (facing == LEFT && leftX)
+                owner->setTileXY(x-1, y);
+            else if (facing == LEFT && rightX)
+                owner->setTileXY(x, y);
+            else if (facing == RIGHT && leftX)
+                owner->setTileXY(x, y);
+            else if (facing == RIGHT && rightX)
+                owner->setTileXY(x+1, y);
+            else 
+                owner->setTileXY(x, y);
+            break;
+        default: owner->setTileXY(x, y);
+            break;
+    }
 }
 
 void MovementComp :: invertTexture() {
@@ -79,6 +115,15 @@ void MovementComp :: invertTexture() {
         ownerSprite->setTextureRect(originalTexRec);
         isFlipped = false;
     }
+}
+
+void MovementComp :: setMovingBool(bool value) {
+    isMoving = value;
+}
+
+void MovementComp :: setMovementType(MOVE_TYPE moveType) {
+    movementType = moveType;
+    facing = moveType;
 }
 
 MovementComp::MOVE_TYPE MovementComp :: isFacing(){
