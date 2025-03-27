@@ -90,13 +90,16 @@ void Game::keyReleaseTrigger(Keyboard::Scan keyCode) {
         player->setHairExtendBool(1, true);
     }
 
-    if (keyCode == sf::Keyboard::Scan::W) {
+    MovementComp* moveComp = player->getMoveComp();
+    MovementComp::MOVE_TYPE isFacing = moveComp->isFacing();
+
+    if (keyCode == sf::Keyboard::Scan::W && isFacing == MovementComp::UP) {
         player->getMoveComp()->setMovingBool(false);
-    } else if (keyCode == sf::Keyboard::Scan::S) {
+    } else if (keyCode == sf::Keyboard::Scan::S && isFacing == MovementComp::DOWN) {
         player->getMoveComp()->setMovingBool(false);
-    } else if (keyCode == sf::Keyboard::Scan::A) {
+    } else if (keyCode == sf::Keyboard::Scan::A && isFacing == MovementComp::LEFT) {
         player->getMoveComp()->setMovingBool(false);
-    } else if (keyCode == sf::Keyboard::Scan::D) {
+    } else if (keyCode == sf::Keyboard::Scan::D && isFacing == MovementComp::RIGHT) {
         player->getMoveComp()->setMovingBool(false);
     }
 }
