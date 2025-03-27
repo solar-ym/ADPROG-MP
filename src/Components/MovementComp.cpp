@@ -89,7 +89,7 @@ void MovementComp :: reCenter(MOVE_TYPE from) {
         case UP:
         case DOWN:
             if (facing == LEFT && leftX)
-                owner->setTileXY(x-1, y);
+                owner->setTileXY(x, y);
             else if (facing == LEFT && rightX)
                 owner->setTileXY(x, y);
             else if (facing == RIGHT && leftX)

@@ -4,7 +4,7 @@ void Game::init(){
     cout << "Game Launched" << endl;
 
     if (player != nullptr) {
-        player = new Drillku("Player", "MIKU_attack");
+        player = new Drillku("Player", "MIKU_walk1");
         cout << "Player created." << endl;
     }
 
