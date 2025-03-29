@@ -22,4 +22,5 @@ class AttackComp : public Component {
         void setUNExtendBool(bool newValue);
         void setExtendBool(bool newValue);
         bool getExtendBool(int type);
+        bool isVisible();
 };

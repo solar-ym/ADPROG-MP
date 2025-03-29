@@ -133,3 +133,7 @@ MovementComp::MOVE_TYPE MovementComp :: isFacing(){
 bool MovementComp :: checkFlipped() {
     return isFlipped;
 }
+
+bool MovementComp :: getIsMoving() {
+    return isMoving;
+}

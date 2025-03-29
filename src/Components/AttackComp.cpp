@@ -87,3 +87,7 @@ bool AttackComp :: getExtendBool(int type) {
     if (type) return shouldUnextend;
     else return shouldExtend;
 }
+
+bool AttackComp :: isVisible() {
+    return attackSprite->getVisibility();
+}

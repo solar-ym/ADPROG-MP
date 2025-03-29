@@ -21,6 +21,7 @@ class MovementComp : public Component {
         
         MOVE_TYPE isFacing();
         bool checkFlipped();
+        bool getIsMoving();
     private:
         ENTITY_TYPE ownerEntType;
         Sprite* ownerSprite;

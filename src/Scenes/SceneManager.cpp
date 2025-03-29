@@ -35,5 +35,6 @@ int  SceneManager :: getCurrentScene() {
 }
 
 SceneManager :: ~SceneManager() { 
+    scenes[currentScene]->onUnload();
     for(Scene* s: scenes) delete s;
 }

@@ -12,9 +12,7 @@
 
 class Game: public BaseEngine{
     private:
-        // TEMPORARY    
-            Drillku* player;
-            Background* background;
+        Drillku* player;
 
         SceneManager* sceneManager;
         vector<Veggie*> fruitList;

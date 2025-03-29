@@ -30,6 +30,10 @@ void Drillku :: setLives(ALTER_LIFE changeType) {
     }
 }
 
+
+
+// ATTACK-RELATED
+
 void Drillku :: unextendHair() {
     if (attack->getExtendBool(1)) attack->unextend();
 }
@@ -58,9 +62,7 @@ int Drillku :: getTileY() {
 
 // GENERAL
 
-void Drillku :: initialize() {
-    
-}
+void Drillku :: initialize() {}
 
 void Drillku :: update() {
     x = (entSprite->getPosition().x / TILE_SIZE);
@@ -68,6 +70,7 @@ void Drillku :: update() {
 
     extendHair();
     unextendHair();
+
     movement->move();
 }
 
