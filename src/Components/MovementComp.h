@@ -15,6 +15,7 @@ class MovementComp : public Component {
         void reCenter(MOVE_TYPE from);
         // MOVE_TYPE reCenter(MOVE_TYPE from);
         void invertTexture();
+        void fixInversion();
 
         void setMovingBool(bool value);
         void setMovementType(MOVE_TYPE moveType);

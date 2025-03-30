@@ -30,6 +30,8 @@ class BattleScene : public Scene {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
+
+        Vector2i playerPrevTile;
     public:
         BattleScene(string name, int roundNum, Drillku* player) : Scene(name) {
             roundData.clear();
@@ -81,12 +83,14 @@ class BattleScene : public Scene {
                 createTunnel(Tunnel::STRAIGHT);
             } else if (currentTunnel != nullptr) {
                 currentTunnel->extend(player->getMoveComp()->isFacing());
+                player->toggleIsDigging(true);
             }
 
             if (currentTunnel != nullptr && currentTunnel->isMaxExtended() &&
                 (player->getTileX() != currentTunnel->getTileX() ||
                 player->getTileY() != currentTunnel->getTileY())) {  
                     currentTunnel = nullptr;
+                    player->toggleIsDigging(false);
             }
         }
 
@@ -187,7 +191,10 @@ class BattleScene : public Scene {
 
         void update() {
             Scene::update();
-            player->update();
+
+            // player updates
+                player->update();
+
             if (lastFacing != player->getMoveComp()->isFacing() && currentTunnel != nullptr) {
                 fixTunnel();
             }
@@ -195,6 +202,7 @@ class BattleScene : public Scene {
                 dig();
             }
             lastFacing = player->getMoveComp()->isFacing();
+            playerPrevTile.x = player->getTileX();    playerPrevTile.y = player->getTileY();
         }
 
         void draw(RenderWindow* window) {
@@ -210,20 +218,26 @@ class BattleScene : public Scene {
             switch (type) {
                 case 0:
                     tunnelCap1->setTileXY(x, y);
+                    status[y][x] = 1;
                     SpriteManip::turnLeft(tunnelCap1);
 
                     tunnelMiddle->setTileXY(x+1, y);
+                    status[y][x+1] = 1;
                     SpriteManip::turnLeft(tunnelMiddle);
 
                     tunnelCap2->setTileXY(x+2, y);
+                    status[y][x+2] = 1;
                     SpriteManip::turnRight(tunnelCap2);
                     break;
                 case 1:
                     tunnelCap1->setTileXY(x, y);
+                    status[y][x] = 1;
 
                     tunnelMiddle->setTileXY(x, y+1);
+                    status[y+1][x] = 1;
 
                     tunnelCap2->setTileXY(x, y+2);
+                    status[y+2][x] = 1;
                     SpriteManip::turnRight(tunnelCap2);
                     SpriteManip::turnRight(tunnelCap2);
                     break;

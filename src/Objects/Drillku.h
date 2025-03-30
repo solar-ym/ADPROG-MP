@@ -20,6 +20,12 @@ class Drillku : public Entity {
         EntityAttack* attackSprite;
 
         Sprite* entSprite;
+
+        // animation
+        int internalTime;
+        int currentFrameIndex = 0;
+        vector<IntRect> allFrames;
+        bool isDigging = false;
     public:
         Drillku();
         Drillku(string name, string textureName);
@@ -27,6 +33,7 @@ class Drillku : public Entity {
         // void mikuMove(float x, float y);
 
         void setLives(ALTER_LIFE changeType);
+        void changeTexture(int index);
 
         // attack-related
         void unextendHair();
@@ -41,8 +48,13 @@ class Drillku : public Entity {
         void update();
         void draw(RenderWindow *window);
 
+        // animations
+        void animateWalk();
+        void animateDrill();
+
         void toggleHairVisibility();
         bool getHairVisibility();
+        void toggleIsDigging(bool newValue);
 
         MovementComp* getMoveComp();
         AttackComp* getAtkComp();

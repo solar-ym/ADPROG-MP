@@ -44,7 +44,6 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
                 moveComp->reCenter(MovementComp::UP);
             moveComp->setMovementType(MovementComp::UP);
             moveComp->setMovingBool(true);
-
         } else if (keyCode == sf::Keyboard::Scan::S && !isAttacking) {
             if (isFacing == MovementComp::LEFT || isFacing == MovementComp::RIGHT)
                 moveComp->reCenter(MovementComp::DOWN);
@@ -70,10 +69,11 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
             player->setHairExtendBool(0, true);
             player->getAtkComp()->reorient();
         }
-        
-        // TEMPORARY
-        if (keyCode == sf::Keyboard::Scan::I) {
-            player->getMoveComp()->invertTexture();
+
+        if (keyCode == sf::Keyboard::Scan::Space) {
+            cout << "Attempting to load start..." << endl;
+            sceneManager->loadScene(sceneManager->SCREEN_starting);
+            cout << "   > Success." << endl;
         }
     } else {
         if (keyCode == sf::Keyboard::Scan::Space) {

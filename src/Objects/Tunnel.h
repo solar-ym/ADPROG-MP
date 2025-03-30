@@ -9,6 +9,8 @@ class Tunnel : public Entity {
         int y;
         Sprite* entSprite;
         bool maxExtended = false;
+        //                        U, D, L, R
+        int adjacencyStatus[4] = {0, 0, 0, 0};
     public:
         enum TunnelType {CAP, STRAIGHT, CORNER};
         Tunnel() {}
