@@ -118,13 +118,11 @@ void MovementComp :: invertTexture() {
 }
 
 void MovementComp :: fixInversion() {
-    IntRect texRec = ownerSprite->getTextureRect();
-
-    if (texRec.size.x > 0) {
-        ownerSprite->setTextureRect(IntRect({texRec.position.x+texRec.size.x, texRec.position.y}, {-texRec.size.x, texRec.size.y}));
-    }
-    else {
-        ownerSprite->setTextureRect(originalTexRec);
+    if (isFlipped) {
+        IntRect texRec = ownerSprite->getTextureRect();
+        if (texRec.size.x > 0) {
+            ownerSprite->setTextureRect(IntRect({texRec.position.x+texRec.size.x, texRec.position.y}, {-texRec.size.x, texRec.size.y}));
+        }
     }
 }
 

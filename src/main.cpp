@@ -8,6 +8,7 @@
 /* Components */
 #include "Components/AttackComp.cpp"
 #include "Components/MovementComp.cpp"
+#include "Components/AnimationComp.cpp"
 
 /* Game Folder */
 #include "Game/Game.cpp"

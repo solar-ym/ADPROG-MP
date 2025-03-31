@@ -15,22 +15,11 @@ Drillku :: Drillku (string name, string textureName) : Entity(name) {
 
     movement = new MovementComp("MovementComp", movement->PLAYER, entSprite);
     attack = new AttackComp("AttackComp", attackSprite);
+    anim = new AnimationComp("AnimationComp");
 
     movement->attachComponent(this);
     attack->attachComponent(this);
-
-    allFrames.push_back((*res->getAtlas())["MIKU_walk1"]); // 0
-    allFrames.push_back((*res->getAtlas())["MIKU_walk2"]);
-    allFrames.push_back((*res->getAtlas())["MIKU_drill1"]); // 2
-    allFrames.push_back((*res->getAtlas())["MIKU_drill2"]);
-    allFrames.push_back((*res->getAtlas())["MIKU_attack"]); // 4
-    allFrames.push_back((*res->getAtlas())["MIKU_defeat1"]); // 5
-    allFrames.push_back((*res->getAtlas())["MIKU_defeat2"]);
-    allFrames.push_back((*res->getAtlas())["MIKU_defeat3"]);
-    allFrames.push_back((*res->getAtlas())["MIKU_defeat4"]);
-    allFrames.push_back((*res->getAtlas())["MIKU_squashNervous"]); // 9
-    allFrames.push_back((*res->getAtlas())["MIKU_squashHorizontal"]);
-    allFrames.push_back((*res->getAtlas())["MIKU_squashVertical"]);
+    anim->attachComponent(this);
 }
 
 void Drillku :: setLives(ALTER_LIFE changeType) {
@@ -42,11 +31,6 @@ void Drillku :: setLives(ALTER_LIFE changeType) {
         case RESETLIVES: livesLeft = 3;
     }
 }
-
-void Drillku :: changeTexture(int index) {
-    entSprite->setTextureRect(allFrames[index]);
-}
-
 
 // ATTACK-RELATED
 
@@ -90,48 +74,13 @@ void Drillku :: update() {
     unextendHair();
 
     movement->move();
-
-    if (isDigging && internalTime >= 10) {
-        animateDrill();
-        internalTime = 0;
-    } else 
-    
-    if (movement->getIsMoving() && internalTime >= 10) {
-        animateWalk();
-        internalTime = 0;
-    } 
+    anim->animate();
 }
 
 void Drillku :: draw(RenderWindow *window) {
     window->draw(*entSprite);
     if (attackSprite->getVisibility())
         attackSprite->draw(window);
-}
-
-void Drillku :: animateWalk() {
-    if (currentFrameIndex == 0) {
-        changeTexture(1);
-        currentFrameIndex = 1;
-    }
-    else if (currentFrameIndex == 1) {
-        changeTexture(0);
-        currentFrameIndex = 0;
-    }
-    if (movement->checkFlipped()) 
-        movement->fixInversion();
-}
-
-void Drillku :: animateDrill() {
-    if (currentFrameIndex == 2) {
-        changeTexture(3);
-        currentFrameIndex = 3;
-    }
-    else if (currentFrameIndex == 3) {
-        changeTexture(2);
-        currentFrameIndex = 2;
-    }
-    if (movement->checkFlipped()) 
-        movement->fixInversion();
 }
 
 // GETTERS
@@ -152,12 +101,22 @@ void Drillku :: toggleHairVisibility() {
     attackSprite->toggleVisibility();
 }
 
+bool Drillku :: getIsDigging() {
+    return isDigging;
+}
+
+void Drillku :: toggleIsAttacking(bool newVaue) {
+    isAttacking = newVaue;
+}
+
+bool Drillku :: getIsAttacking() {
+    return isAttacking;
+}
+
 bool Drillku :: getHairVisibility() {
     return attackSprite->getVisibility();
 }
 
 void Drillku :: toggleIsDigging(bool newValue) {
     isDigging = newValue;
-    if (isDigging && currentFrameIndex != 3 && currentFrameIndex != 2) currentFrameIndex = 2;
-    else currentFrameIndex = 0;
 }

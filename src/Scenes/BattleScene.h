@@ -193,7 +193,7 @@ class BattleScene : public Scene {
             Scene::update();
 
             // player updates
-                player->update();
+            player->update();
 
             if (lastFacing != player->getMoveComp()->isFacing() && currentTunnel != nullptr) {
                 fixTunnel();
