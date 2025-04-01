@@ -69,7 +69,7 @@ void AnimationComp :: animate() {
             changeTexture(currentFrameIndex);
         } 
 
-        else if (player->getIsDying() && internalTime >= 10) {
+        else if (player->getIsDying() && internalTime >= 20) {
             playSequence(DEATH);
             changeTexture(currentFrameIndex);
         }
@@ -88,6 +88,10 @@ void AnimationComp :: playSequence(int index) {
         currentFrameIndex++;
     } else if (allSequences[index].isLooped()) {
         currentFrameIndex = allSequences[index].start();
+    } else if (index == DEATH && currentFrameIndex == allSequences[index].end()) {
+        Drillku* player = dynamic_cast<Drillku*>(owner);
+        player->setIsDying(false);
+        currentFrameIndex = allSequences[WALK].start();
     }
     internalTime = 0;
 }

@@ -21,6 +21,7 @@
 // #include "ObjectManipulation/EnemyPools.cpp"
 
 /* Scenes Folder */
+#include "Scenes/BattleScene.cpp"
 #include "Scenes/SceneManager.cpp"
 
 /* Utilities Folder */

@@ -41,6 +41,7 @@ class Drillku : public Entity {
         void setLives(ALTER_LIFE changeType);
         void kill();
         bool getIsDying();
+        void setIsDying(bool value);
 
         // attack-related
         void unextendHair();
@@ -66,4 +67,5 @@ class Drillku : public Entity {
         AttackComp* getAtkComp();
         ColliderComp* getColliderComp();
         Sprite* getSprite();
+        EntityAttack* getAttackSprite();
 };

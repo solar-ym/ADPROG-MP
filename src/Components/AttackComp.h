@@ -11,6 +11,9 @@ class AttackComp : public Component {
 
         bool shouldUnextend = false;
         bool shouldExtend = false;
+
+        int x;
+        int y;
     public:
         AttackComp(string name, EntityAttack* attackSprite);
         void extend();
@@ -23,4 +26,7 @@ class AttackComp : public Component {
         void setExtendBool(bool newValue);
         bool getExtendBool(int type);
         bool isVisible();
+
+        int getAttX();
+        int getAttY();
 };

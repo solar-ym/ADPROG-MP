@@ -44,6 +44,8 @@ class StartingScene : public Scene {
             removeAllObjects();
         }
 
+        void reloadRoundData() {}
+
         void update() {
             internalTime++;
             if (internalTime == 60) {

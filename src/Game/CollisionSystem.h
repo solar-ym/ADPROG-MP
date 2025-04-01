@@ -3,50 +3,55 @@
 #include "../Scenes/Scene.h"
 
 class CollisionSystem{
+    private: 
+        int internalTime = 0;
+        bool running = false;
     public:
-        void listen(Scene* scene){
-            std::vector<GameObject*> objects = scene->getAllObjects();
-            for(int i=0; i<objects.size()-1; i++){
-            
-                Entity* obj1 = dynamic_cast<Entity*>(objects[i]);
-                if(obj1==nullptr) continue;
-                if(obj1->getColliderComp()==nullptr) continue;
-                
-                for(int j=i+1; j<objects.size(); j++){
-                    Entity* obj2 = dynamic_cast<Entity*>(objects[j]);
-                    if(obj2==nullptr) continue;
-                    if(obj2->getColliderComp()==nullptr) continue;
-
-                    ColliderComp* col1 = obj1->getColliderComp();
-                    ColliderComp* col2 = obj2->getColliderComp();
-                    Rect <float> r1({col1->getX(), col1->getY()}, {col1->getWidth(), col1->getHeight()});
-                    Rect <float> r2({col2->getX(), col2->getY()}, {col2->getWidth() ,col2->getHeight() });
-                    
-                    if( r1.findIntersection(r2) )
-                        onCollision(scene,obj1,obj2);
-                }//end for
-            }//end for
-        }
-        
-        void onCollision(Scene* scene, Entity* obj1, Entity* obj2){
-            if(obj1->getName()=="player"){
-                onPlayerCollision(scene,obj1,obj2);
-            }else if(obj2->getName()=="player"){
-                onPlayerCollision(scene,obj2,obj1);
+        CollisionSystem() {}
+        void listen(Scene* scene, vector<Enemy*> enemies, Drillku* player) {
+            if (internalTime > 90) {
+                cout << "Death detected, reloading" << endl;
+                scene->reloadRoundData();
+                internalTime = 0;
+                running = false;
             }
             
+            for (int i = 0; i < enemies.size(); i++) {
+
+                if(enemies[i]->getTileX() == player->getTileX() &&
+                   enemies[i]->getTileY() == player->getTileY())
+                    onPlayerCollision(scene, player, enemies[i]);
+                
+                if(enemies[i]->getTileX() == player->getAtkComp()->getAttX() &&
+                   enemies[i]->getTileY() == player->getAtkComp()->getAttY() &&
+                   player->getAtkComp()->isVisible())
+                   onAttackCollision(scene, player, enemies[i]);
+            }
+
+            update();
+        }
+        
+        void onPlayerCollision(Scene* scene, Drillku* player, Enemy* enemy) {
+            if (internalTime == 0) {
+                cout << "trying to kill miku" << endl;
+                player->kill();
+                running = true;
+            } 
             // else if(obj1->getName().rfind("bullet",0)==0 || obj1->getName().rfind("side",0)==0){
             //     onBulletCollision(scene,obj1,obj2);
             // }else if(obj2->getName().rfind("bullet",0)==0 || obj2->getName().rfind("side",0)==0){
             //     onBulletCollision(scene,obj2,obj1);
             // }
         }
+
+        void update() {
+            if (running && internalTime < 500) internalTime++;
+        }
         
-        void onPlayerCollision(Scene* scene, Entity* player, 
-                Entity* other){
-            if(other->getName() == "Pookie" || other->getName() == "Geygar") {
-                ((Drillku*)player)->kill();
-            } 
+        void onAttackCollision(Scene* scene, Drillku* player, Enemy* enemy){
+            // if(other->getName() == "Pookie" || other->getName() == "Geygar") {
+            //     ((Drillku*)player)->kill();
+            // } 
             
             // else if (other->getName() == "Geygar") {
             // }
@@ -56,16 +61,7 @@ class CollisionSystem{
             // }else if(other->getName().rfind("bullet",0)==0){
 
             // }
-        }
-        
-        void onBulletCollision(Scene* scene, Entity* bullet, 
-                Entity* other){
-            if(other->getName().rfind("enemy",0)==0){
-
-                bullet->setTileXY(999,999);
-            }else if(other->getName().rfind("bonus",0)==0){
-
-            }
+            cout << "Encountered attack x enemy collision." << endl;
         }
 
 };

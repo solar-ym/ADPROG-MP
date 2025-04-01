@@ -10,7 +10,7 @@ class Background : public Entity {
         Texture tex;
     public:
         Background() {}
-        Background(string textureName) {
+        Background(string textureName) : Entity("Background") {
             GD_GameResource* res = GD_GameResource::createInstance();
             IntRect rect = (*res->getAtlas())[textureName];
             entSprite = new Sprite(*res->getTexture(),rect);

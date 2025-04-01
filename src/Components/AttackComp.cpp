@@ -44,6 +44,9 @@ void AttackComp :: reorient() {
             attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y-offset);
         else 
         attackSprite->setSpritePosition(ownerLoc.x-4, ownerLoc.y-offset);
+
+        x = attackSprite->getTileX();
+        y = attackSprite->getTileY() - (pos/TILE_SIZE);
     }
     if (moveComp->isFacing() == MovementComp::DOWN) {
         attackSprite->setSpriteRotation(degrees(90));
@@ -51,15 +54,27 @@ void AttackComp :: reorient() {
             attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y+offset);
         else 
         attackSprite->setSpritePosition(ownerLoc.x+4, ownerLoc.y+offset);
+
+        x = attackSprite->getTileX();
+        y = attackSprite->getTileY() + (pos/TILE_SIZE);
     }
     if (moveComp->isFacing() == MovementComp::LEFT) {
         attackSprite->setSpriteRotation(degrees(180));
         attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y+4);
+        
+        x = attackSprite->getTileX() - (pos/TILE_SIZE);
+        y = attackSprite->getTileY();
     }
     if (moveComp->isFacing() == MovementComp::RIGHT) {
         attackSprite->setSpriteRotation(degrees(0));
         attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y-offset);
+        
+        x = attackSprite->getTileX() + (pos/TILE_SIZE);
+        y = attackSprite->getTileY();
     }
+
+    // cout << "Attack sprite x: " << x << endl;
+    // cout << "Attack sprite y: " << y << endl;
 }
 
 void AttackComp :: makePos(ALTER_POS alterType) {
@@ -90,4 +105,12 @@ bool AttackComp :: getExtendBool(int type) {
 
 bool AttackComp :: isVisible() {
     return attackSprite->getVisibility();
+}
+
+int AttackComp :: getAttX() {
+    return x;
+}
+
+int AttackComp :: getAttY() {
+    return y;
 }

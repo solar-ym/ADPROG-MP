@@ -6,21 +6,21 @@ ColliderComp::ColliderComp(float tileSize):
 }
 
 float ColliderComp::getX(){
-    Entity* owner = getOwner();
+    cout << "getX" << endl;
     return owner->getSprite()->getPosition().x - tileSize/2;
 }
 
 float ColliderComp::getY(){
-    Entity* owner = getOwner();
+    cout << "getY" << endl;
     return owner->getSprite()->getPosition().y - tileSize/2;
 }
 
 float ColliderComp::getWidth(){
-    Entity* owner = getOwner();
-    return owner->getSprite()->getScale().x * tileSize;
+    cout << "getW" << endl;
+    return owner->getSprite()->getTextureRect().size.x;
 }
 
 float ColliderComp::getHeight(){
-    Entity* owner = getOwner();
-    return owner->getSprite()->getScale().y * tileSize;
+    cout << "getH" << endl;
+    return owner->getSprite()->getTextureRect().size.y;
 }

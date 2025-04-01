@@ -49,11 +49,14 @@ class EntityAttack : public Entity {
         int getTileY() { return y; }
 
         void initialize() {}
-        void update() {} 
+        void update() {
+            x = (attackSprite->getPosition().x / TILE_SIZE);
+            y = (attackSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
+        } 
         void draw(RenderWindow *window) { 
             window->draw(*attackSprite); 
         }
-        ColliderComp* getColliderComp() { return nullptr; }
+        ColliderComp* getColliderComp() { return collision; }
 
         Sprite* getSprite() {
             return attackSprite;

@@ -18,7 +18,7 @@
     flowers
 */
 
-// class ColliderComp;
+class ColliderComp;
 
 class Entity : public GameObject {
     public:
@@ -35,5 +35,5 @@ class Entity : public GameObject {
         void update() {};
         void draw(RenderWindow *window) {};
 
-        // virtual ColliderComp* getColliderComp() = 0;
+        virtual ColliderComp* getColliderComp() = 0;
 };

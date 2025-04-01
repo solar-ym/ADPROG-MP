@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseEngine.h"
-// #include "CollisionSystem.h"
 #include "../Utility/configurations.h"
 
 #include "../Objects/Veggie.h"
@@ -15,7 +14,6 @@
 class Game: public BaseEngine{
     private:
         Drillku* player;
-
         SceneManager* sceneManager;
         vector<Veggie*> fruitList;
     public:
