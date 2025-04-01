@@ -26,6 +26,7 @@ class Background : public Entity {
         void draw(RenderWindow *window) {
             window->draw(*entSprite);
         }
+        ColliderComp* getColliderComp() { return nullptr; }
         
         // TEMPORARY
         void manualCreation(string textureName) {

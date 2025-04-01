@@ -3,7 +3,7 @@
 #include "../Utility/configurations.h"
 #include "../Game/GD_GameResource.h"
 #include "GameObject.h"
-
+// #include "../Components/Component.h"
 /*
     ANIMATED
     player
@@ -17,6 +17,8 @@
     fruits
     flowers
 */
+
+// class ColliderComp;
 
 class Entity : public GameObject {
     public:
@@ -32,4 +34,6 @@ class Entity : public GameObject {
         void initialize() {};
         void update() {};
         void draw(RenderWindow *window) {};
+
+        // virtual ColliderComp* getColliderComp() = 0;
 };

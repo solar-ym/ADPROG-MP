@@ -2,13 +2,14 @@
 #include <SFML/Graphics.hpp>
 
 /* Objects Folder */
-// #include "Objects/enemies/Pookie.cpp"
+#include "Objects/enemies/Enemy.cpp"
 #include "Objects/Drillku.cpp"
 
 /* Components */
 #include "Components/AttackComp.cpp"
 #include "Components/MovementComp.cpp"
 #include "Components/AnimationComp.cpp"
+#include "Components/ColliderComp.cpp"
 
 /* Game Folder */
 #include "Game/Game.cpp"
@@ -16,6 +17,8 @@
 #include "Game/GD_AtlasParserM.cpp"
 #include "Game/GD_GameResource.cpp"
 #include "Game/RoundDataLoader.cpp"
+
+// #include "ObjectManipulation/EnemyPools.cpp"
 
 /* Scenes Folder */
 #include "Scenes/SceneManager.cpp"

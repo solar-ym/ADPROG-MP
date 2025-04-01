@@ -3,20 +3,26 @@
 #include "../Utility/configurations.h"
 #include "Entity.h"
 #include "../Game/GD_GameResource.h"
+#include "../Components/ColliderComp.h"
 
 class EntityAttack : public Entity {
     private:
         int x;
         int y;
+
+        ColliderComp* collision;
         
         Sprite* attackSprite;
         Texture attTexture;
         bool isVisible = false;
     public:
         EntityAttack() {}
-        EntityAttack(Entity* owner, string textureName) {
+        EntityAttack(Entity* owner, string textureName) : Entity("attack") {
             if (attTexture.loadFromFile("../../sprites/" + textureName))
                 attackSprite = new Sprite(attTexture);
+            
+            collision = new ColliderComp(TILE_SIZE);
+            collision->attachComponent(this);
         }
 
         void toggleVisibility() {
@@ -47,6 +53,7 @@ class EntityAttack : public Entity {
         void draw(RenderWindow *window) { 
             window->draw(*attackSprite); 
         }
+        ColliderComp* getColliderComp() { return nullptr; }
 
         Sprite* getSprite() {
             return attackSprite;

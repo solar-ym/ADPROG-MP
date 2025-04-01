@@ -1,31 +1,6 @@
 #pragma once
 
-#include "../Objects/Entity.h"
-#include "../Objects/Enemies/Enemy.h"
-#include "../Objects/Veggie.h"
-
-class EntityFactory {
-    public:
-        virtual Entity* create(int id) = 0;
-};
-
-class EnemyFactory : public EntityFactory {
-    public:
-        enum enemyType {POOKIE, GEYGAR};
-        
-        Entity* create(enemyType id) {
-            Enemy* newEnemy;
-            switch (id) {
-                case POOKIE: 
-                    newEnemy = new Enemy("Pookie", "POOKIE_walk1");
-                    break;
-                case GEYGAR: 
-                    newEnemy = new Enemy("Geygar", "GEYGAR_walk1");
-                    break;
-            }
-            return newEnemy;
-        }
-};
+#include "EntityFactory.h"
 
 class VeggieFactory : public EntityFactory {
     public:
@@ -62,8 +37,4 @@ class VeggieFactory : public EntityFactory {
             }
             return newVeggie;
         }
-};
-
-class RockFactory : public EntityFactory {
-
 };

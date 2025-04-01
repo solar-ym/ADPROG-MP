@@ -2,7 +2,8 @@
 
 #include "Scene.h"
 #include "../Game/RoundDataLoader.h"
-#include "../Objects/enemies/Enemy.h"
+#include "../ObjectManipulation/Factories/Factories.h"
+// #include "../ObjectManipulation/EnemyPools.h"
 #include "../Objects/Tunnel.h"
 #include "../Objects/Drillku.h"
 
@@ -14,6 +15,10 @@ class BattleScene : public Scene {
         Drillku* player;
         Tunnel* currentTunnel = nullptr;
         MovementComp::MOVE_TYPE lastFacing = MovementComp::RIGHT;
+
+        // EnemyPool* pookiePool;
+        // EnemyPool* geygarPool;
+        EnemyFactory enemyMaker;
 
         RoundDataLoader dataLoader;
         int status[DIRT_HEIGHT][DIRT_WIDTH] = {
@@ -37,6 +42,9 @@ class BattleScene : public Scene {
             roundData.clear();
             this->roundNum = roundNum;
             this->player = player;
+
+            // pookiePool = new EnemyPool(4, EnemyFactory::POOKIE);
+            // geygarPool = new EnemyPool(3, EnemyFactory::GEYGAR);
         }
 
         void onLoad() {
@@ -210,12 +218,15 @@ class BattleScene : public Scene {
             player->draw(window);
         }
 
+        // Used to create the starting tunnels that exist to hold enemies
         void initializeTunnel(int x, int y, int enemyType, int type) {
             Tunnel* tunnelCap1 = new Tunnel(Tunnel::CAP);
             Tunnel* tunnelCap2 = new Tunnel(Tunnel::CAP);
             Tunnel* tunnelMiddle = new Tunnel(Tunnel::STRAIGHT);
+            Enemy* newEnemy;
 
-            switch (type) {
+            // variable [ type ] refers to the tunnel's orientation (vertical or horizontal)
+            switch (type) { // horizontal
                 case 0:
                     tunnelCap1->setTileXY(x, y);
                     status[y][x] = 1;
@@ -228,8 +239,11 @@ class BattleScene : public Scene {
                     tunnelCap2->setTileXY(x+2, y);
                     status[y][x+2] = 1;
                     SpriteManip::turnRight(tunnelCap2);
+
+                    newEnemy = (Enemy*)enemyMaker.create(enemyType, x+1, y);
+
                     break;
-                case 1:
+                case 1: // vertical
                     tunnelCap1->setTileXY(x, y);
                     status[y][x] = 1;
 
@@ -240,6 +254,13 @@ class BattleScene : public Scene {
                     status[y+2][x] = 1;
                     SpriteManip::turnRight(tunnelCap2);
                     SpriteManip::turnRight(tunnelCap2);
+
+                    // if (enemyType) 
+                    //     newEnemy = (Enemy*)geygarPool->requestObject(x, y+1);
+                    // else 
+                    //     newEnemy = (Enemy*)pookiePool->requestObject(x, y+1);
+                    newEnemy = (Enemy*)enemyMaker.create(enemyType, x, y+1);
+
                     break;
                 default: 
                     cout << "[ BATTLE SCENE ] Tunnel Creation failed. Invalid tunnel orientation." << endl;
@@ -250,7 +271,15 @@ class BattleScene : public Scene {
             addObject(tunnelCap1);
             addObject(tunnelMiddle);
             addObject(tunnelCap2);
+            addObject(newEnemy);
 
             cout << "[ BATTLE SCENE ] Tunnels pushed." << endl;
         }
+
+        // EnemyPool* getPool(EnemyFactory::ENEMY_TYPE type) {
+        //     if (type)
+        //         return geygarPool;
+        //     else    
+        //         return pookiePool;
+        // }
 };

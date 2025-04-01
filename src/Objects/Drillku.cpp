@@ -16,11 +16,15 @@ Drillku :: Drillku (string name, string textureName) : Entity(name) {
     movement = new MovementComp("MovementComp", movement->PLAYER, entSprite);
     attack = new AttackComp("AttackComp", attackSprite);
     anim = new AnimationComp("AnimationComp");
+    collision = new ColliderComp(TILE_SIZE);
 
     movement->attachComponent(this);
     attack->attachComponent(this);
     anim->attachComponent(this);
+    collision->attachComponent(this);
 }
+
+// GAME RELATED
 
 void Drillku :: setLives(ALTER_LIFE changeType) {
     switch (changeType) {
@@ -30,6 +34,19 @@ void Drillku :: setLives(ALTER_LIFE changeType) {
             break;
         case RESETLIVES: livesLeft = 3;
     }
+}
+
+void Drillku :: kill() {
+    isDying = true;
+    isDigging = false;
+    isAttacking = false;
+    movement->setMovingBool(false);
+    attack->setExtendBool(false);
+    attack->setUNExtendBool(false);
+}
+
+bool Drillku :: getIsDying() {
+    return isDying;
 }
 
 // ATTACK-RELATED
@@ -91,6 +108,10 @@ MovementComp* Drillku :: getMoveComp() {
 
 AttackComp* Drillku :: getAtkComp() {
     return attack;
+}
+
+ColliderComp* Drillku :: getColliderComp() {
+    return collision;
 }
 
 Sprite* Drillku :: getSprite() {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "../Components/ColliderComp.h"
 
 class Rock : public Entity {
     private:
@@ -24,6 +25,7 @@ class Rock : public Entity {
         void draw(RenderWindow *window) {
             window->draw(*entSprite);
         }
+        ColliderComp* getColliderComp() { return nullptr; }
 
         Sprite* getSprite() {
             return entSprite;

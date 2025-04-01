@@ -5,12 +5,14 @@
 #include "../Components/MovementComp.h"
 #include "../Components/AttackComp.h"
 #include "../Components/AnimationComp.h"
+#include "../Components/ColliderComp.h"
 
 class Drillku : public Entity {
     private:
         enum ALTER_LIFE {INCREASELIVES, DECREASELIVES, RESETLIVES};
         int livesLeft = 3;
 
+        // tile coords
         int x = 0;
         int y = 0;
 
@@ -18,9 +20,10 @@ class Drillku : public Entity {
         MovementComp* movement;
         AttackComp* attack;
         AnimationComp* anim;
+        ColliderComp* collision;
 
+        // sprites
         EntityAttack* attackSprite;
-
         Sprite* entSprite;
 
         // animation
@@ -28,6 +31,7 @@ class Drillku : public Entity {
 
         bool isDigging = false;
         bool isAttacking = false;
+        bool isDying = false;
     public:
         Drillku();
         Drillku(string name, string textureName);
@@ -35,6 +39,8 @@ class Drillku : public Entity {
         // void mikuMove(float x, float y);
 
         void setLives(ALTER_LIFE changeType);
+        void kill();
+        bool getIsDying();
 
         // attack-related
         void unextendHair();
@@ -58,5 +64,6 @@ class Drillku : public Entity {
 
         MovementComp* getMoveComp();
         AttackComp* getAtkComp();
+        ColliderComp* getColliderComp();
         Sprite* getSprite();
 };

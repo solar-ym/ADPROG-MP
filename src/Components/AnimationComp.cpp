@@ -69,6 +69,11 @@ void AnimationComp :: animate() {
             changeTexture(currentFrameIndex);
         } 
 
+        else if (player->getIsDying() && internalTime >= 10) {
+            playSequence(DEATH);
+            changeTexture(currentFrameIndex);
+        }
+
         else {
             changeTexture(currentFrameIndex);
         }

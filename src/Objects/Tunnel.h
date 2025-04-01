@@ -95,6 +95,7 @@ class Tunnel : public Entity {
         void draw(RenderWindow *window) {
             window->draw(*entSprite);
         }
+        ColliderComp* getColliderComp() { return nullptr; }
 
         Sprite* getSprite() {
             return entSprite;

@@ -1,19 +1,17 @@
 #pragma once
 
-#include "../Objects/Entity.h"
-#include "../Objects/Enemies/Enemy.h"
-#include "../ObjectManipulation/Factories.h"
+#include "Factories/Factories.h"
 
 class EnemyPool {
     public:
-        EnemyPool(int maxPoolSize, EnemyFactory::enemyType poolType);
+        EnemyPool(int maxPoolSize, EnemyFactory::ENEMY_TYPE poolType);
         ~EnemyPool();
-        Entity* requestObject();
+        Entity* requestObject(int x, int y);
         void returnObject(Enemy* enemy);
     private:
         vector<Entity*> objectPool;
         int maxPoolSize;
         EnemyFactory* factory;
-        EnemyFactory::enemyType poolType;
+        EnemyFactory::ENEMY_TYPE poolType;
 };
 
