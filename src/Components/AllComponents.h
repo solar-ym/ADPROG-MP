@@ -4,3 +4,4 @@
 #include "AttackComp.h"
 #include "AnimationComp.h"
 #include "ColliderComp.h"
+#include "EnemyBehaviorComp.h"

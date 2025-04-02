@@ -22,12 +22,9 @@ class EnemyFactory : public EntityFactory {
             newEnemy->addComponent(new MovementComp("MoveComp", MovementComp::ENEMY, newEnemy->getSprite()));
             newEnemy->addComponent(new AnimationComp("AnimationComp"));
             newEnemy->addComponent(new ColliderComp(TILE_SIZE));
+            newEnemy->addComponent(new EnemyBehaviorComp());
 
             newEnemy->getAnimComp()->loadFrames();
-
-
-            // if (id)
-            //     newEnemy->addComponent(new AttackComp())
 
             return newEnemy;
         }

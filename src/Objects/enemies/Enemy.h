@@ -17,6 +17,7 @@ class Enemy : public Entity {
         // animation
         bool isDying = false;
         bool isDead = false;
+        bool isAttacking = false;
     public:
         Enemy();
         Enemy(string name, string textureName);
@@ -37,7 +38,7 @@ class Enemy : public Entity {
         ColliderComp* getColliderComp();
         AnimationComp* getAnimComp();
         MovementComp* getMoveComp();
-        // Component* getComp(int type);
+        EnemyBehaviorComp* behave();
 
         bool getIsDying();
         void setIsDying(bool value);

@@ -2,7 +2,7 @@
 
 #include "AnimationSequence.h"
 #include "../Objects/Drillku.h"
-#include "../Objects/Enemies/Enemy.h"
+#include "../Objects/enemies/Enemy.h"
 
 /*
     PLAYER SEQUENCES

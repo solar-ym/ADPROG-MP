@@ -185,7 +185,7 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
             break;
     }
     newTunnel->setTileXY(x,y);
-    status[y][x] = 1;
+    status[y][x] = newTunnel->getTunnelType();
 
     currentTunnel = newTunnel;
     addObject(newTunnel);
@@ -193,9 +193,15 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
 
 void BattleScene :: update() {
     Scene::update();
+    for (Enemy* en : currentEnemies) {
+        en->update();
+        if (!en->getIsDead()) 
+            en->behave()->perform(status);
+    }
 
     // player updates
     player->update();
+    
     colSystem->listen(this, currentEnemies, player);
 
     if (lastFacing != player->getMoveComp()->isFacing() && currentTunnel != nullptr) {
@@ -211,6 +217,9 @@ void BattleScene :: update() {
 void BattleScene :: draw(RenderWindow* window) {
     Scene::draw(window);
     player->draw(window);
+    for (Enemy* en : currentEnemies) {
+        en->draw(window);
+    }
 }
 
 // Used to create the starting tunnels that exist to hold enemies
@@ -224,15 +233,15 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     switch (type) { // horizontal
         case 0:
             tunnelCap1->setTileXY(x, y);
-            status[y][x] = 1;
+            status[y][x] = tunnelCap1->getTunnelType();
             SpriteManip::turnLeft(tunnelCap1);
 
             tunnelMiddle->setTileXY(x+1, y);
-            status[y][x+1] = 1;
+            status[y][x+1] = tunnelMiddle->getTunnelType();
             SpriteManip::turnLeft(tunnelMiddle);
 
             tunnelCap2->setTileXY(x+2, y);
-            status[y][x+2] = 1;
+            status[y][x+2] = tunnelCap2->getTunnelType();
             SpriteManip::turnRight(tunnelCap2);
 
             newEnemy = (Enemy*)enemyMaker.create(enemyType, x+1, y);
@@ -240,20 +249,16 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
             break;
         case 1: // vertical
             tunnelCap1->setTileXY(x, y);
-            status[y][x] = 1;
+            status[y][x] = tunnelCap1->getTunnelType();
 
             tunnelMiddle->setTileXY(x, y+1);
-            status[y+1][x] = 1;
+            status[y+1][x] = tunnelMiddle->getTunnelType();
 
             tunnelCap2->setTileXY(x, y+2);
-            status[y+2][x] = 1;
+            status[y+2][x] = tunnelCap2->getTunnelType();
             SpriteManip::turnRight(tunnelCap2);
             SpriteManip::turnRight(tunnelCap2);
 
-            // if (enemyType) 
-            //     newEnemy = (Enemy*)geygarPool->requestObject(x, y+1);
-            // else 
-            //     newEnemy = (Enemy*)pookiePool->requestObject(x, y+1);
             newEnemy = (Enemy*)enemyMaker.create(enemyType, x, y+1);
 
             break;
@@ -266,7 +271,6 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     addObject(tunnelCap1);
     addObject(tunnelMiddle);
     addObject(tunnelCap2);
-    addObject(newEnemy);
     currentEnemies.push_back(newEnemy);
 
     cout << "[ BATTLE SCENE ] Tunnels pushed." << endl;

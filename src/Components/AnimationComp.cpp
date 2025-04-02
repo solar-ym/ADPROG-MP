@@ -51,15 +51,18 @@ void AnimationComp :: loadFrames() {
         allFrames.push_back((*res->getAtlas())["POOKIE_walk1"]); //0
         allFrames.push_back((*res->getAtlas())["POOKIE_walk2"]); 
             allSequences.push_back(AnimationSequence(0,1,"Walk"));
+
         allFrames.push_back((*res->getAtlas())["POOKIE_ghost1"]); // 2
         allFrames.push_back((*res->getAtlas())["POOKIE_ghost2"]); 
             allSequences.push_back(AnimationSequence(2,3,"Ghost"));
+
         allFrames.push_back((*res->getAtlas())["POOKIE_pop1"]); // 4
         allFrames.push_back((*res->getAtlas())["POOKIE_pop2"]); 
         allFrames.push_back((*res->getAtlas())["POOKIE_pop3"]); 
         allFrames.push_back((*res->getAtlas())["POOKIE_pop4"]); 
             allSequences.push_back(AnimationSequence(4,7,"Popping"));
             allSequences.back().setLooped(false);
+
         allFrames.push_back((*res->getAtlas())["POOKIE_squashed"]); // 8
             allSequences.push_back(AnimationSequence(8,8,"Squashed"));
             allSequences.back().setLooped(false);
@@ -69,17 +72,24 @@ void AnimationComp :: loadFrames() {
         allFrames.push_back((*res->getAtlas())["GEYGAR_walk1"]); //0
         allFrames.push_back((*res->getAtlas())["GEYGAR_walk2"]); 
             allSequences.push_back(AnimationSequence(0,1,"Walk"));
+
         allFrames.push_back((*res->getAtlas())["GEYGAR_ghost1"]); // 2
         allFrames.push_back((*res->getAtlas())["GEYGAR_ghost2"]); 
             allSequences.push_back(AnimationSequence(2,3,"Ghost"));
+
         allFrames.push_back((*res->getAtlas())["GEYGAR_pop1"]); // 4
         allFrames.push_back((*res->getAtlas())["GEYGAR_pop2"]); 
         allFrames.push_back((*res->getAtlas())["GEYGAR_pop3"]); 
         allFrames.push_back((*res->getAtlas())["GEYGAR_pop4"]); 
             allSequences.push_back(AnimationSequence(4,7,"Popping"));
             allSequences.back().setLooped(false);
+
         allFrames.push_back((*res->getAtlas())["GEYGAR_squashed"]); // 8
             allSequences.push_back(AnimationSequence(8,8,"Squashed"));
+            allSequences.back().setLooped(false);
+
+        allFrames.push_back((*res->getAtlas())["GEYGAR_attack"]); // 9
+            allSequences.push_back(AnimationSequence(9,9,"Attacking"));
             allSequences.back().setLooped(false);
     } 
 }
@@ -119,28 +129,38 @@ void AnimationComp :: animate() {
     else if (owner->getName() == "Pookie") {
         Enemy* pookie = dynamic_cast<Enemy*>(owner);
 
-        if (pookie->getIsDying() && internalTime >= 30) {
+        if (pookie->getMoveComp()->getIsMoving() && internalTime >= 10) {
+            playSequence("Walk");
+            changeTexture(currentFrameIndex);
+        } 
+        else if (pookie->getIsDying() && internalTime >= 30) {
+            cout << "Trying to pop pookie" << endl;
             playSequence("Popping");
             changeTexture(currentFrameIndex);
         }
+        pookie->getMoveComp()->fixInversion();
     }
 
     else if (owner->getName() == "Geygar") {
         Enemy* geygar = dynamic_cast<Enemy*>(owner);
 
-        if (geygar->getIsDying() && internalTime >= 30) {
+        if (geygar->getMoveComp()->getIsMoving() && internalTime >= 10) {
+            playSequence("Walk");
+            changeTexture(currentFrameIndex);
+        } 
+        else if (geygar->getIsDying() && internalTime >= 30) {
+            cout << "Trying to pop geygar" << endl;
             playSequence("Popping");
             changeTexture(currentFrameIndex);
         }
+        geygar->getMoveComp()->fixInversion();
     }
 }
 
 void AnimationComp :: playSequence(string seqName) {
     AnimationSequence sequence;
-    cout << "[ Anim Comp : Play Sequence start ] Index recieved: " << currentFrameIndex << endl;
     for (AnimationSequence seq: allSequences) {
         if (seq.getName() == seqName) {
-            cout << "[ Anim Comp : Play Sequence search ] Name: " << seq.getName() << endl;
             sequence = seq;
             break;
         }
@@ -162,8 +182,6 @@ void AnimationComp :: playSequence(string seqName) {
         Enemy* enemy = dynamic_cast<Enemy*>(owner);
         enemy->setIsDead(true);
     }
-
-    cout << "[ Anim Comp : Play Sequence start ] Index changed to: " << currentFrameIndex << endl;
  
     internalTime = 0;
 }

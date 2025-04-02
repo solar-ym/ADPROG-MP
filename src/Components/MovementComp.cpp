@@ -7,6 +7,8 @@ MovementComp :: MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSpri
         ownerEntType = entType;
         this->ownerSprite = ownerSprite;
         originalTexRec = ownerSprite->getTextureRect();
+        if (ownerEntType == ENTITY_TYPE::ENEMY)
+            speed = 1.0f;
 }
 
 void MovementComp :: move() {

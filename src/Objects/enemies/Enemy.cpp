@@ -8,6 +8,13 @@ Enemy :: Enemy(string name, string textureName) : Entity(name) {
     entSprite = new Sprite(*res->getTexture(),rect);
 
     entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
+    
+    if (name == "Geygar") {
+        EntityAttack* attackSprite = new EntityAttack(this, "ATTACK_geygar.png");
+        attackSprite->alterTextureRect(IntRect({140, 0}, {10,50})); 
+
+        addComponent(new AttackComp("AttackComp", attackSprite));
+    }
 }
 
 void Enemy :: addComponent(Component* newComp) {
@@ -27,9 +34,11 @@ void Enemy :: setTileXY(int xV, int yV) {
     entSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
 }
 int Enemy :: getTileX() {
+    x = (entSprite->getPosition().x / TILE_SIZE);
     return x;
 }
 int Enemy :: getTileY() {
+    y = (entSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
     return y;
 }
 
@@ -37,6 +46,7 @@ void Enemy :: initialize() {}
 
 void Enemy :: update() {
     getAnimComp()->animate();
+    getMoveComp()->move();
 }
 
 void Enemy :: draw(RenderWindow *window) {
@@ -68,15 +78,23 @@ AnimationComp* Enemy :: getAnimComp() {
 }
 
 MovementComp* Enemy :: getMoveComp() {
-    cout << "[ENEMY] trying to get move comp." << endl;
     for(Component* cmp: comps) {
         if(cmp->getName() == "MoveComp") {
             MovementComp* mov = (MovementComp*)cmp;
-            cout << "   > Success." << endl;
             return mov;
         }
     }
-    cout << "   > Failure." << endl;
+    cout << "[ERROR] Failed to get [ENEMY: " << getName() << "] Movement Comp." << endl;
+    return nullptr;
+}
+
+EnemyBehaviorComp* Enemy :: behave() {
+    for(Component* cmp: comps) {
+        if(cmp->getName() == "BehaviorComp") {
+            EnemyBehaviorComp* beh = (EnemyBehaviorComp*)cmp;
+            return beh;
+        }
+    }
     return nullptr;
 }
 

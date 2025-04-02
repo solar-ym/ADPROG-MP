@@ -4,15 +4,8 @@
 #include "../Components/MovementComp.h"
 
 class Tunnel : public Entity {
-    private:
-        int x;
-        int y;
-        Sprite* entSprite;
-        bool maxExtended = false;
-        //                        U, D, L, R
-        int adjacencyStatus[4] = {0, 0, 0, 0};
     public:
-        enum TunnelType {CAP, STRAIGHT, CORNER};
+        enum TunnelType {CAP = 1, STRAIGHT, CORNER};
         Tunnel() {}
         Tunnel(TunnelType stage) {
             GD_GameResource* res = GD_GameResource::createInstance();
@@ -32,9 +25,12 @@ class Tunnel : public Entity {
             
             entSprite = new Sprite(*res->getTexture(),rect);
             entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
+
+            tunnelType = stage;
         }
 
         void changeTunnelType(TunnelType newStage) {
+            tunnelType = newStage;
             GD_GameResource* res = GD_GameResource::createInstance();
             
             IntRect rect;
@@ -103,4 +99,13 @@ class Tunnel : public Entity {
         bool isMaxExtended() {
             return maxExtended;
         }
+        TunnelType getTunnelType() {
+            return tunnelType;
+        }
+    private:
+        int x;
+        int y;
+        Sprite* entSprite;
+        bool maxExtended = false;
+        TunnelType tunnelType;
 };

@@ -10,6 +10,7 @@
 #include "Components/MovementComp.cpp"
 #include "Components/AnimationComp.cpp"
 #include "Components/ColliderComp.cpp"
+#include "Components/EnemyBehaviorComp.cpp"
 
 /* Game Folder */
 #include "Game/Game.cpp"
