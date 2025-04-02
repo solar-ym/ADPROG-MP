@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../Entity.h"
-#include "../../Components/ColliderComp.h"
+#include "../../Components/AllComponents.h"
+
+// class AnimationComp;
 
 class Enemy : public Entity {
     private:
@@ -11,11 +13,17 @@ class Enemy : public Entity {
         vector<Component*> comps;
 
         Sprite* entSprite;
+
+        // animation
+        bool isDying = false;
+        bool isDead = false;
     public:
         Enemy();
         Enemy(string name, string textureName);
 
         void addComponent(Component* newComp);
+
+        void kill();
 
         void setTileXY(int xV, int yV);
         int getTileX();
@@ -27,4 +35,12 @@ class Enemy : public Entity {
 
         Sprite* getSprite();
         ColliderComp* getColliderComp();
-};
+        AnimationComp* getAnimComp();
+        MovementComp* getMoveComp();
+        // Component* getComp(int type);
+
+        bool getIsDying();
+        void setIsDying(bool value);
+        bool getIsDead();
+        void setIsDead(bool value);
+}; 

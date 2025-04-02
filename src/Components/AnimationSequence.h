@@ -9,6 +9,7 @@ class AnimationSequence {
         int endIndex;
         bool looped = true;
     public:
+        AnimationSequence() {}
         AnimationSequence(int start, int end, string name) {
             startIndex = start;
             endIndex = end;
@@ -25,5 +26,8 @@ class AnimationSequence {
         }
         bool isLooped() {
             return looped;
+        }
+        string getName() {
+            return name;
         }
 };

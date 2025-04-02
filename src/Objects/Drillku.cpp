@@ -88,9 +88,8 @@ int Drillku :: getTileY() {
 void Drillku :: initialize() {}
 
 void Drillku :: update() {
-    if (internalTime < 100) internalTime++;
 
-    attackSprite->update();
+    // attackSprite->update();
     x = (entSprite->getPosition().x / TILE_SIZE);
     y = (entSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
 

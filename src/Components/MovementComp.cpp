@@ -3,7 +3,7 @@
 MovementComp :: MovementComp() {}
 
 MovementComp :: MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSprite) 
-    : Component("name") {  
+    : Component(name) {  
         ownerEntType = entType;
         this->ownerSprite = ownerSprite;
         originalTexRec = ownerSprite->getTextureRect();

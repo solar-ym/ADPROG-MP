@@ -2,6 +2,7 @@
 
 #include "AnimationSequence.h"
 #include "../Objects/Drillku.h"
+#include "../Objects/Enemies/Enemy.h"
 
 /*
     PLAYER SEQUENCES
@@ -12,6 +13,7 @@
         4: Died from rock ver 1
         5: Died from rock ver 2
 */
+
 class AnimationComp : public Component {
     private:
         int internalTime = 0;
@@ -30,7 +32,7 @@ class AnimationComp : public Component {
         void loadFrames();
 
         void animate();
-        void playSequence(int index);
+        void playSequence(string seqName);
         vector<IntRect> getAllFrames();
 
         void changeTexture(int index);

@@ -11,10 +11,14 @@ Enemy :: Enemy(string name, string textureName) : Entity(name) {
 }
 
 void Enemy :: addComponent(Component* newComp) {
+    newComp->attachComponent(this);
     comps.push_back(newComp);
 }
 
-// void 
+void Enemy :: kill() {
+    isDying = true;
+    getMoveComp()->setMovingBool(false);
+}
 
 // POSITION
 
@@ -31,7 +35,9 @@ int Enemy :: getTileY() {
 
 void Enemy :: initialize() {}
 
-void Enemy :: update() {}
+void Enemy :: update() {
+    getAnimComp()->animate();
+}
 
 void Enemy :: draw(RenderWindow *window) {
     window->draw(*entSprite);
@@ -42,10 +48,47 @@ Sprite* Enemy :: getSprite() {
 }
 
 ColliderComp* Enemy :: getColliderComp() {
-    for(Component* cmp: comps)
+    for(Component* cmp: comps) {
         if(cmp->getName() == "ColliderComp") {
             ColliderComp* col = (ColliderComp*)cmp;
             return col;
         }
+    }
+        return nullptr;
+}
+
+AnimationComp* Enemy :: getAnimComp() {
+    for(Component* cmp: comps) {
+        if(cmp->getName() == "AnimationComp") {
+            AnimationComp* anim = (AnimationComp*)cmp;
+            return anim;
+        }
+    }
     return nullptr;
+}
+
+MovementComp* Enemy :: getMoveComp() {
+    cout << "[ENEMY] trying to get move comp." << endl;
+    for(Component* cmp: comps) {
+        if(cmp->getName() == "MoveComp") {
+            MovementComp* mov = (MovementComp*)cmp;
+            cout << "   > Success." << endl;
+            return mov;
+        }
+    }
+    cout << "   > Failure." << endl;
+    return nullptr;
+}
+
+bool Enemy :: getIsDying() {
+    return isDying;
+}
+void Enemy :: setIsDying(bool value) {
+    isDying = value;
+}
+bool Enemy :: getIsDead() {
+    return isDead;
+}
+void Enemy :: setIsDead(bool value) {
+    isDead = value;
 }

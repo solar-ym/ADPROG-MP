@@ -2,10 +2,9 @@
 
 #include "Entity.h"
 #include "EntityAttack.h"
-#include "../Components/MovementComp.h"
-#include "../Components/AttackComp.h"
-#include "../Components/AnimationComp.h"
-#include "../Components/ColliderComp.h"
+#include "../Components/AllComponents.h"
+
+class AnimationComp;
 
 class Drillku : public Entity {
     private:
@@ -27,8 +26,6 @@ class Drillku : public Entity {
         Sprite* entSprite;
 
         // animation
-        int internalTime;
-
         bool isDigging = false;
         bool isAttacking = false;
         bool isDying = false;

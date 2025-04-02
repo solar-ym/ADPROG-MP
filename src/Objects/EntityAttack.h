@@ -17,7 +17,7 @@ class EntityAttack : public Entity {
         bool isVisible = false;
     public:
         EntityAttack() {}
-        EntityAttack(Entity* owner, string textureName) : Entity("attack") {
+        EntityAttack(Entity* owner, string textureName) : Entity("Attack") {
             if (attTexture.loadFromFile("../../sprites/" + textureName))
                 attackSprite = new Sprite(attTexture);
             
@@ -45,14 +45,17 @@ class EntityAttack : public Entity {
             x = xV; y = yV;
             attackSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
         }
-        int getTileX() { return x; }
-        int getTileY() { return y; }
+        int getTileX() { 
+            x = (attackSprite->getPosition().x / TILE_SIZE);
+            return x; 
+        }
+        int getTileY() { 
+            y = (attackSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
+            return y; 
+        }
 
         void initialize() {}
-        void update() {
-            x = (attackSprite->getPosition().x / TILE_SIZE);
-            y = (attackSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
-        } 
+        void update() {} 
         void draw(RenderWindow *window) { 
             window->draw(*attackSprite); 
         }

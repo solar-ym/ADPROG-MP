@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "../Objects/Drillku.h"
+// #include "../Objects/Drillku.h"
 
 class MovementComp : public Component {
     public:

@@ -1,10 +1,7 @@
 #pragma once
 
 #include "EntityFactory.h"
-#include "../../Components/MovementComp.h"
-#include "../../Components/AttackComp.h"
-#include "../../Components/AnimationComp.h"
-#include "../../Components/ColliderComp.h"
+// #include "../../Components/AnimationComp.h"
 
 class EnemyFactory : public EntityFactory {
     public:
@@ -25,6 +22,10 @@ class EnemyFactory : public EntityFactory {
             newEnemy->addComponent(new MovementComp("MoveComp", MovementComp::ENEMY, newEnemy->getSprite()));
             newEnemy->addComponent(new AnimationComp("AnimationComp"));
             newEnemy->addComponent(new ColliderComp(TILE_SIZE));
+
+            newEnemy->getAnimComp()->loadFrames();
+
+
             // if (id)
             //     newEnemy->addComponent(new AttackComp())
 
