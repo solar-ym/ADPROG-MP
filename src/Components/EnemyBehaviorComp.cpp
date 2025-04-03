@@ -25,38 +25,50 @@ void EnemyBehaviorComp :: neutral() {
     int x = enemy->getTileX();
     int y = enemy->getTileY();
 
-
-    move->setMovingBool(true);
-
     if (isFacing == MovementComp::RIGHT && status[y][x+1] != 0) {
-        move->setMovementType(MovementComp::RIGHT);
-        if (isFacing == MovementComp::UP || isFacing == MovementComp::DOWN)
+        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
             move->reCenter(MovementComp::RIGHT);
+        prevFacing = move->isFacing();
+        move->setMovementType(MovementComp::RIGHT);
     } else if (isFacing == MovementComp::RIGHT && status[y][x+1] == 0) {
+        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+            move->reCenter(MovementComp::RIGHT);
+        prevFacing = move->isFacing();
         decideFacing();
     }
     
     else if (isFacing == MovementComp::LEFT && status[y][x-1] != 0) {
-        move->setMovementType(MovementComp::LEFT);
-        if (isFacing == MovementComp::UP || isFacing == MovementComp::DOWN)
+        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
             move->reCenter(MovementComp::LEFT);
+        move->setMovementType(MovementComp::LEFT);
     } else if (isFacing == MovementComp::LEFT && status[y][x-1] == 0) {
+        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+            move->reCenter(MovementComp::LEFT);
+        prevFacing = move->isFacing();
         decideFacing();
     }
 
     else if (isFacing == MovementComp::UP && status[y-1][x] != 0) {
-        move->setMovementType(MovementComp::UP);
-        if (isFacing == MovementComp::LEFT || isFacing == MovementComp::RIGHT)
+        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
             move->reCenter(MovementComp::UP);
+        prevFacing = move->isFacing();
+        move->setMovementType(MovementComp::UP);
     } else if (isFacing == MovementComp::UP && status[y-1][x] == 0) {
+        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+            move->reCenter(MovementComp::UP);
+        prevFacing = move->isFacing();
         decideFacing();
     }
 
     else if (isFacing == MovementComp::DOWN && status[y+1][x] != 0) {
-        move->setMovementType(MovementComp::DOWN);
-        if (isFacing == MovementComp::LEFT || isFacing == MovementComp::RIGHT)
+        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
             move->reCenter(MovementComp::DOWN);
+        prevFacing = move->isFacing();
+        move->setMovementType(MovementComp::DOWN);
     } else if (isFacing == MovementComp::DOWN && status[y+1][x] == 0) {
+        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+            move->reCenter(MovementComp::DOWN);
+        prevFacing = move->isFacing();
         decideFacing();
     } 
     
@@ -64,69 +76,31 @@ void EnemyBehaviorComp :: neutral() {
         cout << "[ERROR] Failed to find available tile to move to." << endl;
         move->setMovingBool(false);
     }
+
+    cout << "PrevFacing: " << prevFacing << endl;
+    move->setMovingBool(true);
 }
 
 void EnemyBehaviorComp :: decideFacing(){
     MovementComp* move = enemy->getMoveComp();
-    MovementComp::MOVE_TYPE isFacing = move->isFacing();
     int x = enemy->getTileX();
     int y = enemy->getTileY();
-                    // U, D, L, R
-    int available[4] = {0, 0, 0, 0};
-    bool foundType = false;
+    vector<MovementComp::MOVE_TYPE> available;
 
     if (status[y-1][x] != 0) { //UP
-        available[0] = 1;
-        if (isFacing == MovementComp::DOWN) {
-            foundType = true;
-            move->setMovementType(MovementComp::UP);
-        }
+        available.push_back(MovementComp::UP);
     }
     if (status[y+1][x] != 0) { // DOWN
-        available[1] = 1;
-        if (isFacing == MovementComp::UP) {
-            foundType = true;
-            move->setMovementType(MovementComp::DOWN);
-        }
+        available.push_back(MovementComp::DOWN);
     }
     if (status[y][x-1] != 0) { // LEFT
-        available[2] = 1;
-        if (isFacing == MovementComp::RIGHT) {
-            foundType = true;
-            move->setMovementType(MovementComp::LEFT);
-        }
+        available.push_back(MovementComp::LEFT);
     }
     if (status[y][x+1] != 0) { // RIGHT
-        available[3] = 1;
-        if (isFacing == MovementComp::LEFT) {
-            foundType = true;
-            move->setMovementType(MovementComp::RIGHT);
-        }
+        available.push_back(MovementComp::RIGHT);
     }
 
-    if (!foundType) {
-        for (int i; i < 4; i++) {
-            if (available[i] == 1) {
-                cout << "Found tile: " << i << endl;
-                switch (i) {
-                    case 0:
-                    move->setMovementType(MovementComp::UP);
-                    break;
-                    case 1:
-                    move->setMovementType(MovementComp::DOWN);
-                    break;
-                    case 2:
-                    move->setMovementType(MovementComp::LEFT);
-                    break;
-                    case 3:
-                    move->setMovementType(MovementComp::RIGHT);
-                    break;
-                }
-                break;
-            }
-        }
-    }
-
+    move->setMovementType(available[randomize(0, available.size()-1)]);
 }
 
 int EnemyBehaviorComp :: randomize(int lowerBound, int upperBound) {

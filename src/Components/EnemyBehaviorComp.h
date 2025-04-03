@@ -9,6 +9,7 @@ class EnemyBehaviorComp : public Component {
     private:
         int status[DIRT_HEIGHT][DIRT_WIDTH];
         Enemy* enemy = nullptr;
+        MovementComp::MOVE_TYPE prevFacing = MovementComp::RIGHT;
     public:
         EnemyBehaviorComp();
         void attachComponent(Entity* owner);

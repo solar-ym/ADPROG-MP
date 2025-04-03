@@ -6,22 +6,11 @@
 
 class TunnelManager {
     private:
-        int status[DIRT_HEIGHT][DIRT_WIDTH] = {
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-        };
+        Tunnel* allTunnels[DIRT_HEIGHT][DIRT_WIDTH];
     public:
-        void updateStatus(int x, int y, int status);
-        void fullResetStatus();
-        Tunnel::TunnelType observe(int x, int y, int* adjacencyStatus);
+        TunnelManager();
+        void updateTunnels(int x, int y, Tunnel* newTunnel);
+        void fullReset();
+        Tunnel::TunnelType observe(int x, int y, vector<int> available);
+        ~TunnelManager();
 };

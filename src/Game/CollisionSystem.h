@@ -23,7 +23,7 @@ class CollisionSystem{
                     onPlayerCollision(scene, player, enemies[i]);
                 // if(collisionComputation(enemies[i]->getColliderComp(), player->getAttackSprite()->getColliderComp()))
                 //    onAttackCollision(scene, player, enemies[i]);
-                if(forcefulComputation(player, enemies[i]))
+                if(forcefulComputation(player, enemies[i]) && player->getAtkComp()->isVisible())
                    onAttackCollision(scene, player, enemies[i]);
                 else
                     enemies[i]->setIsDying(false);
