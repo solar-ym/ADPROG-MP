@@ -69,7 +69,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
         } 
 
         // ATTACKING
-        if(keyCode == sf::Keyboard::Scan::Z) {
+        if(keyCode == sf::Keyboard::Scan::M) {
             player->toggleIsAttacking(true);
             if (player->getHairVisibility() == false) player->toggleHairVisibility();
             player->setHairExtendBool(0, true);
@@ -99,7 +99,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
 }
 
 void Game::keyReleaseTrigger(Keyboard::Scan keyCode) {
-    if(keyCode == sf::Keyboard::Scan::Z) {
+    if(keyCode == sf::Keyboard::Scan::M) {
         player->toggleIsAttacking(false);
         player->setHairExtendBool(1, true);
     }

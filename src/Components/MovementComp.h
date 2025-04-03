@@ -12,7 +12,7 @@ class MovementComp : public Component {
         MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSprite);
 
         void move();
-        void moveFreely(Vector2f direction);
+        void moveFreely(Vector2f playerLoc);
         void reCenter(MOVE_TYPE from);
         void invertTexture();
         void fixInversion();
