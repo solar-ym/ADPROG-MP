@@ -7,15 +7,19 @@ class Enemy;
 
 class EnemyBehaviorComp : public Component {
     private:
+        Drillku* target = nullptr;
         TunnelManager* manager = nullptr;
         Enemy* enemy = nullptr;
         MovementComp::MOVE_TYPE prevFacing = MovementComp::RIGHT;
     public:
         EnemyBehaviorComp();
         void attachComponent(Entity* owner);
-
+        void makeTarget(Drillku* player);
+        
         void perform(TunnelManager* manager);
         void neutral();
+        void detectTarget();
+        void chase();
         void decideFacing();
         int randomize(int lowerBound, int upperBound);
 };

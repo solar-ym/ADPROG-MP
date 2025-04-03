@@ -53,9 +53,17 @@ void BattleScene :: onUnload() {
 void BattleScene :: reloadRoundData() {
     getAllObjects().clear();
 
-    Background* bg  = new Background("BG1_norm");
+    if (roundNum < 5) {
+        Background* bg  = new Background("BG1_norm");
+        addObject(bg);
+    } else if (roundNum > 8) {
+        Background* bg  = new Background("BG3_norm");
+        addObject(bg);
+    } else {
+        Background* bg  = new Background("BG2_norm");
+        addObject(bg);
+    }
     cout << "[BATTLE SCREEN] New background created" << endl;
-    addObject(bg);
 
     if (!roundData.empty()) {
         roundData.clear();
@@ -276,6 +284,7 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     addObject(tunnelCap1);
     addObject(tunnelMiddle);
     addObject(tunnelCap2);
+    newEnemy->behave()->makeTarget(player);
     currentEnemies.push_back(newEnemy);
 
     cout << "[ BATTLE SCENE ] Tunnels pushed." << endl;

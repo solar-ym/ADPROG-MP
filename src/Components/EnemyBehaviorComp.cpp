@@ -7,16 +7,15 @@ void EnemyBehaviorComp :: attachComponent(Entity* owner) {
     Component::attachComponent(owner);
 }
 
+void EnemyBehaviorComp :: makeTarget(Drillku* player) {
+    if (target == nullptr) target = player;
+}
+
 void EnemyBehaviorComp :: perform(TunnelManager* manager) {
     if (enemy == nullptr) enemy = dynamic_cast<Enemy*>(owner);
-
-    // for (int i = 0; i < DIRT_HEIGHT; i++) {
-    //     for (int j = 0; j < DIRT_WIDTH; j++) {
-    //         this->status[i][j] = status[i][j];
-    //     }
-    // }
     // cout << "[Enemy Behavior] Performing" << endl;
     if (this->manager == nullptr) this->manager = manager;
+    
     neutral();
 }
 
@@ -81,6 +80,77 @@ void EnemyBehaviorComp :: neutral() {
     }
 
     move->setMovingBool(true);
+}
+
+void EnemyBehaviorComp :: detectTarget() {
+    int xDif = target->getTileX() - enemy->getTileX();
+    int yDif = target->getTileY() - enemy->getTileY();
+}
+
+void EnemyBehaviorComp :: chase() {
+    MovementComp* move = enemy->getMoveComp();
+    MovementComp::MOVE_TYPE isFacing = move->isFacing();
+    int x = enemy->getTileX();
+    int y = enemy->getTileY();
+
+    int xDif = target->getTileX() - x;
+    int yDif = target->getTileY() - y;
+    
+    if(abs(xDif) > abs(yDif) && abs(xDif) <= 4){
+        if(xDif>0) {
+            if (isFacing == MovementComp::RIGHT && manager->hasTunnel(x+1, y)) {
+                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+                    move->reCenter(MovementComp::RIGHT);
+                prevFacing = move->isFacing();
+                move->setMovementType(MovementComp::RIGHT);
+            } else if (isFacing == MovementComp::RIGHT && !(manager->hasTunnel(x+1, y))) {
+                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+                    move->reCenter(MovementComp::RIGHT);
+                prevFacing = move->isFacing();
+                decideFacing();
+            }
+        } 
+        else if (abs(yDif) <= 4) {
+            if (isFacing == MovementComp::LEFT && manager->hasTunnel(x-1, y)) {
+                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+                    move->reCenter(MovementComp::LEFT);
+                prevFacing = move->isFacing();
+                move->setMovementType(MovementComp::LEFT);
+            } else if (isFacing == MovementComp::LEFT && !(manager->hasTunnel(x-1, y))) {
+                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+                    move->reCenter(MovementComp::LEFT);
+                prevFacing = move->isFacing();
+                decideFacing();
+            }
+        }
+    }else{
+        if(yDif>0) {
+            if (isFacing == MovementComp::DOWN && manager->hasTunnel(x, y+1)) {
+                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+                    move->reCenter(MovementComp::DOWN);
+                prevFacing = move->isFacing();
+                move->setMovementType(MovementComp::DOWN);
+            } else if (isFacing == MovementComp::DOWN && !(manager->hasTunnel(x, y+1))) {
+                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+                    move->reCenter(MovementComp::DOWN);
+                prevFacing = move->isFacing();
+                decideFacing();
+            } 
+        }
+        else {
+            if (isFacing == MovementComp::UP && manager->hasTunnel(x, y-1)) {
+                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+                    move->reCenter(MovementComp::UP);
+                prevFacing = move->isFacing();
+                move->setMovementType(MovementComp::UP);
+            } else if (isFacing == MovementComp::UP && !(manager->hasTunnel(x, y-1))) {
+                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+                    move->reCenter(MovementComp::UP);
+                prevFacing = move->isFacing();
+                decideFacing();
+            }
+        }
+    }
 }
 
 void EnemyBehaviorComp :: decideFacing(){
