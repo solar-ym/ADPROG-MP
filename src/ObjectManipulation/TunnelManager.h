@@ -11,7 +11,7 @@ class TunnelManager {
         TunnelManager();
         void updateTunnels(Tunnel* newTunnel);
         void fullReset();
-        // vector<MovementComp::MOVE_TYPE> observe(int x, int y);
+        vector<MovementComp::MOVE_TYPE> observe(int x, int y);
         bool hasTunnel(int x, int y);
         ~TunnelManager();
 };

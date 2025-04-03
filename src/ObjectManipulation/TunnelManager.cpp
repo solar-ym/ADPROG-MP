@@ -27,25 +27,25 @@ void TunnelManager :: fullReset() {
     }
 }
 
-// vector<MovementComp::MOVE_TYPE> TunnelManager :: observe(int x, int y) {
-//     vector<MovementComp::MOVE_TYPE> available;
-//     Tunnel* observing = allTunnels[y][x];
-//     Tunnel::TunnelType type = observing->getTunnelType();
-//     Angle rotation = observing->getSprite()->getRotation();
+vector<MovementComp::MOVE_TYPE> TunnelManager :: observe(int x, int y) {
+    vector<MovementComp::MOVE_TYPE> available;
+    Tunnel* observing = allTunnels[y][x];
+    Tunnel::TunnelType type = observing->getTunnelType();
+    Angle rotation = observing->getSprite()->getRotation();
 
-//     cout << "Rotation recieved: " << rotation.asDegrees() << endl;
+    cout << "Rotation recieved: " << rotation.asDegrees() << endl;
 
-//     if (type == Tunnel::CAP) {
-//         if (rotation == degrees(90)) {
+    if (type == Tunnel::CAP) {
+        if (rotation == degrees(90)) {
 
-//         }
-//     } else if (type == Tunnel::CORNER) {
+        }
+    } else if (type == Tunnel::CORNER) {
 
-//     } else if (type == Tunnel::STRAIGHT) {
+    } else if (type == Tunnel::STRAIGHT) {
 
-//     }
+    }
 
-// }
+}
 
 bool TunnelManager :: hasTunnel(int x, int y) {
     // cout << "[Tunnel Manager] : Getting Status" << endl;

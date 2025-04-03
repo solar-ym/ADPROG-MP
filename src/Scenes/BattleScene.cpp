@@ -192,21 +192,16 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
 
 void BattleScene :: update() {
     Scene::update();
-    cout << "Objects updated." << endl;
     for (Enemy* en : currentEnemies) {
         en->update();
-        cout << "Enemy updated." << endl;
         if (!en->getIsDead()) 
             en->behave()->perform(tunManager);
     }
-    cout << "Enemies updated." << endl;
 
     // player updates
     player->update();
-    cout << "Player updated." << endl;
     
     colSystem->listen(this, currentEnemies, player);
-    cout << "Objects updated." << endl;
 
     if (lastFacing != player->getMoveComp()->isFacing() && currentTunnel != nullptr) {
         fixTunnel();

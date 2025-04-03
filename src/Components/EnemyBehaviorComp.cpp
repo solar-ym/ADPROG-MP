@@ -15,13 +15,12 @@ void EnemyBehaviorComp :: perform(TunnelManager* manager) {
     //         this->status[i][j] = status[i][j];
     //     }
     // }
-    cout << "[Enemy Behavior] Performing" << endl;
+    // cout << "[Enemy Behavior] Performing" << endl;
     if (this->manager == nullptr) this->manager = manager;
     neutral();
 }
 
 void EnemyBehaviorComp :: neutral() {
-    cout << "[Enemy Behavior] Neutral: " << owner->getName() << endl;
     MovementComp* move = enemy->getMoveComp();
     MovementComp::MOVE_TYPE isFacing = move->isFacing();
     int x = enemy->getTileX();
@@ -104,7 +103,6 @@ void EnemyBehaviorComp :: decideFacing(){
     
     if (available.size() != 0)
         move->setMovementType(available[randomize(0, available.size()-1)]);
-    cout << "[Enemy Behavior] decide facing: " << owner->getName() << endl;
 }
 
 int EnemyBehaviorComp :: randomize(int lowerBound, int upperBound) {
