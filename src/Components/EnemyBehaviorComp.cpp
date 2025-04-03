@@ -42,6 +42,7 @@ void EnemyBehaviorComp :: neutral() {
     else if (isFacing == MovementComp::LEFT && manager->hasTunnel(x-1, y)) {
         if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
             move->reCenter(MovementComp::LEFT);
+        prevFacing = move->isFacing();
         move->setMovementType(MovementComp::LEFT);
     } else if (isFacing == MovementComp::LEFT && !(manager->hasTunnel(x-1, y))) {
         if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
@@ -75,7 +76,7 @@ void EnemyBehaviorComp :: neutral() {
     } 
     
     else {
-        cout << "[ERROR] Failed to find available tile to move to." << endl;
+        cout << "[ERROR : neutral] Failed to find available tile to move to." << endl;
         move->setMovingBool(false);
     }
 
@@ -103,6 +104,9 @@ void EnemyBehaviorComp :: decideFacing(){
     
     if (available.size() != 0)
         move->setMovementType(available[randomize(0, available.size()-1)]);
+    else {
+        cout << "[ERROR : decide facing] Failed to find available tile to move to." << endl;
+    }
 }
 
 int EnemyBehaviorComp :: randomize(int lowerBound, int upperBound) {
