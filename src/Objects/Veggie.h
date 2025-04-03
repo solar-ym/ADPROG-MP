@@ -9,25 +9,17 @@ class Veggie : public Entity {
         int y;
         Sprite* entSprite;
     public:
-        Veggie() {}
-        Veggie(string textureName) {
-            GD_GameResource* res = GD_GameResource::createInstance();
-            IntRect rect = (*res->getAtlas())[textureName];
-            entSprite = new Sprite(*res->getTexture(),rect);
-        }
+        Veggie();
+        Veggie(string textureName);
 
-        void setTileXY(int xV, int yV) {}
-        int getTileX() { return x; }
-        int getTileY() { return y; }
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
 
-        void initialize() {}
-        void update() {}
-        void draw(RenderWindow *window) {
-            window->draw(*entSprite);
-        }
-        ColliderComp* getColliderComp() { return nullptr; }
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
+        ColliderComp* getColliderComp();
 
-        Sprite* getSprite() {
-            return entSprite;
-        }
+        Sprite* getSprite();
 };

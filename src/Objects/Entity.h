@@ -3,7 +3,6 @@
 #include "../Utility/configurations.h"
 #include "../Game/GD_GameResource.h"
 #include "GameObject.h"
-// #include "../Components/Component.h"
 /*
     ANIMATED
     player
@@ -22,8 +21,8 @@ class ColliderComp;
 
 class Entity : public GameObject {
     public:
-        Entity() {}
-        Entity(string name) : GameObject(name) {}
+        Entity();
+        Entity(string name);
 
         virtual void setTileXY(int xV, int yV) = 0;
         virtual int getTileX() = 0;
@@ -31,9 +30,9 @@ class Entity : public GameObject {
 
         virtual Sprite* getSprite() = 0;
         
-        void initialize() {};
-        void update() {};
-        void draw(RenderWindow *window) {};
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
 
         virtual ColliderComp* getColliderComp() = 0;
 };

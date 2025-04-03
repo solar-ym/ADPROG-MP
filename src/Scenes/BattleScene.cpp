@@ -12,25 +12,15 @@ BattleScene :: BattleScene(string name, int roundNum, Drillku* player) : Scene(n
 }
 
 void BattleScene :: onLoad() {
-    cout << "Attempting to load Battle Screen" << endl;
-
     roundData = dataLoader.loadData(roundNum);
 
-    cout << "[BATTLE SCREEN] Round data loaded" << endl;
-    cout << "   > roundData size: " << roundData.size() << endl;
-    
     Background* bg  = new Background("BG1_norm");
-    cout << "[BATTLE SCREEN] Background created" << endl;
     addObject(bg);
-    cout << "[BATTLE SCREEN] Background pushed" << endl;
 
     // TUNNELS
     for (int i = 0; i < roundData.size(); i += 4) {
         initializeTunnel(roundData[i], roundData[i+1], roundData[i+2], roundData[i+3]);
     }
-
-    cout << "[BATTLE SCREEN] Objects pushed" << endl;
-    cout << "Objects: " << getAllObjects().size() << endl;
 }
 
 void BattleScene :: onUnload() {
@@ -38,11 +28,7 @@ void BattleScene :: onUnload() {
     if (!roundData.empty()) {
         roundData.clear();
     }
-    // for (int i = 0; i < DIRT_HEIGHT; i++) {
-    //     for (int j = 0; j < DIRT_WIDTH; j++) {
-    //         status[i][j] = 0;
-    //     }
-    // }
+
     tunManager->fullReset();
     lastFacing = MovementComp::RIGHT;
     currentEnemies.clear();
@@ -54,18 +40,12 @@ void BattleScene :: reloadRoundData() {
     getAllObjects().clear();
 
     Background* bg  = new Background("BG1_norm");
-    cout << "[BATTLE SCREEN] New background created" << endl;
     addObject(bg);
 
     if (!roundData.empty()) {
         roundData.clear();
     }
 
-    // for (int i = 0; i < DIRT_HEIGHT; i++) {
-    //     for (int j = 0; j < DIRT_WIDTH; j++) {
-    //         status[i][j] = 0;
-    //     }
-    // }
     tunManager->fullReset();
 
     currentTunnel = nullptr;
@@ -82,7 +62,6 @@ void BattleScene :: reloadRoundData() {
 }
 
 void BattleScene :: dig() {
-    // if (currentTunnel == nullptr && status[player->getTileY()][player->getTileX()] == 0) {
     if (currentTunnel == nullptr && !(tunManager->hasTunnel(player->getTileX(), player->getTileY()))) {
         createTunnel(Tunnel::STRAIGHT);
     } else if (currentTunnel != nullptr) {
@@ -99,8 +78,6 @@ void BattleScene :: dig() {
 }
 
 void BattleScene :: fixTunnel() {
-    cout << "[ BATTLE SCENE ] Trying to fix tunnel." << endl;
-
     currentTunnel->maxExtend();
     currentTunnel->getSprite()->setRotation(degrees(0));
 
@@ -183,7 +160,6 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
             break;
     }
     newTunnel->setTileXY(x,y);
-    // status[y][x] = newTunnel->getTunnelType();
     tunManager->updateTunnels(newTunnel);
 
     currentTunnel = newTunnel;
@@ -232,17 +208,14 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     switch (type) { // horizontal
         case 0:
             tunnelCap1->setTileXY(x, y);
-            // status[y][x] = tunnelCap1->getTunnelType();
             SpriteManip::turnLeft(tunnelCap1);
             tunManager->updateTunnels(tunnelCap1);
             
             tunnelMiddle->setTileXY(x+1, y);
-            // status[y][x+1] = tunnelMiddle->getTunnelType();
             SpriteManip::turnLeft(tunnelMiddle);
             tunManager->updateTunnels(tunnelMiddle);
             
             tunnelCap2->setTileXY(x+2, y);
-            // status[y][x+2] = tunnelCap2->getTunnelType();
             SpriteManip::turnRight(tunnelCap2);
             tunManager->updateTunnels(tunnelCap2);
 
@@ -251,25 +224,17 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
             break;
         case 1: // vertical
             tunnelCap1->setTileXY(x, y);
-            // status[y][x] = tunnelCap1->getTunnelType();
             tunManager->updateTunnels(tunnelCap1);
 
             tunnelMiddle->setTileXY(x, y+1);
-            // status[y+1][x] = tunnelMiddle->getTunnelType();
             tunManager->updateTunnels(tunnelMiddle);
 
             tunnelCap2->setTileXY(x, y+2);
-            // status[y+2][x] = tunnelCap2->getTunnelType();
             SpriteManip::turnRight(tunnelCap2);
             SpriteManip::turnRight(tunnelCap2);
             tunManager->updateTunnels(tunnelCap2);
 
             newEnemy = (Enemy*)enemyMaker.create(enemyType, x, y+1);
-
-            break;
-        default: 
-            cout << "[ BATTLE SCENE ] Tunnel Creation failed. Invalid tunnel orientation." << endl;
-            cout << "   > Orientation recieved: " << type << endl;
             break;
     }
 
@@ -277,6 +242,4 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     addObject(tunnelMiddle);
     addObject(tunnelCap2);
     currentEnemies.push_back(newEnemy);
-
-    cout << "[ BATTLE SCENE ] Tunnels pushed." << endl;
 }

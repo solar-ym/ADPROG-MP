@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Component.h"
-// #include "../Objects/Drillku.h"
 
 class MovementComp : public Component {
     public:
@@ -13,7 +12,6 @@ class MovementComp : public Component {
 
         void move();
         void reCenter(MOVE_TYPE from);
-        // MOVE_TYPE reCenter(MOVE_TYPE from);
         void invertTexture();
         void fixInversion();
 

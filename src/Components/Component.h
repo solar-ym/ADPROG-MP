@@ -8,21 +8,11 @@ class Component {
         string compName;
         Entity* owner;
     public:
-        Component() {}
-        Component(string compName) {
-            this->compName = compName;
-        }
+        Component();
+        Component(string compName);
 
-        void attachComponent(Entity* owner) {
-            this->owner = owner;
-        }
+        void attachComponent(Entity* owner);
 
-        Entity* getOwner() {
-            return owner;
-        }
-        string getName() {
-            return compName;
-        }
-
-        // virtual void perform(sf::Time deltaTime) = 0;
+        Entity* getOwner();
+        string getName();
 };

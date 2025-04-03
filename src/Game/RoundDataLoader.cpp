@@ -16,7 +16,6 @@ vector<int> RoundDataLoader :: loadData(int roundNumber) {
             roundData.push_back(stoi(tunnelData));
         }
         if (containsChar(tunnelData, ',')) {
-            cout << "[ DATA LOADER ] All data loaded. Terminating." << endl;
             running = false;
         }
         if (n < roundNumber) n++;

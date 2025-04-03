@@ -61,9 +61,7 @@ void MovementComp :: move() {
     }
 }
 
-
 void MovementComp :: reCenter(MOVE_TYPE from) {
-    if (owner->getName() == "Geygar") cout << "Recentering." << endl;
     int x = owner->getTileX();      float realX = ownerSprite->getPosition().x;
     int y = owner->getTileY();      float realY = ownerSprite->getPosition().y;
     y += 2;

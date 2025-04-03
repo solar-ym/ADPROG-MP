@@ -9,13 +9,6 @@ void EnemyBehaviorComp :: attachComponent(Entity* owner) {
 
 void EnemyBehaviorComp :: perform(TunnelManager* manager) {
     if (enemy == nullptr) enemy = dynamic_cast<Enemy*>(owner);
-
-    // for (int i = 0; i < DIRT_HEIGHT; i++) {
-    //     for (int j = 0; j < DIRT_WIDTH; j++) {
-    //         this->status[i][j] = status[i][j];
-    //     }
-    // }
-    // cout << "[Enemy Behavior] Performing" << endl;
     if (this->manager == nullptr) this->manager = manager;
     neutral();
 }
@@ -26,7 +19,6 @@ void EnemyBehaviorComp :: neutral() {
     int x = enemy->getTileX();
     int y = enemy->getTileY();
 
-    // if (isFacing == MovementComp::RIGHT && status[y][x+1] != 0) {
     if (isFacing == MovementComp::RIGHT && manager->hasTunnel(x+1, y)) {
         if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
             move->reCenter(MovementComp::RIGHT);

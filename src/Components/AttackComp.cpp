@@ -71,9 +71,6 @@ void AttackComp :: reorient() {
         x = owner->getTileX() + 1;
         y = owner->getTileY();
     }
-
-    // cout << "Attack sprite x: " << x << endl;
-    // cout << "Attack sprite y: " << y << endl;
 }
 
 void AttackComp :: makePos(ALTER_POS alterType) {

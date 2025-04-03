@@ -97,7 +97,6 @@ void AnimationComp :: loadFrames() {
 void AnimationComp :: animate() {
     if (internalTime < 50) internalTime++;
 
-    
     if (owner->getName() == "Player") {
         Drillku* player = dynamic_cast<Drillku*>(owner);
 
@@ -134,7 +133,6 @@ void AnimationComp :: animate() {
             changeTexture(currentFrameIndex);
         } 
         else if (pookie->getIsDying() && internalTime >= 30) {
-            cout << "Trying to pop pookie" << endl;
             playSequence("Popping");
             changeTexture(currentFrameIndex);
         }
@@ -149,7 +147,6 @@ void AnimationComp :: animate() {
             changeTexture(currentFrameIndex);
         } 
         else if (geygar->getIsDying() && internalTime >= 30) {
-            cout << "Trying to pop geygar" << endl;
             playSequence("Popping");
             changeTexture(currentFrameIndex);
         }

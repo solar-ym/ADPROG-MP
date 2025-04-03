@@ -1,25 +1,16 @@
 #include "Game.h"
 
 void Game::init(){
-    cout << "Game Launched" << endl;
-
-    if (player != nullptr) {
+    if (player != nullptr)
         player = new Drillku("Player", "MIKU_walk1");
-        cout << "Player created." << endl;
-    }
 
     sceneManager = new SceneManager();
-    cout << "Scene Manager successfully created" << endl;
-
+   
     sceneManager->registerScene(new StartingScene("Starting Screen"));
-    cout << "Starting screen successfully created" << endl;
-
+    
     sceneManager->registerScene(new BattleScene("Battle Screen", 2, player));
-    cout << "Battle screen successfully created" << endl;
-
+    
     sceneManager->loadScene(sceneManager->SCREEN_starting);
-
-    cout << "Scene Loaded" << endl;
 }
 
 void Game::update(Time deltaTime) {
@@ -71,18 +62,12 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
             player->getAtkComp()->reorient();
         }
 
-        if (keyCode == sf::Keyboard::Scan::Space) {
-            cout << "Attempting to load start..." << endl;
+        if (keyCode == sf::Keyboard::Scan::Space)
             sceneManager->loadScene(sceneManager->SCREEN_starting);
-            cout << "   > Success." << endl;
-        }
+           
     } else {
-        if (keyCode == sf::Keyboard::Scan::Space) {
-            cout << "Attempting to load battle..." << endl;
+        if (keyCode == sf::Keyboard::Scan::Space) 
             sceneManager->loadScene(sceneManager->SCREEN_round1);
-            cout << "   > Success." << endl;
-            
-        }
     }
 }
 

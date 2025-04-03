@@ -2,7 +2,6 @@
 
 #include "../Objects/Tunnel.h"
 #include "../Components/MovementComp.h"
-#include "../Objects/Drillku.h"
 
 class TunnelManager {
     private:

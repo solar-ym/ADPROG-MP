@@ -9,25 +9,16 @@ class Rock : public Entity {
         int y;
         Sprite* entSprite;
     public:
-        Rock() {}
-        Rock() {
-            GD_GameResource* res = GD_GameResource::createInstance();
-            IntRect rect = (*res->getAtlas())["ROCK_default"];
-            entSprite = new Sprite(*res->getTexture(),rect);
-        }
+        Rock();
 
-        void setTileXY(int xV, int yV) {}
-        int getTileX() { return x; }
-        int getTileY() { return y; }
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
 
-        void initialize() {}
-        void update() {}
-        void draw(RenderWindow *window) {
-            window->draw(*entSprite);
-        }
-        ColliderComp* getColliderComp() { return nullptr; }
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
+        ColliderComp* getColliderComp();
 
-        Sprite* getSprite() {
-            return entSprite;
-        }
+        Sprite* getSprite();
 };

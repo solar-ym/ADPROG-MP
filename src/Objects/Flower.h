@@ -10,38 +10,17 @@ class Flower : public Entity {
         Sprite* entSprite;
     public:
         enum FlowerStage {BUD, MID, BLOOM};
-        Flower() {}
-        Flower(FlowerStage stage) {
-            GD_GameResource* res = GD_GameResource::createInstance();
-            
-            IntRect rect;
-            switch (stage) {
-                case BUD:
-                    rect = (*res->getAtlas())["FLOWER_bud"];
-                    break;
-                case MID:
-                    rect = (*res->getAtlas())["FLOWER_mid"];
-                    break;
-                case BLOOM:
-                    rect = (*res->getAtlas())["FLOWER_bloom"];
-                    break;
-            }
-            
-            entSprite = new Sprite(*res->getTexture(),rect);
-        }
+        Flower();
+        Flower(FlowerStage stage);
 
-        void setTileXY(int xV, int yV) {}
-        int getTileX() { return x; }
-        int getTileY() { return y; }
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
 
-        void initialize() {}
-        void update() {}
-        void draw(RenderWindow *window) {
-            window->draw(*entSprite);
-        }
-        ColliderComp* getColliderComp() { return nullptr; }
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
+        ColliderComp* getColliderComp();
 
-        Sprite* getSprite() {
-            return entSprite;
-        }
+        Sprite* getSprite();
 };
