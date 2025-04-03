@@ -149,6 +149,30 @@ void AnimationComp :: animate() {
         }
         pookie->getMoveComp()->fixInversion();
     }
+
+    else if (owner->getName() == "Geygar") {
+        Enemy* geygar = dynamic_cast<Enemy*>(owner);
+
+        if (geygar->getIsDying() && internalTime >= 30) {
+            playSequence("Popping");
+            changeTexture(currentFrameIndex);
+        }  
+
+        else if (geygar->getMoveComp()->getIsMoving() && geygar->getGhostMode() && internalTime >= 10) {
+            playSequence("Ghost");
+            changeTexture(currentFrameIndex);
+        }
+
+        else if (geygar->getMoveComp()->getIsMoving() && internalTime >= 10) {
+            playSequence("Walk");
+            changeTexture(currentFrameIndex);
+        } 
+
+        else {
+            changeTexture(currentFrameIndex);
+        }
+        geygar->getMoveComp()->fixInversion();
+    }
 }
 
 void AnimationComp :: playSequence(string seqName) {
