@@ -21,8 +21,6 @@ class CollisionSystem{
                 if(enemies[i]->getTileX() == player->getTileX() &&
                    enemies[i]->getTileY() == player->getTileY())
                     onPlayerCollision(scene, player, enemies[i]);
-                // if(collisionComputation(enemies[i]->getColliderComp(), player->getAttackSprite()->getColliderComp()))
-                //    onAttackCollision(scene, player, enemies[i]);
                 if(forcefulComputation(player, enemies[i]) && player->getAtkComp()->isVisible())
                    onAttackCollision(scene, player, enemies[i]);
                 else
@@ -43,17 +41,6 @@ class CollisionSystem{
             // }else if(obj2->getName().rfind("bullet",0)==0 || obj2->getName().rfind("side",0)==0){
             //     onBulletCollision(scene,obj2,obj1);
             // }
-        }
-                                    // enemy                // hair
-        bool collisionComputation(ColliderComp* obj1, ColliderComp* obj2 ) { 
-            cout << "enemy x: " << obj1->getX() << endl;
-            cout << "hair x + width: " << obj2->getX() + obj2->getWidth() << endl;
-            cout << "hair x: " << obj2->getX() << endl;
-            cout << "enemy x + width: " << obj1->getX() + obj1->getWidth() << endl << endl << endl << endl;
-            return obj1->getX() < obj2->getX() + obj2->getWidth() && // im right taht when its negative this will just subtract right???
-                    obj2->getX() < obj1->getX() + obj1->getWidth() &&
-                    obj1->getY() < obj2->getY() + obj2->getHeight() &&
-                    obj2->getY() < obj1->getY() + obj1->getHeight(); // i feel like its the middle left
         }
 
         bool forcefulComputation(Drillku* player, Enemy* enemy) { 
@@ -96,7 +83,6 @@ class CollisionSystem{
             if (enemy->getIsDead()) {
                 enemy->setTileXY(999,999);
             } else {
-                cout << "Trying to kill enemy." << endl;
                 enemy->kill();
             }
             
@@ -108,7 +94,6 @@ class CollisionSystem{
             // }else if(other->getName().rfind("bullet",0)==0){
 
             // }
-            cout << "Encountered attack x enemy collision." << endl;
         }
 
 };

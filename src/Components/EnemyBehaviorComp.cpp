@@ -13,19 +13,22 @@ void EnemyBehaviorComp :: makeTarget(Drillku* player) {
 
 void EnemyBehaviorComp :: perform(TunnelManager* manager) {
     if (enemy == nullptr) enemy = dynamic_cast<Enemy*>(owner);
-    // cout << "[Enemy Behavior] Performing" << endl;
     if (this->manager == nullptr) this->manager = manager;
     
-    neutral();
+    if (targetDetected()) {
+        chase();
+    }
+    else
+        neutral();
 }
 
 void EnemyBehaviorComp :: neutral() {
+    enemy->setGhostMode(false);
     MovementComp* move = enemy->getMoveComp();
     MovementComp::MOVE_TYPE isFacing = move->isFacing();
     int x = enemy->getTileX();
     int y = enemy->getTileY();
 
-    // if (isFacing == MovementComp::RIGHT && status[y][x+1] != 0) {
     if (isFacing == MovementComp::RIGHT && manager->hasTunnel(x+1, y)) {
         if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
             move->reCenter(MovementComp::RIGHT);
@@ -82,9 +85,14 @@ void EnemyBehaviorComp :: neutral() {
     move->setMovingBool(true);
 }
 
-void EnemyBehaviorComp :: detectTarget() {
+bool EnemyBehaviorComp :: targetDetected() {
     int xDif = target->getTileX() - enemy->getTileX();
     int yDif = target->getTileY() - enemy->getTileY();
+
+    if ( abs(xDif) <= 2 && abs(yDif) <= 2 )  
+        return true;
+    else
+        return false;
 }
 
 void EnemyBehaviorComp :: chase() {
@@ -96,61 +104,65 @@ void EnemyBehaviorComp :: chase() {
     int xDif = target->getTileX() - x;
     int yDif = target->getTileY() - y;
     
-    if(abs(xDif) > abs(yDif) && abs(xDif) <= 4){
+    if(abs(xDif) > abs(yDif) && !enemy->getGhostMode()){
         if(xDif>0) {
-            if (isFacing == MovementComp::RIGHT && manager->hasTunnel(x+1, y)) {
+            if (manager->hasTunnel(x+1, y)) {
                 if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
                     move->reCenter(MovementComp::RIGHT);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::RIGHT);
-            } else if (isFacing == MovementComp::RIGHT && !(manager->hasTunnel(x+1, y))) {
-                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-                    move->reCenter(MovementComp::RIGHT);
-                prevFacing = move->isFacing();
-                decideFacing();
+            } else if (!(manager->hasTunnel(x+1, y))) {
+                ghostChase();
             }
         } 
-        else if (abs(yDif) <= 4) {
-            if (isFacing == MovementComp::LEFT && manager->hasTunnel(x-1, y)) {
+        else {
+            if (manager->hasTunnel(x-1, y)) {
                 if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
                     move->reCenter(MovementComp::LEFT);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::LEFT);
-            } else if (isFacing == MovementComp::LEFT && !(manager->hasTunnel(x-1, y))) {
-                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-                    move->reCenter(MovementComp::LEFT);
-                prevFacing = move->isFacing();
-                decideFacing();
+            } else if (!(manager->hasTunnel(x-1, y))) {
+                ghostChase();
             }
         }
-    }else{
+    }else if (!enemy->getGhostMode()) {
         if(yDif>0) {
-            if (isFacing == MovementComp::DOWN && manager->hasTunnel(x, y+1)) {
+            if (manager->hasTunnel(x, y+1)) {
                 if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
                     move->reCenter(MovementComp::DOWN);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::DOWN);
-            } else if (isFacing == MovementComp::DOWN && !(manager->hasTunnel(x, y+1))) {
-                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-                    move->reCenter(MovementComp::DOWN);
-                prevFacing = move->isFacing();
-                decideFacing();
+            } else if (!(manager->hasTunnel(x, y+1))) {
+                ghostChase();
             } 
         }
         else {
-            if (isFacing == MovementComp::UP && manager->hasTunnel(x, y-1)) {
+            if (manager->hasTunnel(x, y-1)) {
                 if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
                     move->reCenter(MovementComp::UP);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::UP);
-            } else if (isFacing == MovementComp::UP && !(manager->hasTunnel(x, y-1))) {
-                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-                    move->reCenter(MovementComp::UP);
-                prevFacing = move->isFacing();
-                decideFacing();
+            } else if (!(manager->hasTunnel(x, y-1))) {
+                ghostChase();
             }
         }
     }
+
+    move->setMovingBool(true);
+}
+
+void EnemyBehaviorComp :: ghostChase() {
+    enemy->setGhostMode(true);
+    MovementComp* move = enemy->getMoveComp();
+    Vector2f direction = target->getSprite()->getPosition() - enemy->getSprite()->getPosition();
+    if (direction != Vector2f(0,0))
+        direction = direction.normalized();
+
+    move->setMovingBool(true);
+    move->moveFreely(direction);
+    
+    if (manager->hasTunnel(enemy->getTileX(), enemy->getTileY()))
+        enemy->setGhostMode(false);
 }
 
 void EnemyBehaviorComp :: decideFacing(){
@@ -173,17 +185,8 @@ void EnemyBehaviorComp :: decideFacing(){
     }
     
     if (available.size() != 0)
-        move->setMovementType(available[randomize(0, available.size()-1)]);
+        move->setMovementType(available[MovementComp::randomize(0, available.size()-1)]);
     else {
         cout << "[ERROR : decide facing] Failed to find available tile to move to." << endl;
     }
-}
-
-int EnemyBehaviorComp :: randomize(int lowerBound, int upperBound) {
-    time_t nTime;
-    srand((unsigned) time(&nTime));
-
-    int nRandomizedValue = rand() % (upperBound - lowerBound + 1) + lowerBound;
-
-    return nRandomizedValue;
 }

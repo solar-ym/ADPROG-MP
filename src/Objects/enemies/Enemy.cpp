@@ -110,3 +110,9 @@ bool Enemy :: getIsDead() {
 void Enemy :: setIsDead(bool value) {
     isDead = value;
 }
+bool Enemy :: getGhostMode() {
+    return ghostMode;
+}
+void Enemy :: setGhostMode(bool value) {
+    ghostMode = value;
+}

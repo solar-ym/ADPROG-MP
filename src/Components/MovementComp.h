@@ -12,8 +12,8 @@ class MovementComp : public Component {
         MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSprite);
 
         void move();
+        void moveFreely(Vector2f direction);
         void reCenter(MOVE_TYPE from);
-        // MOVE_TYPE reCenter(MOVE_TYPE from);
         void invertTexture();
         void fixInversion();
 
@@ -23,6 +23,8 @@ class MovementComp : public Component {
         MOVE_TYPE isFacing();
         bool checkFlipped();
         bool getIsMoving();
+
+        static int randomize(int lowerBound, int upperBound);
     private:
         ENTITY_TYPE ownerEntType;
         Sprite* ownerSprite;

@@ -18,6 +18,7 @@ class Enemy : public Entity {
         bool isDying = false;
         bool isDead = false;
         bool isAttacking = false;
+        bool ghostMode = false;
     public:
         Enemy();
         Enemy(string name, string textureName);
@@ -44,4 +45,6 @@ class Enemy : public Entity {
         void setIsDying(bool value);
         bool getIsDead();
         void setIsDead(bool value);
+        bool getGhostMode();
+        void setGhostMode(bool value);
 }; 

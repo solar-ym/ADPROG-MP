@@ -20,6 +20,11 @@ void Game::init(){
     sceneManager->loadScene(sceneManager->SCREEN_starting);
 
     cout << "Scene Loaded" << endl;
+
+    time_t nTime;
+    srand((unsigned) time(&nTime));
+    int n = rand();
+    srand(n);
 }
 
 void Game::update(Time deltaTime) {

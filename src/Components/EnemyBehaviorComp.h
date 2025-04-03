@@ -18,8 +18,8 @@ class EnemyBehaviorComp : public Component {
         
         void perform(TunnelManager* manager);
         void neutral();
-        void detectTarget();
+        bool targetDetected();
         void chase();
+        void ghostChase();
         void decideFacing();
-        int randomize(int lowerBound, int upperBound);
 };

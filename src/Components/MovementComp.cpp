@@ -7,8 +7,13 @@ MovementComp :: MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSpri
         ownerEntType = entType;
         this->ownerSprite = ownerSprite;
         originalTexRec = ownerSprite->getTextureRect();
-        if (ownerEntType == ENTITY_TYPE::ENEMY)
-            speed = 1.0f;
+        if (entType == ENEMY) {
+            if (randomize(0,1))
+                speed += 0.5f;
+            else
+                speed -= 0.5f;
+        }
+        cout << "Speed generated: " << speed << endl;
 }
 
 void MovementComp :: move() {
@@ -61,9 +66,12 @@ void MovementComp :: move() {
     }
 }
 
+void MovementComp :: moveFreely(Vector2f direction) {
+    if (isMoving)
+        ownerSprite->move(direction * 0.1f);
+}
 
 void MovementComp :: reCenter(MOVE_TYPE from) {
-    // if (owner->getName() == "Geygar") cout << "Recentering." << endl;
     int x = owner->getTileX();      float realX = ownerSprite->getPosition().x;
     int y = owner->getTileY();      float realY = ownerSprite->getPosition().y;
     y += 2;
@@ -148,4 +156,10 @@ bool MovementComp :: checkFlipped() {
 
 bool MovementComp :: getIsMoving() {
     return isMoving;
+}
+
+int MovementComp :: randomize(int lowerBound, int upperBound) {
+    int nRandomizedValue = rand() % (upperBound - lowerBound + 1) + lowerBound;
+
+    return nRandomizedValue;
 }

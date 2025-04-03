@@ -129,30 +129,42 @@ void AnimationComp :: animate() {
     else if (owner->getName() == "Pookie") {
         Enemy* pookie = dynamic_cast<Enemy*>(owner);
 
-        if (pookie->getMoveComp()->getIsMoving() && internalTime >= 10) {
-            playSequence("Walk");
-            changeTexture(currentFrameIndex);
-        } 
-        else if (pookie->getIsDying() && internalTime >= 30) {
+        if (pookie->getIsDying() && internalTime >= 30) {
             cout << "Trying to pop pookie" << endl;
             playSequence("Popping");
             changeTexture(currentFrameIndex);
         }
+
+        else if (pookie->getMoveComp()->getIsMoving() && pookie->getGhostMode() && internalTime >= 10) {
+            playSequence("Ghost");
+            changeTexture(currentFrameIndex);
+        }
+
+        else if (pookie->getMoveComp()->getIsMoving() && internalTime >= 10) {
+            playSequence("Walk");
+            changeTexture(currentFrameIndex);
+        } 
         pookie->getMoveComp()->fixInversion();
     }
 
     else if (owner->getName() == "Geygar") {
         Enemy* geygar = dynamic_cast<Enemy*>(owner);
 
-        if (geygar->getMoveComp()->getIsMoving() && internalTime >= 10) {
-            playSequence("Walk");
+        if (geygar->getMoveComp()->getIsMoving() && geygar->getGhostMode() && internalTime >= 10) {
+            playSequence("Ghost");
             changeTexture(currentFrameIndex);
-        } 
+        }
+        
         else if (geygar->getIsDying() && internalTime >= 30) {
             cout << "Trying to pop geygar" << endl;
             playSequence("Popping");
             changeTexture(currentFrameIndex);
-        }
+        }  
+
+        else if (geygar->getMoveComp()->getIsMoving() && internalTime >= 10) {
+            playSequence("Walk");
+            changeTexture(currentFrameIndex);
+        } 
         geygar->getMoveComp()->fixInversion();
     }
 }
