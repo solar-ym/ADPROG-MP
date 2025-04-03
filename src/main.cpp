@@ -20,6 +20,8 @@
 #include "Game/RoundDataLoader.cpp"
 
 // #include "ObjectManipulation/EnemyPools.cpp"
+/* Object Manipulation */
+#include "ObjectManipulation/TunnelManager.cpp"
 
 /* Scenes Folder */
 #include "Scenes/BattleScene.cpp"

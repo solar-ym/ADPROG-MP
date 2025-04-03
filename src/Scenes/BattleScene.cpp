@@ -6,6 +6,7 @@ BattleScene :: BattleScene(string name, int roundNum, Drillku* player) : Scene(n
     this->player = player;
 
     colSystem = new CollisionSystem();
+    tunManager = new TunnelManager();
     // pookiePool = new EnemyPool(4, EnemyFactory::POOKIE);
     // geygarPool = new EnemyPool(3, EnemyFactory::GEYGAR);
 }
@@ -37,11 +38,12 @@ void BattleScene :: onUnload() {
     if (!roundData.empty()) {
         roundData.clear();
     }
-    for (int i = 0; i < DIRT_HEIGHT; i++) {
-        for (int j = 0; j < DIRT_WIDTH; j++) {
-            status[i][j] = 0;
-        }
-    }
+    // for (int i = 0; i < DIRT_HEIGHT; i++) {
+    //     for (int j = 0; j < DIRT_WIDTH; j++) {
+    //         status[i][j] = 0;
+    //     }
+    // }
+    tunManager->fullReset();
     lastFacing = MovementComp::RIGHT;
     currentEnemies.clear();
     delete currentTunnel;
@@ -59,17 +61,16 @@ void BattleScene :: reloadRoundData() {
         roundData.clear();
     }
 
-    for (int i = 0; i < DIRT_HEIGHT; i++) {
-        for (int j = 0; j < DIRT_WIDTH; j++) {
-            status[i][j] = 0;
-        }
-    }
+    // for (int i = 0; i < DIRT_HEIGHT; i++) {
+    //     for (int j = 0; j < DIRT_WIDTH; j++) {
+    //         status[i][j] = 0;
+    //     }
+    // }
+    tunManager->fullReset();
 
     currentTunnel = nullptr;
     lastFacing = MovementComp::RIGHT;
     currentEnemies.clear();
-
-    // player reset
     
     roundData = dataLoader.loadData(roundNum);
     
@@ -81,7 +82,8 @@ void BattleScene :: reloadRoundData() {
 }
 
 void BattleScene :: dig() {
-    if (currentTunnel == nullptr && status[player->getTileY()][player->getTileX()] == 0) {
+    // if (currentTunnel == nullptr && status[player->getTileY()][player->getTileX()] == 0) {
+    if (currentTunnel == nullptr && !(tunManager->hasTunnel(player->getTileX(), player->getTileY()))) {
         createTunnel(Tunnel::STRAIGHT);
     } else if (currentTunnel != nullptr) {
         currentTunnel->extend(player->getMoveComp()->isFacing());
@@ -168,24 +170,21 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
         y = player->getTileY();
     switch (player->getMoveComp()->isFacing()) {
         case MovementComp::UP:
-            // y -= 1;
             SpriteManip::turnLeft(newTunnel);
             SpriteManip::turnLeft(newTunnel);
             break;
         case MovementComp::DOWN:
-            // y += 1;
             break;
         case MovementComp::LEFT:
-            // x -= 1;
             SpriteManip::turnRight(newTunnel);
             break;
         case MovementComp::RIGHT:
-            // x += 1;
             SpriteManip::turnLeft(newTunnel);
             break;
     }
     newTunnel->setTileXY(x,y);
-    status[y][x] = newTunnel->getTunnelType();
+    // status[y][x] = newTunnel->getTunnelType();
+    tunManager->updateTunnels(newTunnel);
 
     currentTunnel = newTunnel;
     addObject(newTunnel);
@@ -193,16 +192,21 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
 
 void BattleScene :: update() {
     Scene::update();
+    cout << "Objects updated." << endl;
     for (Enemy* en : currentEnemies) {
         en->update();
+        cout << "Enemy updated." << endl;
         if (!en->getIsDead()) 
-            en->behave()->perform(status);
+            en->behave()->perform(tunManager);
     }
+    cout << "Enemies updated." << endl;
 
     // player updates
     player->update();
+    cout << "Player updated." << endl;
     
     colSystem->listen(this, currentEnemies, player);
+    cout << "Objects updated." << endl;
 
     if (lastFacing != player->getMoveComp()->isFacing() && currentTunnel != nullptr) {
         fixTunnel();
@@ -233,31 +237,37 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     switch (type) { // horizontal
         case 0:
             tunnelCap1->setTileXY(x, y);
-            status[y][x] = tunnelCap1->getTunnelType();
+            // status[y][x] = tunnelCap1->getTunnelType();
             SpriteManip::turnLeft(tunnelCap1);
-
+            tunManager->updateTunnels(tunnelCap1);
+            
             tunnelMiddle->setTileXY(x+1, y);
-            status[y][x+1] = tunnelMiddle->getTunnelType();
+            // status[y][x+1] = tunnelMiddle->getTunnelType();
             SpriteManip::turnLeft(tunnelMiddle);
-
+            tunManager->updateTunnels(tunnelMiddle);
+            
             tunnelCap2->setTileXY(x+2, y);
-            status[y][x+2] = tunnelCap2->getTunnelType();
+            // status[y][x+2] = tunnelCap2->getTunnelType();
             SpriteManip::turnRight(tunnelCap2);
+            tunManager->updateTunnels(tunnelCap2);
 
             newEnemy = (Enemy*)enemyMaker.create(enemyType, x+1, y);
 
             break;
         case 1: // vertical
             tunnelCap1->setTileXY(x, y);
-            status[y][x] = tunnelCap1->getTunnelType();
+            // status[y][x] = tunnelCap1->getTunnelType();
+            tunManager->updateTunnels(tunnelCap1);
 
             tunnelMiddle->setTileXY(x, y+1);
-            status[y+1][x] = tunnelMiddle->getTunnelType();
+            // status[y+1][x] = tunnelMiddle->getTunnelType();
+            tunManager->updateTunnels(tunnelMiddle);
 
             tunnelCap2->setTileXY(x, y+2);
-            status[y+2][x] = tunnelCap2->getTunnelType();
+            // status[y+2][x] = tunnelCap2->getTunnelType();
             SpriteManip::turnRight(tunnelCap2);
             SpriteManip::turnRight(tunnelCap2);
+            tunManager->updateTunnels(tunnelCap2);
 
             newEnemy = (Enemy*)enemyMaker.create(enemyType, x, y+1);
 

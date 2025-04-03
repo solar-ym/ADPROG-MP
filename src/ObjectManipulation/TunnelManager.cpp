@@ -8,8 +8,12 @@ TunnelManager :: TunnelManager() {
     }
 }
 
-void TunnelManager :: updateTunnels(int x, int y, Tunnel* newTunnel) {
-    if (allTunnels[y][x] == nullptr)
+void TunnelManager :: updateTunnels(Tunnel* newTunnel) {
+    cout << "[Tunnel Manager] : Updating tile" << endl;
+    int x = newTunnel->getTileX();
+    int y = newTunnel->getTileY();
+    cout << "   > X: " << x << "\n  > Y: " << y << endl;
+    if (newTunnel == nullptr || allTunnels[y][x] != nullptr)
         cout << "[ ERROR ] Tunnel status invalid." << endl;
     else
         allTunnels[y][x] = newTunnel;
@@ -23,23 +27,33 @@ void TunnelManager :: fullReset() {
     }
 }
 
-Tunnel::TunnelType TunnelManager :: observe(int x, int y, vector<int> available) {
-    Tunnel* observing = allTunnels[y][x];
-    Tunnel::TunnelType type = observing->getTunnelType();
-    Angle rotation = observing->getSprite()->getRotation();
+// vector<MovementComp::MOVE_TYPE> TunnelManager :: observe(int x, int y) {
+//     vector<MovementComp::MOVE_TYPE> available;
+//     Tunnel* observing = allTunnels[y][x];
+//     Tunnel::TunnelType type = observing->getTunnelType();
+//     Angle rotation = observing->getSprite()->getRotation();
 
-    if (type == Tunnel::CAP) {
-        if (rotation == degrees(90)) {
+//     cout << "Rotation recieved: " << rotation.asDegrees() << endl;
 
-        }
-    } else if (type == Tunnel::CORNER) {
+//     if (type == Tunnel::CAP) {
+//         if (rotation == degrees(90)) {
 
-    } else if (type == Tunnel::STRAIGHT) {
+//         }
+//     } else if (type == Tunnel::CORNER) {
 
-    }
+//     } else if (type == Tunnel::STRAIGHT) {
 
+//     }
+
+// }
+
+bool TunnelManager :: hasTunnel(int x, int y) {
+    // cout << "[Tunnel Manager] : Getting Status" << endl;
+    if (allTunnels[y][x] == nullptr)
+        return false;
+    else 
+        return true;
 }
 
 TunnelManager :: ~TunnelManager() {
-    delete allTunnels;
 }

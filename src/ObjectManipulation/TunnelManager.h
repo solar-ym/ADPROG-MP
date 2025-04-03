@@ -9,8 +9,9 @@ class TunnelManager {
         Tunnel* allTunnels[DIRT_HEIGHT][DIRT_WIDTH];
     public:
         TunnelManager();
-        void updateTunnels(int x, int y, Tunnel* newTunnel);
+        void updateTunnels(Tunnel* newTunnel);
         void fullReset();
-        Tunnel::TunnelType observe(int x, int y, vector<int> available);
+        // vector<MovementComp::MOVE_TYPE> observe(int x, int y);
+        bool hasTunnel(int x, int y);
         ~TunnelManager();
 };

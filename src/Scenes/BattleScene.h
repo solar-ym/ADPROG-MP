@@ -3,7 +3,8 @@
 #include "Scene.h"
 #include "../Game/RoundDataLoader.h"
 #include "../ObjectManipulation/Factories/Factories.h"
-#include "../Objects/Tunnel.h"
+#include "../ObjectManipulation/TunnelManager.h"
+// #include "../Objects/Tunnel.h"
 #include "../Objects/Drillku.h"
 #include "../Game/CollisionSystem.h"
 
@@ -20,20 +21,21 @@ class BattleScene : public Scene {
         vector<Enemy*> currentEnemies;
 
         RoundDataLoader dataLoader;
-        int status[DIRT_HEIGHT][DIRT_WIDTH] = {
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-        };
+        // int status[DIRT_HEIGHT][DIRT_WIDTH] = {
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+        // };
+        TunnelManager* tunManager;
 
         Vector2i playerPrevTile;
     public:
