@@ -23,6 +23,7 @@ class Scene{
         virtual void onLoad() = 0;
         virtual void onUnload() = 0;
         virtual void reloadRoundData() = 0;
+        virtual void setRoundNum(int id) = 0;
         
         //@! Scene's Update and Draw
         //Depending on the scene's implementation, it too may have

@@ -13,6 +13,8 @@ class SceneManager {
         void registerScene(Scene* scene);
         Scene* loadScene(SCENE_ID id);
 	    //@!e
+
+        void reloadBattle(int id);
 	    
 	    void updateCurrentScene();
 	    void drawCurrentScene(RenderWindow *window);

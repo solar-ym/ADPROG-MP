@@ -7,7 +7,6 @@ class Enemy;
 
 class EnemyBehaviorComp : public Component {
     private:
-        // int status[DIRT_HEIGHT][DIRT_WIDTH];
         TunnelManager* manager = nullptr;
         Enemy* enemy = nullptr;
         MovementComp::MOVE_TYPE prevFacing = MovementComp::RIGHT;

@@ -18,6 +18,13 @@ Scene* SceneManager :: loadScene(SCENE_ID id) {
     return scenes[currentScene];
 }
 
+void SceneManager :: reloadBattle(int id) {
+    if (scenes[currentScene]->getName() == "Battle Screen") {
+        scenes[currentScene]->setRoundNum(id);
+        scenes[currentScene]->reloadRoundData();
+    }
+}
+
 void SceneManager :: updateCurrentScene(){
     // cout << "attempting to update" << endl;
     if(-1!=currentScene)

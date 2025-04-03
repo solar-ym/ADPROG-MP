@@ -280,3 +280,7 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
 
     cout << "[ BATTLE SCENE ] Tunnels pushed." << endl;
 }
+
+void BattleScene :: setRoundNum(int id) {
+    roundNum = id;
+}

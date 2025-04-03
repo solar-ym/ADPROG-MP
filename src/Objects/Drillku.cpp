@@ -77,9 +77,11 @@ void Drillku :: setTileXY(int xV, int yV) {
     entSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
 }
 int Drillku :: getTileX() {
+    x = (entSprite->getPosition().x / TILE_SIZE);
     return x;
 }
 int Drillku :: getTileY() {
+    y = (entSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
     return y;
 }
 
@@ -90,8 +92,8 @@ void Drillku :: initialize() {}
 void Drillku :: update() {
 
     // attackSprite->update();
-    x = (entSprite->getPosition().x / TILE_SIZE);
-    y = (entSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
+    // x = (entSprite->getPosition().x / TILE_SIZE);
+    // y = (entSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
 
     extendHair();
     unextendHair();

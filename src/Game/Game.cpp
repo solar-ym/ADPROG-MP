@@ -14,7 +14,7 @@ void Game::init(){
     sceneManager->registerScene(new StartingScene("Starting Screen"));
     cout << "Starting screen successfully created" << endl;
 
-    sceneManager->registerScene(new BattleScene("Battle Screen", 2, player));
+    sceneManager->registerScene(new BattleScene("Battle Screen", roundNum, player));
     cout << "Battle screen successfully created" << endl;
 
     sceneManager->loadScene(sceneManager->SCREEN_starting);
@@ -74,6 +74,13 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
         if (keyCode == sf::Keyboard::Scan::Space) {
             cout << "Attempting to load start..." << endl;
             sceneManager->loadScene(sceneManager->SCREEN_starting);
+            cout << "   > Success." << endl;
+        }
+
+        if (keyCode == sf::Keyboard::Scan::I) {
+            cout << "Attempting to load next round..." << endl;
+            if (roundNum < 12) roundNum++;
+            sceneManager->reloadBattle(roundNum);
             cout << "   > Success." << endl;
         }
     } else {

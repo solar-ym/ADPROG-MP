@@ -7,7 +7,7 @@ class Tunnel : public Entity {
     public:
         enum TunnelType {CAP = 1, STRAIGHT, CORNER};
         Tunnel() {}
-        Tunnel(TunnelType stage) {
+        Tunnel(TunnelType stage) : Entity("Tunnel") {
             GD_GameResource* res = GD_GameResource::createInstance();
             
             IntRect rect;

@@ -45,6 +45,7 @@ class StartingScene : public Scene {
         }
 
         void reloadRoundData() {}
+        void setRoundNum(int id) {}
 
         void update() {
             internalTime++;

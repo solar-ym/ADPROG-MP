@@ -26,7 +26,7 @@ void MovementComp :: move() {
                     invertTexture();
                 }
             // MOVEMENT
-                if (ownerSprite->getPosition().y != TILE_SIZE)
+                if (owner->getSprite()->getPosition().y > (TILE_SIZE * 2)+(TILE_SIZE/2))
                     ownerSprite->move(Vector2f(0, -speed));
                 break;
             case DOWN:
@@ -40,21 +40,21 @@ void MovementComp :: move() {
                 else if (ownerSprite->getRotation() == degrees(90) && isFlipped)
                     invertTexture();
 
-                if (ownerSprite->getPosition().y != (DIRT_HEIGHT + 1) * TILE_SIZE)
+                if (owner->getSprite()->getPosition().y < (TILE_SIZE * 14)-(TILE_SIZE/2))
                     ownerSprite->move(Vector2f(0, speed));
                 break;
             case LEFT:
                 ownerSprite->setRotation(degrees(0));
                 if (!isFlipped) invertTexture();
 
-                if (ownerSprite->getPosition().x != 0.0f)
+                if (owner->getSprite()->getPosition().x > (TILE_SIZE/2))
                     ownerSprite->move(Vector2f(-speed, 0));
             break;
             case RIGHT:
                 ownerSprite->setRotation(degrees(0));
                 if (isFlipped) invertTexture();
 
-                if (ownerSprite->getPosition().x != (DIRT_WIDTH - 1) * TILE_SIZE)
+                if (owner->getSprite()->getPosition().x < (TILE_SIZE * 14)-(TILE_SIZE/2))
                     ownerSprite->move(Vector2f(speed, 0));
             break;
         }

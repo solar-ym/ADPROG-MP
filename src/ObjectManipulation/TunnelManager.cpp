@@ -51,8 +51,10 @@ bool TunnelManager :: hasTunnel(int x, int y) {
     // cout << "[Tunnel Manager] : Getting Status" << endl;
     if (allTunnels[y][x] == nullptr)
         return false;
-    else 
+    else if ((x >= 0 && x <= 13) && (y >= 0 && y <= 11) )
         return true;
+    else
+        return false;
 }
 
 TunnelManager :: ~TunnelManager() {

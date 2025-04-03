@@ -13,6 +13,7 @@
 
 class Game: public BaseEngine{
     private:
+        int roundNum = 1;
         Drillku* player;
         SceneManager* sceneManager;
         vector<Veggie*> fruitList;
