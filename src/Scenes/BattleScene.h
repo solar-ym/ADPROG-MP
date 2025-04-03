@@ -36,8 +36,8 @@ class BattleScene : public Scene {
         void update();
         void draw(RenderWindow* window);
 
-        void setRoundNum(int id);
-
         // Used to create the starting tunnels that exist to hold enemies
         void initializeTunnel(int x, int y, int enemyType, int type);
+        
+        void setRoundNum(int id);
 };

@@ -21,6 +21,7 @@ void StartingScene::onUnload() {
 }
 
 void StartingScene::reloadRoundData() {}
+void StartingScene:: setRoundNum(int id) {} 
 
 void StartingScene::update() {
     internalTime++;

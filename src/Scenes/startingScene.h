@@ -16,6 +16,7 @@ class StartingScene : public Scene {
         void onUnload();
 
         void reloadRoundData();
+        void setRoundNum(int id);
 
         void update();
 };
