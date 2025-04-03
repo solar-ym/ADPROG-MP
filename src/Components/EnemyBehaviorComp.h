@@ -7,6 +7,7 @@ class Enemy;
 
 class EnemyBehaviorComp : public Component {
     private:
+        int internalTime = 0;
         Drillku* target = nullptr;
         TunnelManager* manager = nullptr;
         Enemy* enemy = nullptr;
@@ -22,4 +23,6 @@ class EnemyBehaviorComp : public Component {
         void chase();
         void ghostChase();
         void decideFacing();
+
+        // void findTunnel();
 };

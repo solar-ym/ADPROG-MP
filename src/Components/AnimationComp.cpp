@@ -97,6 +97,7 @@ void AnimationComp :: loadFrames() {
 void AnimationComp :: animate() {
     if (internalTime < 50) internalTime++;
 
+    
     if (owner->getName() == "Player") {
         Drillku* player = dynamic_cast<Drillku*>(owner);
 
@@ -128,11 +129,7 @@ void AnimationComp :: animate() {
     else if (owner->getName() == "Pookie") {
         Enemy* pookie = dynamic_cast<Enemy*>(owner);
 
-        if (pookie->getMoveComp()->getIsMoving() && internalTime >= 10) {
-            playSequence("Walk");
-            changeTexture(currentFrameIndex);
-        } 
-        else if (pookie->getIsDying() && internalTime >= 30) {
+        if (pookie->getIsDying() && internalTime >= 30) {
             playSequence("Popping");
             changeTexture(currentFrameIndex);
         }
@@ -146,27 +143,11 @@ void AnimationComp :: animate() {
             playSequence("Walk");
             changeTexture(currentFrameIndex);
         } 
-        pookie->getMoveComp()->fixInversion();
-    }
-
-    else if (owner->getName() == "Geygar") {
-        Enemy* geygar = dynamic_cast<Enemy*>(owner);
-
-        if (geygar->getMoveComp()->getIsMoving() && geygar->getGhostMode() && internalTime >= 10) {
-            playSequence("Ghost");
+        
+        else {
             changeTexture(currentFrameIndex);
         }
-        
-        else if (geygar->getIsDying() && internalTime >= 30) {
-            playSequence("Popping");
-            changeTexture(currentFrameIndex);
-        }  
-
-        else if (geygar->getMoveComp()->getIsMoving() && internalTime >= 10) {
-            playSequence("Walk");
-            changeTexture(currentFrameIndex);
-        } 
-        geygar->getMoveComp()->fixInversion();
+        pookie->getMoveComp()->fixInversion();
     }
 }
 

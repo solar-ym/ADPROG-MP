@@ -12,6 +12,7 @@ void EnemyBehaviorComp :: makeTarget(Drillku* player) {
 }
 
 void EnemyBehaviorComp :: perform(TunnelManager* manager) {
+    if (internalTime < 200) internalTime++;
     if (enemy == nullptr) enemy = dynamic_cast<Enemy*>(owner);
     if (this->manager == nullptr) this->manager = manager;
     
@@ -24,6 +25,9 @@ void EnemyBehaviorComp :: perform(TunnelManager* manager) {
 
 void EnemyBehaviorComp :: neutral() {
     enemy->setGhostMode(false);
+
+
+
     MovementComp* move = enemy->getMoveComp();
     MovementComp::MOVE_TYPE isFacing = move->isFacing();
     int x = enemy->getTileX();
@@ -104,46 +108,70 @@ void EnemyBehaviorComp :: chase() {
     int xDif = target->getTileX() - x;
     int yDif = target->getTileY() - y;
     
-    if(abs(xDif) > abs(yDif) && !enemy->getGhostMode()){
+    if(abs(xDif) > abs(yDif)){
         if(xDif>0) {
-            if (manager->hasTunnel(x+1, y)) {
+            if (manager->hasTunnel(x+1, y) && !(enemy->getGhostMode())) {
                 if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
                     move->reCenter(MovementComp::RIGHT);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::RIGHT);
             } else if (!(manager->hasTunnel(x+1, y))) {
                 ghostChase();
+                internalTime = 0;
+            } else {
+                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+                    move->reCenter(MovementComp::RIGHT);
+                prevFacing = move->isFacing();
+                decideFacing();
             }
         } 
         else {
-            if (manager->hasTunnel(x-1, y)) {
+            if (manager->hasTunnel(x-1, y) && !(enemy->getGhostMode())) {
                 if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
                     move->reCenter(MovementComp::LEFT);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::LEFT);
             } else if (!(manager->hasTunnel(x-1, y))) {
                 ghostChase();
+                internalTime = 0;
+            } else {
+                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+                    move->reCenter(MovementComp::LEFT);
+                prevFacing = move->isFacing();
+                decideFacing();
             }
         }
-    }else if (!enemy->getGhostMode()) {
+    }else {
         if(yDif>0) {
-            if (manager->hasTunnel(x, y+1)) {
+            if (manager->hasTunnel(x, y+1) && !(enemy->getGhostMode())) {
                 if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
                     move->reCenter(MovementComp::DOWN);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::DOWN);
             } else if (!(manager->hasTunnel(x, y+1))) {
                 ghostChase();
-            } 
+                internalTime = 0;
+            } else {
+                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+                    move->reCenter(MovementComp::DOWN);
+                prevFacing = move->isFacing();
+                decideFacing();
+            }
         }
         else {
-            if (manager->hasTunnel(x, y-1)) {
+            if (manager->hasTunnel(x, y-1) && !(enemy->getGhostMode())) {
                 if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
                     move->reCenter(MovementComp::UP);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::UP);
             } else if (!(manager->hasTunnel(x, y-1))) {
                 ghostChase();
+                internalTime = 0;
+            } else {
+                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+                    move->reCenter(MovementComp::UP);
+                prevFacing = move->isFacing();
+                decideFacing();
             }
         }
     }
@@ -154,15 +182,15 @@ void EnemyBehaviorComp :: chase() {
 void EnemyBehaviorComp :: ghostChase() {
     enemy->setGhostMode(true);
     MovementComp* move = enemy->getMoveComp();
-    Vector2f direction = target->getSprite()->getPosition() - enemy->getSprite()->getPosition();
-    if (direction != Vector2f(0,0))
-        direction = direction.normalized();
+    int x = enemy->getTileX();
+    int y = enemy->getTileY();
 
-    move->setMovingBool(true);
-    move->moveFreely(direction);
-    
-    if (manager->hasTunnel(enemy->getTileX(), enemy->getTileY()))
+    move->moveFreely(target->getSprite()->getPosition());
+
+    if ((manager->hasTunnel(x, y)) && internalTime >= 70){
+        move->reCenter(MovementComp::RIGHT);
         enemy->setGhostMode(false);
+    }
 }
 
 void EnemyBehaviorComp :: decideFacing(){
@@ -190,3 +218,7 @@ void EnemyBehaviorComp :: decideFacing(){
         cout << "[ERROR : decide facing] Failed to find available tile to move to." << endl;
     }
 }
+
+// void EnemyBehaviorComp :: findTunnel() {
+
+// }

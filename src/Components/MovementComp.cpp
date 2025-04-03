@@ -66,9 +66,25 @@ void MovementComp :: move() {
     }
 }
 
-void MovementComp :: moveFreely(Vector2f direction) {
-    if (isMoving)
-        ownerSprite->move(direction * 0.1f);
+void MovementComp :: moveFreely(Vector2f playerLoc) {
+    if (isMoving) {
+        float x = owner->getSprite()->getPosition().x;
+        float y = owner->getSprite()->getPosition().y;
+
+        Vector2f newDirection = Vector2f(0,0);
+        if (playerLoc.x - x > 0) 
+            newDirection.x = 0.2f;
+        else if (playerLoc.x - x < 0) 
+            newDirection.x = -0.2f;
+        
+        if (playerLoc.y - y > 0)
+            newDirection.y = 0.2f;
+        else if (playerLoc.y - y < 0)
+            newDirection.y = -0.2f;
+
+        ownerSprite->setRotation(degrees(0));
+        ownerSprite->move(newDirection);
+    }
 }
 
 void MovementComp :: reCenter(MOVE_TYPE from) {
