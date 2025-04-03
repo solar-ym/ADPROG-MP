@@ -7,32 +7,15 @@ class UIAsset : public GameObject {
         Sprite* entSprite;
         Texture tex;
     public:
-        UIAsset() {}
-        UIAsset(string textureName, Vector2f position) {
-            GD_GameResource* res = GD_GameResource::createInstance();
-            IntRect rect = (*res->getAtlas())[textureName];
-            entSprite = new Sprite(*res->getTexture(),rect);
-        }
+        UIAsset();
+        UIAsset(string textureName, Vector2f position);
 
-        void initialize() {}
-        void update() {}
-        void draw(RenderWindow *window) {
-            window->draw(*entSprite);
-        }
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
 
-        void changeTexture(string textureName) {
-            if (tex.loadFromFile(textureName))
-            entSprite->setTexture(tex);
-        }
+        void changeTexture(string textureName);
 
         // TEMPORARY
-        void manualCreation(string textureName, float x, float y) {
-            cout << "[UIAsset] attempting manualCreation()" << endl;
-            if (tex.loadFromFile(textureName))
-                entSprite = new Sprite(tex);
-            cout << "[UIAsset] texture loaded" << endl;
-            
-            entSprite->move({x,y});
-            cout << "[UIAsset] position set" << endl;
-        }
+        void manualCreation(string textureName, float x, float y);
 };

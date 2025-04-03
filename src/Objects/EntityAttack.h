@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../Utility/configurations.h"
 #include "Entity.h"
-#include "../Game/GD_GameResource.h"
 #include "../Components/ColliderComp.h"
 
 class EntityAttack : public Entity {
@@ -16,59 +14,26 @@ class EntityAttack : public Entity {
         Texture attTexture;
         bool isVisible = false;
     public:
-        EntityAttack() {}
-        EntityAttack(Entity* owner, string textureName) : Entity("Attack") {
-            if (attTexture.loadFromFile("../../sprites/" + textureName))
-                attackSprite = new Sprite(attTexture);
-            
-            collision = new ColliderComp(TILE_SIZE);
-            collision->attachComponent(this);
-        }
+        EntityAttack();
+        EntityAttack(Entity* owner, string textureName);
 
-        void toggleVisibility() {
-            isVisible = !isVisible;
-        }
-        bool getVisibility() {
-            return isVisible;
-        }
-        void alterTextureRect(IntRect newRect) {
-            attackSprite->setTextureRect(newRect); 
-        }
-        void setSpriteRotation(Angle newRotation) {
-            attackSprite->setRotation(newRotation);
-        }
-        void setSpritePosition(float x, float y) {
-            attackSprite->setPosition({x, y});
-        }
+        void toggleVisibility();
+        bool getVisibility();
+        void alterTextureRect(IntRect newRect);
+        void setSpriteRotation(Angle newRotation);
+        void setSpritePosition(float x, float y);
 
-        void setTileXY(int xV, int yV) {
-            x = xV; y = yV;
-            attackSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
-        }
-        int getTileX() { 
-            x = (attackSprite->getPosition().x / TILE_SIZE);
-            return x; 
-        }
-        int getTileY() { 
-            y = (attackSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
-            return y; 
-        }
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
 
-        void initialize() {}
-        void update() {} 
-        void draw(RenderWindow *window) { 
-            window->draw(*attackSprite); 
-        }
-        ColliderComp* getColliderComp() { return collision; }
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
+        ColliderComp* getColliderComp();
 
-        Sprite* getSprite() {
-            return attackSprite;
-        }
+        Sprite* getSprite();
 
-        int getTextRect_X() {
-            return attackSprite->getTextureRect().size.x;
-        }
-        int getTextRect_Y() {
-            return attackSprite->getTextureRect().size.y;
-        }
+        int getTextRect_X();
+        int getTextRect_Y();
 };

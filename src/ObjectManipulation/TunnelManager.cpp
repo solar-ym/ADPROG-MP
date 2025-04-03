@@ -9,10 +9,9 @@ TunnelManager :: TunnelManager() {
 }
 
 void TunnelManager :: updateTunnels(Tunnel* newTunnel) {
-    // cout << "[Tunnel Manager] : Updating tile" << endl;
     int x = newTunnel->getTileX();
     int y = newTunnel->getTileY();
-    // cout << "   > X: " << x << "\n  > Y: " << y << endl;
+
     if (newTunnel == nullptr || allTunnels[y][x] != nullptr)
         cout << "[ ERROR ] Tunnel status invalid." << endl;
     else
@@ -27,28 +26,7 @@ void TunnelManager :: fullReset() {
     }
 }
 
-// vector<MovementComp::MOVE_TYPE> TunnelManager :: observe(int x, int y) {
-//     vector<MovementComp::MOVE_TYPE> available;
-//     Tunnel* observing = allTunnels[y][x];
-//     Tunnel::TunnelType type = observing->getTunnelType();
-//     Angle rotation = observing->getSprite()->getRotation();
-
-//     cout << "Rotation recieved: " << rotation.asDegrees() << endl;
-
-//     if (type == Tunnel::CAP) {
-//         if (rotation == degrees(90)) {
-
-//         }
-//     } else if (type == Tunnel::CORNER) {
-
-//     } else if (type == Tunnel::STRAIGHT) {
-
-//     }
-
-// }
-
 bool TunnelManager :: hasTunnel(int x, int y) {
-    // cout << "[Tunnel Manager] : Getting Status" << endl;
     if (allTunnels[y][x] == nullptr)
         return false;
     else if ((x >= 0 && x <= 13) && (y >= 0 && y <= 11) )

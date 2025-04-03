@@ -3,8 +3,6 @@
 #include "../Entity.h"
 #include "../../Components/AllComponents.h"
 
-// class AnimationComp;
-
 class Enemy : public Entity {
     private:
         int x;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "MovementComp.h"
 #include "../Objects/EntityAttack.h"
 
 class AttackComp : public Component {

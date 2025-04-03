@@ -9,32 +9,20 @@ class Background : public Entity {
         Sprite* entSprite;
         Texture tex;
     public:
-        Background() {}
-        Background(string textureName) : Entity("Background") {
-            GD_GameResource* res = GD_GameResource::createInstance();
-            IntRect rect = (*res->getAtlas())[textureName];
-            entSprite = new Sprite(*res->getTexture(),rect);
-            entSprite->setPosition({0,0});
-        }
+        Background();
+        Background(string textureName);
 
-        void setTileXY(int xV, int yV) {}
-        int getTileX() { return x; }
-        int getTileY() { return y; }
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
 
-        void initialize() {}
-        void update() {}
-        void draw(RenderWindow *window) {
-            window->draw(*entSprite);
-        }
-        ColliderComp* getColliderComp() { return nullptr; }
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
+        ColliderComp* getColliderComp();
         
         // TEMPORARY
-        void manualCreation(string textureName) {
-            if (tex.loadFromFile(textureName))
-                entSprite = new Sprite(tex);
-        }
+        void manualCreation(string textureName);
 
-        Sprite* getSprite() {
-            return entSprite;
-        }
+        Sprite* getSprite();
 };

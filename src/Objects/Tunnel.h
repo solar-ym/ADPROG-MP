@@ -1,107 +1,33 @@
 #pragma once
 
 #include "Entity.h"
-#include "../Components/MovementComp.h"
 
 class Tunnel : public Entity {
     public:
         enum TunnelType {CAP = 1, STRAIGHT, CORNER};
-        Tunnel() {}
-        Tunnel(TunnelType stage) : Entity("Tunnel") {
-            GD_GameResource* res = GD_GameResource::createInstance();
-            
-            IntRect rect;
-            switch (stage) {
-                case CAP:
-                    rect = (*res->getAtlas())["TUNNEL_cap"];
-                    break;
-                case STRAIGHT:
-                    rect = (*res->getAtlas())["TUNNEL_straight"];
-                    break;
-                case CORNER:
-                    rect = (*res->getAtlas())["TUNNEL_corner"];
-                    break;
-            }
-            
-            entSprite = new Sprite(*res->getTexture(),rect);
-            entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
+        Tunnel();
+        Tunnel(TunnelType stage);
 
-            tunnelType = stage;
-        }
+        void changeTunnelType(TunnelType newStage);
 
-        void changeTunnelType(TunnelType newStage) {
-            tunnelType = newStage;
-            GD_GameResource* res = GD_GameResource::createInstance();
-            
-            IntRect rect;
-            switch (newStage) {
-                case CAP:
-                    rect = (*res->getAtlas())["TUNNEL_cap"];
-                    break;
-                case STRAIGHT:
-                    rect = (*res->getAtlas())["TUNNEL_straight"];
-                    break;
-                case CORNER:
-                    rect = (*res->getAtlas())["TUNNEL_corner"];
-                    break;
-            }
+        void extend(MovementComp::MOVE_TYPE isFacing);
 
-            entSprite->setTextureRect(rect);
-        }
+        void maxExtend();
 
-        void extend(MovementComp::MOVE_TYPE isFacing){
+        void alterTextureRect(IntRect newRect);
 
-            if (entSprite->getTextureRect().size.y < TILE_SIZE) {
-                alterTextureRect(IntRect(
-                    entSprite->getTextureRect().position, 
-                    {50, entSprite->getTextureRect().size.y + 10}
-                ));
-            } else {
-                maxExtended = true;
-            }
-        }
+        void setTileXY(int xV, int yV);
+        int getTileX();
+        int getTileY();
 
-        void maxExtend() {
-            if (entSprite->getTextureRect().size.x < TILE_SIZE) {
-                alterTextureRect(IntRect(
-                    entSprite->getTextureRect().position, 
-                    {50, 50}
-                ));
-            }
-            maxExtended = true;
-        }
+        void initialize();
+        void update();
+        void draw(RenderWindow *window);
 
-        void alterTextureRect(IntRect newRect) {
-            entSprite->setTextureRect(newRect); 
-        }
-
-        void setTileXY(int xV, int yV) {
-            x = xV; y = yV;
-            entSprite->setPosition({TILE_SIZE*(x+0.5f), TILE_SIZE*(y+0.5f)+(TILE_SIZE*SKY_HEIGHT)});
-        }
-        int getTileX() {
-            return x;
-        }
-        int getTileY() {
-            return y;
-        }
-
-        void initialize() {}
-        void update() {}
-        void draw(RenderWindow *window) {
-            window->draw(*entSprite);
-        }
-        ColliderComp* getColliderComp() { return nullptr; }
-
-        Sprite* getSprite() {
-            return entSprite;
-        }
-        bool isMaxExtended() {
-            return maxExtended;
-        }
-        TunnelType getTunnelType() {
-            return tunnelType;
-        }
+        ColliderComp* getColliderComp();
+        Sprite* getSprite();
+        bool isMaxExtended();
+        TunnelType getTunnelType();
     private:
         int x;
         int y;

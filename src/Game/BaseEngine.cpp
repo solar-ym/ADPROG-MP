@@ -3,6 +3,8 @@
 void BaseEngine::run(string title, unsigned int width, unsigned int height){
     window.create(VideoMode({width, height}), title);
     window.setFramerateLimit(60);
+    
+    //Initialize the game
     init();
 
     Clock clock;
