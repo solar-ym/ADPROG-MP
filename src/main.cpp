@@ -1,3 +1,12 @@
+/*  
+    +------------------------------------------------------+
+    |     "DIG DRILLKU!" - GDADPRG S22 Machine Project     |
+    +------------------------------------------------------+     
+
+                   Created and Programmed by:
+                 Yza Montuerto and Megan Sadio
+*/
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -19,8 +28,8 @@
 #include "Game/GD_GameResource.cpp"
 #include "Game/RoundDataLoader.cpp"
 
-// #include "ObjectManipulation/EnemyPools.cpp"
 /* Object Manipulation */
+// #include "ObjectManipulation/EnemyPools.cpp"
 #include "ObjectManipulation/TunnelManager.cpp"
 
 /* Scenes Folder */
@@ -33,18 +42,12 @@
 
 int main()
 {
+    // Create a game class with the corresponding window size
     Game game;
+    // Run the game
     game.run("DRILLKU", 
             (DIRT_WIDTH + MENU_WIDTH) * TILE_SIZE,
             (DIRT_HEIGHT + SKY_HEIGHT) * TILE_SIZE);
 
-    // RoundDataLoader rdl;
-    // vector<int> x = rdl.loadData(1);
-
-    // for (int data : x) {
-    //     cout << data << endl;
-    // }
-
     return 0;
-    
 }
