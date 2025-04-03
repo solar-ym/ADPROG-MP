@@ -16,17 +16,15 @@ void EnemyBehaviorComp :: perform(TunnelManager* manager) {
     if (enemy == nullptr) enemy = dynamic_cast<Enemy*>(owner);
     if (this->manager == nullptr) this->manager = manager;
     
-    if (targetDetected()) {
+    // if (targetDetected() || enemy->getGhostMode()) {
         chase();
-    }
-    else
-        neutral();
+    // }
+    // else
+        // neutral();
 }
 
 void EnemyBehaviorComp :: neutral() {
     enemy->setGhostMode(false);
-
-
 
     MovementComp* move = enemy->getMoveComp();
     MovementComp::MOVE_TYPE isFacing = move->isFacing();
@@ -115,8 +113,10 @@ void EnemyBehaviorComp :: chase() {
                     move->reCenter(MovementComp::RIGHT);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::RIGHT);
-            } else if (!(manager->hasTunnel(x+1, y))) {
+            } else if (enemy->getGhostMode()) {
                 ghostChase();
+            } else if (!(manager->hasTunnel(x+1, y)) && internalTime >= 70) {
+                enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
                 if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
@@ -131,8 +131,10 @@ void EnemyBehaviorComp :: chase() {
                     move->reCenter(MovementComp::LEFT);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::LEFT);
-            } else if (!(manager->hasTunnel(x-1, y))) {
+            } else if (enemy->getGhostMode()) {
                 ghostChase();
+            } else if (!(manager->hasTunnel(x-1, y))&& internalTime >= 70) {
+                enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
                 if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
@@ -148,8 +150,10 @@ void EnemyBehaviorComp :: chase() {
                     move->reCenter(MovementComp::DOWN);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::DOWN);
-            } else if (!(manager->hasTunnel(x, y+1))) {
+            } else if (enemy->getGhostMode()) {
                 ghostChase();
+            } else if (!(manager->hasTunnel(x, y+1))&& internalTime >= 70) {
+                enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
                 if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
@@ -164,10 +168,14 @@ void EnemyBehaviorComp :: chase() {
                     move->reCenter(MovementComp::UP);
                 prevFacing = move->isFacing();
                 move->setMovementType(MovementComp::UP);
-            } else if (!(manager->hasTunnel(x, y-1))) {
+            } else if (enemy->getGhostMode()) {
                 ghostChase();
+            } else if (!(manager->hasTunnel(x, y-1))&& internalTime >= 70) {
+                enemy->setGhostMode(true);
                 internalTime = 0;
-            } else {
+            }
+            
+            else {
                 if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
                     move->reCenter(MovementComp::UP);
                 prevFacing = move->isFacing();
@@ -180,7 +188,6 @@ void EnemyBehaviorComp :: chase() {
 }
 
 void EnemyBehaviorComp :: ghostChase() {
-    enemy->setGhostMode(true);
     MovementComp* move = enemy->getMoveComp();
     int x = enemy->getTileX();
     int y = enemy->getTileY();
@@ -190,6 +197,7 @@ void EnemyBehaviorComp :: ghostChase() {
     if ((manager->hasTunnel(x, y)) && internalTime >= 70){
         move->reCenter(MovementComp::RIGHT);
         enemy->setGhostMode(false);
+        internalTime = 0;
     }
 }
 

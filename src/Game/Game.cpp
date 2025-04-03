@@ -8,7 +8,7 @@ void Game::init(){
    
     sceneManager->registerScene(new StartingScene("Starting Screen"));
     
-    sceneManager->registerScene(new BattleScene("Battle Screen", 2, player));
+    sceneManager->registerScene(new BattleScene("Battle Screen", roundNum, player));
     
     sceneManager->loadScene(sceneManager->SCREEN_starting);
 

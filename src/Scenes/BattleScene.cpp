@@ -176,15 +176,18 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
 }
 
 void BattleScene :: update() {
-    Scene::update();
-    for (Enemy* en : currentEnemies) {
-        en->update();
-        if (!en->getIsDead()) 
+    player->update();
+
+    if (!(player->getIsDying())) {
+        Scene::update();
+        for (Enemy* en : currentEnemies) {
+            en->update();
+            if (!en->getIsDead()) 
             en->behave()->perform(tunManager);
+        }
     }
 
     // player updates
-    player->update();
     
     colSystem->listen(this, currentEnemies, player);
 
@@ -200,10 +203,10 @@ void BattleScene :: update() {
 
 void BattleScene :: draw(RenderWindow* window) {
     Scene::draw(window);
-    player->draw(window);
     for (Enemy* en : currentEnemies) {
         en->draw(window);
     }
+    player->draw(window);
 }
 
 // Used to create the starting tunnels that exist to hold enemies

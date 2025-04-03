@@ -71,16 +71,18 @@ void MovementComp :: moveFreely(Vector2f playerLoc) {
         float x = owner->getSprite()->getPosition().x;
         float y = owner->getSprite()->getPosition().y;
 
-        Vector2f newDirection = Vector2f(0,0);
-        if (playerLoc.x - x > 0) 
-            newDirection.x = 0.2f;
-        else if (playerLoc.x - x < 0) 
-            newDirection.x = -0.2f;
-        
-        if (playerLoc.y - y > 0)
-            newDirection.y = 0.2f;
-        else if (playerLoc.y - y < 0)
-            newDirection.y = -0.2f;
+        cout << "player X: " << playerLoc.x << endl;
+        cout << "player Y: " << playerLoc.y << endl;
+
+        cout << "Owner X: " << x << endl;
+        cout << "Owner Y: " << y << endl;
+
+        Vector2f direction = Vector2f(0,0);
+
+        direction.x = playerLoc.x - x;
+        direction.y = playerLoc.y - y;
+
+        Vector2f newDirection = direction.normalized();
 
         ownerSprite->setRotation(degrees(0));
         ownerSprite->move(newDirection);
