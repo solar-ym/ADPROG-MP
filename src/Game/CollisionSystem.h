@@ -5,6 +5,7 @@
 class CollisionSystem{
     private: 
         int internalTime = 0;
+        int cooldown = 0;
         bool running = false;
 
         bool enemyCollided = false;

@@ -16,6 +16,30 @@ void BattleScene :: onLoad() {
     Background* bg  = new Background("BG1_norm", 2);
     addObject(bg);
 
+    UIAsset* livesText = new UIAsset("UI_lives", 
+                                {TILE_SIZE * DIRT_WIDTH, 
+                                TILE_SIZE * (SKY_HEIGHT-1)});
+    addObject(livesText);
+
+    for(int i = 0; i < 6; i++){
+        if(i < 3)  
+        noOfLives.push_back(new UIAsset("UI_livesIcon", 
+                                    {TILE_SIZE * (DIRT_WIDTH+i), 
+                                    TILE_SIZE * (SKY_HEIGHT)}));
+        else
+        noOfLives.push_back(new UIAsset("UI_livesIcon", 
+                {TILE_SIZE * (DIRT_WIDTH+(i%3)), 
+                TILE_SIZE * (SKY_HEIGHT+1)}));
+    }
+
+    //UI Assets
+    uiNextRound = new UIAsset("UI_nextRound",
+                            {TILE_SIZE * DIRT_WIDTH, 
+                            TILE_SIZE * (DIRT_HEIGHT)});
+    uiPressK = new UIAsset("UI_K",
+                        {TILE_SIZE * DIRT_WIDTH, 
+                        TILE_SIZE * (DIRT_HEIGHT-1)});
+
     // TUNNELS
     initStartTunnel();
     for (int i = 0; i < roundData.size(); i += 4) {
@@ -38,32 +62,40 @@ void BattleScene :: onLoad() {
 
 void BattleScene :: onUnload() {
     removeAllObjects();
-    cout << "removed round objects" << endl;
+
     if (!roundData.empty()) {
         roundData.clear();
     }
-    cout << "Unloaded round data" << endl;
+
     tunManager->fullReset();
-    cout << "reset tun manager" << endl;
+
     lastFacing = MovementComp::RIGHT;
     if (!currentEnemies.empty())
         currentEnemies.clear();
-    cout << "cleared enemies" << endl;
+
+    for(UIAsset* livesIcon : noOfLives)
+        delete livesIcon;
+
+    if (!noOfLives.clear())
+        noOfLives.clear();
+
     for(Flower* flower : currentFlowers)
         delete flower;
+
     if (!currentFlowers.empty())
         currentFlowers.clear();
-    cout << "cleared flowers" << endl;
+
     for(Veggie* veggie : currentVeggies)
         delete veggie;
+
     if (!currentVeggies.empty())
         currentVeggies.clear();
-    cout << "cleared veggies" << endl;
+
     for (Rock* rock : currentRocks)
         delete rock;
+
     if (!currentRocks.empty())
         currentRocks.clear();
-    cout << "cleared rocks" << endl;
 }
 
 void BattleScene :: reloadRoundData() {
@@ -143,8 +175,6 @@ void BattleScene :: reloadRoundData() {
     }
 
     player->setTileXY(6,5);
-
-    //No need to reload flowers when going to the next round
 
     //Reload veggies when moving onto the next round
     for(int i = 0; i < currentVeggies.size(); i++){
@@ -335,6 +365,12 @@ void BattleScene :: update() {
 
 void BattleScene :: draw(RenderWindow* window) {
     Scene::draw(window);
+    if(getAliveEnemies() == 0){
+        uiNextRound->draw(window);
+        uiPressK->draw(window);
+    }
+    for(int i = 0; i < player->getLives(); i++)
+        noOfLives[i]->draw(window);
     for (Enemy* en : currentEnemies) 
         en->draw(window);
     for (Flower* flower : currentFlowers)
@@ -440,6 +476,14 @@ void BattleScene :: makeRocks() {
 
         currentRocks.push_back(new Rock(x, y, tunManager));
     }
+}
+
+int BattleScene::getAliveEnemies(){
+    int countAlive = 0;
+    for(int i = 0; i < currentEnemies.size(); i++)
+        if(!(currentEnemies[i]->getIsDead())) countAlive++;
+    
+    return countAlive;
 }
 
 void BattleScene :: setRoundNum(int id) {
