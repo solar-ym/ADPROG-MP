@@ -5,6 +5,9 @@
 #include "../ObjectManipulation/TunnelManager.h"
 #include "../Objects/Drillku.h"
 #include "../Game/CollisionSystem.h"
+#include "../Objects/Background.h"
+
+#include "../Objects/Flower.h"
 
 class BattleScene : public Scene {
     private:
@@ -20,6 +23,8 @@ class BattleScene : public Scene {
 
         RoundDataLoader dataLoader;
         TunnelManager* tunManager;
+
+        vector<Flower*> currentFlowers;
 
         Vector2i playerPrevTile;
     public:
