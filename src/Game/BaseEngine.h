@@ -11,7 +11,7 @@ class BaseEngine{
         virtual void init() = 0;
         virtual void update(Time deltaTime) = 0;
         virtual void draw(RenderWindow *window) = 0;
-        virtual void keyPressTrigger(Keyboard::Scan keyCode) = 0;
+        virtual void keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) = 0;
         virtual void keyReleaseTrigger(Keyboard::Scan keyCode) = 0;
         void run(string title, unsigned int width, unsigned int height);
 };

@@ -15,7 +15,7 @@ void BaseEngine::run(string title, unsigned int width, unsigned int height){
             if(event->is<Event::Closed>())
                  window.close();
             else if(const auto* keyPressed=event->getIf<Event::KeyPressed>())
-                keyPressTrigger(keyPressed->scancode);
+                keyPressTrigger(keyPressed->scancode, &window);
             else if(const auto* keyPressed=event->getIf<Event::KeyReleased>())
                 keyReleaseTrigger(keyPressed->scancode);
         }//end while

@@ -19,7 +19,7 @@ class Game: public BaseEngine{
         void init();
         void update(Time deltaTime);
         void draw(RenderWindow *window);
-        void keyPressTrigger(Keyboard::Scan keyCode);
+        void keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window);
         void keyReleaseTrigger(Keyboard::Scan keyCode);
 
         ~Game();

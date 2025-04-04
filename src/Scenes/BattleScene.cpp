@@ -96,6 +96,10 @@ void BattleScene :: onUnload() {
 
     if (!currentRocks.empty())
         currentRocks.clear();
+
+    // Player reset
+    player->setTileXY(6,5);
+    player->setIsDying(false);
 }
 
 void BattleScene :: reloadRoundData() {

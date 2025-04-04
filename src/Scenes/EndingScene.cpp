@@ -4,11 +4,17 @@ EndingScreen::EndingScreen(string name) : Scene(name) {
 }
 
 void EndingScreen::onLoad() {
-    Background* bg = new Background("BG_win", 1);
+
+    if (getName() == "Lose Screen")
+        addObject(new Background("BG_lose", 1));
+    else
+        addObject(new Background("BG_win", 1));
+
+
     UIAsset* menuButton = new UIAsset("MENU_on", {254.8f, 413.1f});
     UIAsset* exitButton = new UIAsset("EXIT_off", {254.8f, 506.7f});
 
-    addObject(bg);  
+      
     addObject(menuButton);
     addObject(exitButton);
 }

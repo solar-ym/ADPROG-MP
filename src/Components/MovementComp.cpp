@@ -13,7 +13,6 @@ MovementComp :: MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSpri
             else
                 speed -= 0.5f;
         }
-        cout << "Speed generated: " << speed << endl;
 }
 
 void MovementComp :: move() {

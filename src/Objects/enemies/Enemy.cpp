@@ -10,7 +10,6 @@ Enemy :: Enemy(string name, string textureName) : Entity(name) {
     entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
     
     if (name == "Geygar") {
-        cout << "Giving geygar aattack comp" << endl;
         attackSprite = new EntityAttack(this, "ATTACK_geygar.png");
         attackSprite->alterTextureRect(IntRect({140, 0}, {10,50})); 
 
@@ -100,7 +99,6 @@ MovementComp* Enemy :: getMoveComp() {
             return mov;
         }
     }
-    cout << "[ERROR] Failed to get [ENEMY: " << getName() << "] Movement Comp." << endl;
     return nullptr;
 }
 
@@ -111,7 +109,6 @@ AttackComp* Enemy :: getAtkComp() {
             return atk;
         }
     }
-    // cout << "[ERROR] Failed to get [ENEMY: " << getName() << "] Attack Comp." << endl;
     return nullptr;
 }
 

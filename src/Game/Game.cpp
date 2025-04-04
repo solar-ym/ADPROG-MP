@@ -10,7 +10,9 @@ void Game::init(){
     
     sceneManager->registerScene(new BattleScene("Battle Screen", roundNum, player));
     
-    sceneManager->registerScene(new EndingScreen("Ending Screen"));
+    sceneManager->registerScene(new EndingScreen("Win Screen"));
+
+    sceneManager->registerScene(new EndingScreen("Lose Screen"));
 
     sceneManager->loadScene(sceneManager->SCREEN_starting);
 
@@ -24,8 +26,7 @@ void Game::update(Time deltaTime) {
     sceneManager->updateCurrentScene();
     if (player->getLives() <= 0) {
         player->setLives(Drillku::RESETLIVES);
-        sceneManager->loadScene(SceneManager::SCREEN_ending);
-        cout << "Should be loading ending..." << endl;
+        sceneManager->loadScene(SceneManager::SCREEN_loss);
     }
 }
 
@@ -33,9 +34,8 @@ void Game::draw(RenderWindow *window){
     sceneManager->drawCurrentScene(window);
 }
 
-void Game::keyPressTrigger(Keyboard::Scan keyCode) {
-    if (sceneManager->getCurrentScene() != sceneManager->SCREEN_starting && 
-    sceneManager->getCurrentScene() != sceneManager->SCREEN_ending) {
+void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
+    if (sceneManager->getCurrentScene() == sceneManager->SCREEN_battle) {
         
         MovementComp* moveComp = player->getMoveComp();
         MovementComp::MOVE_TYPE isFacing = moveComp->isFacing();
@@ -79,9 +79,13 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
 
         if (keyCode == sf::Keyboard::Scan::K) {
             if(dynamic_cast<BattleScene*>
-              (sceneManager->getSpecificScene(sceneManager->SCREEN_round1))->getAliveEnemies() == 0){
-                if (roundNum < 12) roundNum++;
-                sceneManager->reloadBattle(roundNum);
+              (sceneManager->getSpecificScene(sceneManager->SCREEN_battle))->getAliveEnemies() == 0){
+                if (roundNum < 13) roundNum++;
+                if (roundNum > 12) {
+                    player->setLives(Drillku::RESETLIVES);
+                    sceneManager->loadScene(SceneManager::SCREEN_ending);
+                } else
+                    sceneManager->reloadBattle(roundNum);
             }
         }
         if (keyCode == sf::Keyboard::Scan::Left) {
@@ -95,9 +99,11 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
             //Player is selecting the starting button
             if(dynamic_cast<StartingScene*>
               (sceneManager->getSpecificScene(sceneManager->SCREEN_starting))->getOnStart()){
-              sceneManager->loadScene(sceneManager->SCREEN_round1);
-            } else //Exit from game
-                cout << "SHOULD EXIT!" << endl;
+              sceneManager->loadScene(sceneManager->SCREEN_battle);
+            } else {
+                sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
+                window->close();
+            }
         }
         if (keyCode == sf::Keyboard::Scan::W || 
             keyCode == sf::Keyboard::Scan::A ||
@@ -106,21 +112,23 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
                 dynamic_cast<StartingScene*>
                 (sceneManager->getSpecificScene(sceneManager->SCREEN_starting))->toggleOnStart();
         }
-    } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_ending) { //At the ending screen
+    } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_ending || sceneManager->getCurrentScene() == sceneManager->SCREEN_loss) { //At the ending screen
         if (keyCode == sf::Keyboard::Scan::M){ 
-            //Player is selecting the starting button
+
             if(dynamic_cast<EndingScreen*>
-              (sceneManager->getSpecificScene(sceneManager->SCREEN_ending))->getOnStart()){
+              (sceneManager->getSpecificScene(sceneManager->getCurrentScene()))->getOnStart()){
               sceneManager->loadScene(sceneManager->SCREEN_starting);
-            } else //Exit from game
-                cout << "SHOULD EXIT!" << endl;
+            } else {
+                sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
+                window->close();
+            }
         }
         if (keyCode == sf::Keyboard::Scan::W || 
             keyCode == sf::Keyboard::Scan::A ||
             keyCode == sf::Keyboard::Scan::S ||
             keyCode == sf::Keyboard::Scan::D ){
                 dynamic_cast<EndingScreen*>
-                (sceneManager->getSpecificScene(sceneManager->SCREEN_ending))->toggleOnStart();
+                (sceneManager->getSpecificScene(sceneManager->getCurrentScene()))->toggleOnStart();
         }
     }
 }

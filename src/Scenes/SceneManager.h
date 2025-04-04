@@ -4,7 +4,7 @@
 
 class SceneManager {
     public:
-        enum SCENE_ID {SCREEN_starting, SCREEN_round1, SCREEN_ending};
+        enum SCENE_ID {SCREEN_starting, SCREEN_battle, SCREEN_ending, SCREEN_loss};
 
         SceneManager();
 
@@ -20,10 +20,11 @@ class SceneManager {
 	    void drawCurrentScene(RenderWindow *window);
         int getCurrentScene();
         Scene* getSpecificScene(SCENE_ID id);
+        Scene* getSpecificScene(int id);
 
         ~SceneManager();
     private:
         static SceneManager* myInstance;
         vector<Scene*> scenes;
-        int currentScene;
+        int currentScene = -1;
 };

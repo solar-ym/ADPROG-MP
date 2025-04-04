@@ -9,10 +9,8 @@ void SceneManager :: registerScene(Scene* scene){
 }
 
 void SceneManager :: loadScene(SCENE_ID id) {
-    cout << "id recieved: " << endl;
     if(-1!=currentScene && id!=currentScene)
         scenes[currentScene]->onUnload();
-    cout << "previous scene unloaded." << endl;
     currentScene = id;
 
     scenes[currentScene]->onLoad();
@@ -40,6 +38,10 @@ int  SceneManager :: getCurrentScene() {
 }
 
 Scene* SceneManager :: getSpecificScene(SCENE_ID id){
+    return scenes[id];
+}
+
+Scene* SceneManager :: getSpecificScene(int id){
     return scenes[id];
 }
 
