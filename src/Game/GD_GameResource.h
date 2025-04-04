@@ -7,16 +7,20 @@ class GD_GameResource{
 	public:
 		static GD_GameResource* createInstance();
 		unordered_map<string,IntRect>* getAtlas();
-		unordered_map<string,IntRect>* getUIAtlas();
+		unordered_map<string,IntRect>* getUIAtlas1();
+		unordered_map<string,IntRect>* getUIAtlas2();
 		Texture* getTexture();
-		Texture* getUITexture();
+		Texture* getUITexture1();
+		Texture* getUITexture2();
 		Font* getFont();
 	private:
 		static GD_GameResource* myInstance;
 		unordered_map<string,IntRect>* atlas;
-		unordered_map<string,IntRect>* UIAtlas;
+		unordered_map<string,IntRect>* UIAtlas1;
+		unordered_map<string,IntRect>* UIAtlas2;
 		Texture texture;
-		Texture UITexture;
+		Texture UITexture1;
+		Texture UITexture2;
 		Font font;
 		GD_GameResource();
 };

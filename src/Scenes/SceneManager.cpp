@@ -38,6 +38,10 @@ int  SceneManager :: getCurrentScene() {
     return currentScene;
 }
 
+Scene* SceneManager :: getSpecificScene(SCENE_ID id){
+    return scenes[id];
+}
+
 SceneManager :: ~SceneManager() { 
     scenes[currentScene]->onUnload();
     for(Scene* s: scenes) delete s;

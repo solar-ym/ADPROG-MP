@@ -70,17 +70,30 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
             player->getAtkComp()->reorient();
         }
 
-        if (keyCode == sf::Keyboard::Scan::Space)
-            sceneManager->loadScene(sceneManager->SCREEN_starting);
-
         //TEMPORARY
         if (keyCode == sf::Keyboard::Scan::I) {
             if (roundNum < 12) roundNum++;
             sceneManager->reloadBattle(roundNum);
         }
-    } else {
-        if (keyCode == sf::Keyboard::Scan::Space) 
-            sceneManager->loadScene(sceneManager->SCREEN_round1);
+    } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_starting) { //It is at the starting screen
+        if (keyCode == sf::Keyboard::Scan::M){ 
+            //Player is selecting the starting button
+            if(dynamic_cast<StartingScene*>
+              (sceneManager->getSpecificScene(sceneManager->SCREEN_starting))->getOnStart()){
+              sceneManager->loadScene(sceneManager->SCREEN_round1);
+            } else //Exit from game
+                cout << "SHOULD EXIT!" << endl;
+        }
+        if (keyCode == sf::Keyboard::Scan::W || 
+            keyCode == sf::Keyboard::Scan::A ||
+            keyCode == sf::Keyboard::Scan::S ||
+            keyCode == sf::Keyboard::Scan::D ){
+                dynamic_cast<StartingScene*>
+                (sceneManager->getSpecificScene(sceneManager->SCREEN_starting))->toggleOnStart();
+        }
+    } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_ending) { //At the ending screen
+        //If toggle is on main menu, load starting screen
+        //Else close the game
     }
 }
 
