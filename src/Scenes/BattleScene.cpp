@@ -21,11 +21,20 @@ void BattleScene :: onLoad() {
                                 TILE_SIZE * (SKY_HEIGHT-1)});
     addObject(livesText);
 
+/*
+ 0 1 2
+ 3 4 5
+*/
+
     for(int i = 0; i < player->getLives(); i++){
+        if(i > 3)  
         noOfLives.push_back(new UIAsset("UI_livesIcon", 
                                     {TILE_SIZE * (DIRT_WIDTH+i), 
                                     TILE_SIZE * (SKY_HEIGHT)}));
-
+        else
+        noOfLives.push_back(new UIAsset("UI_livesIcon", 
+                {TILE_SIZE * (DIRT_WIDTH+(i%3)), 
+                TILE_SIZE * (SKY_HEIGHT+1)}));
     }
 
     //TEMP
