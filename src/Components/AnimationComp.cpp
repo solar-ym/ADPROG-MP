@@ -175,7 +175,6 @@ void AnimationComp :: animate() {
         else if (geygar->getIsSquashed()) {
             playSequence("Squashed");
             changeTexture(currentFrameIndex);
-            if (internalTime >= 20) geygar->setTileXY(999, 999);
         } 
 
         else if (geygar->getIsAttacking()) {
