@@ -8,7 +8,7 @@ Drillku :: Drillku (string name, string textureName) : Entity(name) {
     entSprite = new Sprite(*res->getTexture(),rect);
 
     entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
-    setTileXY(6,6);
+    setTileXY(6,5);
 
     attackSprite = new EntityAttack(this, "ATTACK_drillku.png");
     attackSprite->alterTextureRect(IntRect({140, 0}, {10,50})); 

@@ -12,6 +12,7 @@
 class BattleScene : public Scene {
     private:
         int roundNum;
+        int prevRoundNum;
         vector<int> roundData;
         Drillku* player;
         Tunnel* currentTunnel = nullptr;
@@ -27,6 +28,10 @@ class BattleScene : public Scene {
         vector<Flower*> currentFlowers;
 
         Vector2i playerPrevTile;
+
+        VeggieFactory veggieMaker;
+        vector<Veggie*> currentVeggies;
+        int droppedRocks = 0;
     public:
         BattleScene(string name, int roundNum, Drillku* player);
 
@@ -42,7 +47,10 @@ class BattleScene : public Scene {
         void draw(RenderWindow* window);
 
         // Used to create the starting tunnels that exist to hold enemies
+        void initStartTunnel();
         void initializeTunnel(int x, int y, int enemyType, int type);
         
         void setRoundNum(int id);
+
+        vector<Veggie*> getAllVeggies();
 };

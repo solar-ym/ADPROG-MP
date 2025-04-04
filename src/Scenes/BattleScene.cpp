@@ -13,18 +13,26 @@ BattleScene :: BattleScene(string name, int roundNum, Drillku* player) : Scene(n
 
 void BattleScene :: onLoad() {
     roundData = dataLoader.loadData(roundNum);
+    prevRoundNum = roundNum;
 
     Background* bg  = new Background("BG1_norm");
     addObject(bg);
 
     // TUNNELS
+    initStartTunnel();
     for (int i = 0; i < roundData.size(); i += 4) {
         initializeTunnel(roundData[i], roundData[i+1], roundData[i+2], roundData[i+3]);
     }
 
     // FIRST FLOWER
     currentFlowers.push_back(new Flower(Flower::BUD));
-    currentFlowers.back()->setTileXY(10, 1);
+    currentFlowers.back()->setTileXY(9, 1);
+
+    // VEGGIES
+    for(int i = VeggieFactory::CARROT; i <= VeggieFactory::GARLIC; i++){
+        //Create all of the veggies
+        currentVeggies.push_back(dynamic_cast<Veggie*>(veggieMaker.create(i, 6, 6)));
+    }
 }
 
 void BattleScene :: onUnload() {
@@ -36,7 +44,10 @@ void BattleScene :: onUnload() {
     tunManager->fullReset();
     lastFacing = MovementComp::RIGHT;
     currentEnemies.clear();
-    currentFlowers.clear();
+    for(Flower* flower : currentFlowers)
+        delete flower;
+    for(Veggie* veggie : currentVeggies)
+        delete veggie;
     delete currentTunnel;
     delete colSystem;
 }
@@ -52,26 +63,31 @@ void BattleScene :: reloadRoundData() {
         //Basically  on load it pushes back a new flower into the vector
         //Then when its like rounds 2->4, it gets the tile x and tile y (tho y doesnt matter but more dynamic ig)
         //then it pushes back a new flower with that tile x - 2 (since they go to each other's left)
-        int flowerXPos, flowerYPos; 
-        flowerXPos = currentFlowers.back()->getTileX() - 2;
-        flowerYPos = currentFlowers.back()->getTileY();
-        currentFlowers.push_back(new Flower(Flower::BUD));
-        currentFlowers.back()->setTileXY(flowerXPos, flowerYPos);
+        //We only want 4 flowers for the first four rounds
+        if(prevRoundNum != roundNum){
+            int flowerXPos, flowerYPos; 
+            flowerXPos = currentFlowers.back()->getTileX() - 2;
+            flowerYPos = currentFlowers.back()->getTileY();
+            currentFlowers.push_back(new Flower(Flower::BUD));
+            currentFlowers.back()->setTileXY(flowerXPos, flowerYPos);
+        }
 
     } else if (roundNum > 8) {
         Background* bg  = new Background("BG3_norm");
         addObject(bg);
 
         //If the current one is a mid stage, turn into a bloom
-        for(int i = 0; i < currentFlowers.size(); i++){
-            if(currentFlowers[i]->getFlowerStage() == Flower::MID){
-                int flowerXPos, flowerYPos; 
-                flowerXPos = currentFlowers[i]->getTileX();
-                flowerYPos = currentFlowers[i]->getTileY();
-            
-                currentFlowers[i]->changeTexture(Flower::BLOOM);
-                currentFlowers[i]->setTileXY(flowerXPos, flowerYPos);
-                break;
+        if(prevRoundNum != roundNum){
+            for(int i = 0; i < currentFlowers.size(); i++){
+                if(currentFlowers[i]->getFlowerStage() == Flower::MID){
+                    int flowerXPos, flowerYPos; 
+                    flowerXPos = currentFlowers[i]->getTileX();
+                    flowerYPos = currentFlowers[i]->getTileY();
+                
+                    currentFlowers[i]->changeTexture(Flower::BLOOM);
+                    currentFlowers[i]->setTileXY(flowerXPos, flowerYPos);
+                    break;
+                }
             }
         }
     } else {
@@ -79,19 +95,22 @@ void BattleScene :: reloadRoundData() {
         addObject(bg);
 
         //If the current one is a bud, then change current one to mid and then break
-        for(int i = 0; i < currentFlowers.size(); i++){
-            if(currentFlowers[i]->getFlowerStage() == Flower::BUD){
-                int flowerXPos, flowerYPos; 
+        if(prevRoundNum != roundNum){
+            for(int i = 0; i < currentFlowers.size(); i++){
+                if(currentFlowers[i]->getFlowerStage() == Flower::BUD){
+                    int flowerXPos, flowerYPos; 
+                    
+                    flowerXPos = currentFlowers[i]->getTileX();
+                    flowerYPos = currentFlowers[i]->getTileY();
                 
-                flowerXPos = currentFlowers[i]->getTileX();
-                flowerYPos = currentFlowers[i]->getTileY();
-            
-                currentFlowers[i]->changeTexture(Flower::MID);
-                currentFlowers[i]->setTileXY(flowerXPos, flowerYPos);
-                break;
+                    currentFlowers[i]->changeTexture(Flower::MID);
+                    currentFlowers[i]->setTileXY(flowerXPos, flowerYPos);
+                    break;
+                }
             }
         }
     }
+
     cout << "[BATTLE SCREEN] New background created" << endl;
 
     if (!roundData.empty()) {
@@ -106,11 +125,30 @@ void BattleScene :: reloadRoundData() {
     
     roundData = dataLoader.loadData(roundNum);
     
+    initStartTunnel();
     for (int i = 0; i < roundData.size(); i += 4) {
         initializeTunnel(roundData[i], roundData[i+1], roundData[i+2], roundData[i+3]);
     }
 
-    player->setTileXY(6,6);
+    player->setTileXY(6,5);
+
+    //No need to reload flowers when going to the next round
+
+    //Reload veggies when moving onto the next round
+    for(int i = 0; i < currentVeggies.size(); i++){
+        if(currentVeggies[i]->getEnabled()){
+            currentVeggies[i]->setEnabled(false);
+            break;
+        }
+    }
+
+    //Reload the rocks that have fallen
+    //TEMPORARY v
+    //droppedRocks++;    
+    droppedRocks = 0;
+    //cout << droppedRocks << endl;
+
+    prevRoundNum = roundNum;
 }
 
 void BattleScene :: dig() {
@@ -239,6 +277,39 @@ void BattleScene :: update() {
     }
     lastFacing = player->getMoveComp()->isFacing();
     playerPrevTile.x = player->getTileX();    playerPrevTile.y = player->getTileY();
+
+    if(droppedRocks >= 3){
+        switch(roundNum){
+            case 1: // ROUND 1 - CARROT
+                currentVeggies[VeggieFactory::CARROT]->setEnabled(true);
+                break;
+            case 2: // ROUND 2 - TURNIP
+                currentVeggies[VeggieFactory::TURNIP]->setEnabled(true);
+                break;
+            case 3: // ROUND 3 - MUSHROOM
+                currentVeggies[VeggieFactory::MUSHROOM]->setEnabled(true);
+                break;
+            case 4: // ROUND 4-5 - LEEK
+            case 5: 
+                currentVeggies[VeggieFactory::LEEK]->setEnabled(true);
+                break;
+            case 6: // ROUND 6-7 - EGGPLANT
+            case 7:
+                currentVeggies[VeggieFactory::EGGPLANT]->setEnabled(true);
+                break;
+            case 8: // ROUND 8-9 - PEPPER
+            case 9:
+                currentVeggies[VeggieFactory::PEPPER]->setEnabled(true);
+                break;
+            case 10: // ROUND 10-11 - TOMATO
+            case 11:
+                currentVeggies[VeggieFactory::TOMATO]->setEnabled(true);
+                break;
+            case 12: // ROUND 12 - GARLIC
+                currentVeggies[VeggieFactory::GARLIC]->setEnabled(true);
+                break;
+        }
+    }
 }
 
 void BattleScene :: draw(RenderWindow* window) {
@@ -250,6 +321,40 @@ void BattleScene :: draw(RenderWindow* window) {
     for (Flower* flower : currentFlowers){
         flower->draw(window);
     }
+    for (Veggie* veggie: currentVeggies){
+        veggie->draw(window);
+    }
+}
+
+void BattleScene :: initStartTunnel(){
+    for(int i = 0; i < 5; i++){
+        Tunnel* straight = new Tunnel(Tunnel::STRAIGHT);
+        straight->setTileXY(6, i);
+
+        tunManager->updateTunnels(straight);
+
+        addObject(straight);
+    }
+
+    Tunnel* tunnelCap1 = new Tunnel(Tunnel::CAP);
+    Tunnel* tunnelCap2 = new Tunnel(Tunnel::CAP);
+    Tunnel* tunnelMiddle = new Tunnel(Tunnel::STRAIGHT);
+
+    tunnelCap1->setTileXY(5, 5);
+    SpriteManip::turnLeft(tunnelCap1);
+    tunManager->updateTunnels(tunnelCap1);
+    
+    tunnelMiddle->setTileXY(6, 5);
+    SpriteManip::turnLeft(tunnelMiddle);
+    tunManager->updateTunnels(tunnelMiddle);
+    
+    tunnelCap2->setTileXY(7, 5);
+    SpriteManip::turnRight(tunnelCap2);
+    tunManager->updateTunnels(tunnelCap2);
+
+    addObject(tunnelCap1);
+    addObject(tunnelCap2);
+    addObject(tunnelMiddle);
 }
 
 // Used to create the starting tunnels that exist to hold enemies
@@ -302,4 +407,8 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
 
 void BattleScene :: setRoundNum(int id) {
     roundNum = id;
+}
+
+vector<Veggie*> BattleScene::getAllVeggies(){
+    return currentVeggies;
 }

@@ -22,7 +22,5 @@ class Game: public BaseEngine{
         void keyPressTrigger(Keyboard::Scan keyCode);
         void keyReleaseTrigger(Keyboard::Scan keyCode);
 
-        void initializeVeggieList();
-
         ~Game();
 };
