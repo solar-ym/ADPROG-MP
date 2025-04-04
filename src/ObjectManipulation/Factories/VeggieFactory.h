@@ -4,8 +4,8 @@
 
 class VeggieFactory : public EntityFactory {
     public:
-        enum VegType {CARROT, EGGPLANT, GARLIC, LEEK,
-                      MUSHROOM, PEPPER, TOMATO, TURNIP};
+        enum VegType {CARROT, TURNIP, MUSHROOM, LEEK,
+                      EGGPLANT, PEPPER, TOMATO, GARLIC};
 
-        Entity* create(int id);
+        Entity* create(int id, int x, int y);
 };

@@ -4,10 +4,6 @@
 #include "../Components/ColliderComp.h"
 
 class Flower : public Entity {
-    private:
-        int x;
-        int y;
-        Sprite* entSprite;
     public:
         enum FlowerStage {BUD, MID, BLOOM};
         Flower();
@@ -20,7 +16,15 @@ class Flower : public Entity {
         void initialize();
         void update();
         void draw(RenderWindow *window);
+        void changeTexture(FlowerStage stage);
         ColliderComp* getColliderComp();
 
         Sprite* getSprite();
+
+        FlowerStage getFlowerStage();
+    private:
+        int x;
+        int y;
+        Sprite* entSprite;
+        FlowerStage stage;
 };

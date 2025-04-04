@@ -73,6 +73,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
         if (keyCode == sf::Keyboard::Scan::Space)
             sceneManager->loadScene(sceneManager->SCREEN_starting);
 
+        //TEMPORARY
         if (keyCode == sf::Keyboard::Scan::I) {
             if (roundNum < 12) roundNum++;
             sceneManager->reloadBattle(roundNum);
@@ -101,10 +102,6 @@ void Game::keyReleaseTrigger(Keyboard::Scan keyCode) {
     } else if (keyCode == sf::Keyboard::Scan::D && isFacing == MovementComp::RIGHT) {
         player->getMoveComp()->setMovingBool(false);
     }
-}
-
-void Game :: initializeVeggieList() {
-    // push back all veggies here 
 }
 
 Game::~Game() {
