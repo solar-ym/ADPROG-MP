@@ -76,7 +76,7 @@ void BattleScene :: onUnload() {
     for(UIAsset* livesIcon : noOfLives)
         delete livesIcon;
 
-    if (!noOfLives.clear())
+    if (!noOfLives.empty())
         noOfLives.clear();
 
     for(Flower* flower : currentFlowers)
