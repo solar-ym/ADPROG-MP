@@ -7,8 +7,6 @@ BattleScene :: BattleScene(string name, int roundNum, Drillku* player) : Scene(n
 
     colSystem = new CollisionSystem();
     tunManager = new TunnelManager();
-    // pookiePool = new EnemyPool(4, EnemyFactory::POOKIE);
-    // geygarPool = new EnemyPool(3, EnemyFactory::GEYGAR);
 }
 
 void BattleScene :: onLoad() {
@@ -33,6 +31,8 @@ void BattleScene :: onLoad() {
         //Create all of the veggies
         currentVeggies.push_back(dynamic_cast<Veggie*>(veggieMaker.create(i, 6, 6)));
     }
+
+    makeRocks();
 }
 
 void BattleScene :: onUnload() {
@@ -46,8 +46,13 @@ void BattleScene :: onUnload() {
     currentEnemies.clear();
     for(Flower* flower : currentFlowers)
         delete flower;
+    currentFlowers.clear();
     for(Veggie* veggie : currentVeggies)
         delete veggie;
+    currentVeggies.clear();
+    for (Rock* rock : currentRocks)
+        delete rock;
+    currentRocks.clear();
     delete currentTunnel;
     delete colSystem;
 }
@@ -111,7 +116,7 @@ void BattleScene :: reloadRoundData() {
         }
     }
 
-    cout << "[BATTLE SCREEN] New background created" << endl;
+    makeRocks();
 
     if (!roundData.empty()) {
         roundData.clear();
@@ -142,11 +147,7 @@ void BattleScene :: reloadRoundData() {
         }
     }
 
-    //Reload the rocks that have fallen
-    //TEMPORARY v
-    //droppedRocks++;    
     droppedRocks = 0;
-    //cout << droppedRocks << endl;
 
     prevRoundNum = roundNum;
 }
@@ -264,8 +265,16 @@ void BattleScene :: update() {
         for (Enemy* en : currentEnemies) {
             en->update();
             if (!en->getIsDead()) 
-            en->behave()->perform(tunManager);
+                en->behave()->perform(tunManager);
         }
+        int n = 0;
+        for (Rock* rock: currentRocks) {
+            rock->update();
+            if (rock->getRunning())
+                n++;
+        }
+        droppedRocks = n;
+         cout << "rocks: " << droppedRocks << endl;
     }
     
     colSystem->listen(this, currentEnemies, player, tunManager);
@@ -315,15 +324,14 @@ void BattleScene :: update() {
 
 void BattleScene :: draw(RenderWindow* window) {
     Scene::draw(window);
-    for (Enemy* en : currentEnemies) {
+    for (Enemy* en : currentEnemies) 
         en->draw(window);
-    }
-    for (Flower* flower : currentFlowers){
+    for (Flower* flower : currentFlowers)
         flower->draw(window);
-    }
-    for (Veggie* veggie: currentVeggies){
+    for (Veggie* veggie: currentVeggies)
         veggie->draw(window);
-    }
+    for (Rock* rock: currentRocks)
+        rock->draw(window);
 
     player->draw(window);
 }
@@ -405,6 +413,23 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     addObject(tunnelCap2);
     newEnemy->behave()->makeTarget(player);
     currentEnemies.push_back(newEnemy);
+}
+
+void BattleScene :: makeRocks() {
+    currentRocks.clear();
+    int n = MovementComp::randomize(3, 5);
+
+    for (int i = 0; i < n; i++) {
+        int x = MovementComp::randomize(0, DIRT_WIDTH-1);
+        int y = MovementComp::randomize(0, DIRT_HEIGHT-1);
+
+        while (tunManager->hasTunnel(x, y)) {
+            x = MovementComp::randomize(0, DIRT_WIDTH-1);
+            y = MovementComp::randomize(0, DIRT_HEIGHT-1);
+        }
+
+        currentRocks.push_back(new Rock(x, y, tunManager));
+    }
 }
 
 void BattleScene :: setRoundNum(int id) {

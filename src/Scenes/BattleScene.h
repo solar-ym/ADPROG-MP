@@ -8,6 +8,7 @@
 #include "../Objects/Background.h"
 
 #include "../Objects/Flower.h"
+#include "../Objects/Rock.h"
 
 class BattleScene : public Scene {
     private:
@@ -31,6 +32,8 @@ class BattleScene : public Scene {
 
         VeggieFactory veggieMaker;
         vector<Veggie*> currentVeggies;
+
+        vector<Rock*> currentRocks;
         int droppedRocks = 0;
     public:
         BattleScene(string name, int roundNum, Drillku* player);
@@ -49,6 +52,7 @@ class BattleScene : public Scene {
         // Used to create the starting tunnels that exist to hold enemies
         void initStartTunnel();
         void initializeTunnel(int x, int y, int enemyType, int type);
+        void makeRocks();
         
         void setRoundNum(int id);
 

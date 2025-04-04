@@ -33,6 +33,4 @@ class Entity : public GameObject {
         void initialize();
         void update();
         void draw(RenderWindow *window);
-
-        virtual ColliderComp* getColliderComp() = 0;
 };
