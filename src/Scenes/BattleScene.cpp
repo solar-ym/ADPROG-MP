@@ -293,6 +293,8 @@ void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
 void BattleScene :: update() {
     player->update();
 
+    colSystem->listen(this, currentEnemies, player, tunManager);
+
     if (!(player->getIsDying())) {
         Scene::update();
         for (Enemy* en : currentEnemies) {
@@ -308,8 +310,6 @@ void BattleScene :: update() {
         }
         droppedRocks = n;
     }
-    
-    colSystem->listen(this, currentEnemies, player, tunManager);
 
     if (lastFacing != player->getMoveComp()->isFacing() && currentTunnel != nullptr) {
         fixTunnel();
