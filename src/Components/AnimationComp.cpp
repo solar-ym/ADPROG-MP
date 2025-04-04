@@ -106,6 +106,14 @@ void AnimationComp :: animate() {
             changeTexture(currentFrameIndex);
         }
 
+        else if (player->getIsSquashed() && internalTime >= 20) {
+            if (player->getMoveComp()->isFacing() == MovementComp::LEFT || player->getMoveComp()->isFacing() == MovementComp::RIGHT)
+                playSequence("Squashed1");
+            else
+                playSequence("Squashed2");
+            changeTexture(currentFrameIndex);
+        } 
+
         else if (player->getIsAttacking()) {
             playSequence("Attacking");
             changeTexture(currentFrameIndex);
@@ -135,6 +143,11 @@ void AnimationComp :: animate() {
             changeTexture(currentFrameIndex);
         }
 
+        else if (pookie->getIsSquashed()) {
+            playSequence("Squashed");
+            changeTexture(currentFrameIndex);
+        } 
+
         else if (pookie->getMoveComp()->getIsMoving() && pookie->getGhostMode() && internalTime >= 10) {
             playSequence("Ghost");
             changeTexture(currentFrameIndex);
@@ -158,6 +171,12 @@ void AnimationComp :: animate() {
             playSequence("Popping");
             changeTexture(currentFrameIndex);
         }  
+
+        else if (geygar->getIsSquashed()) {
+            playSequence("Squashed");
+            changeTexture(currentFrameIndex);
+            if (internalTime >= 20) geygar->setTileXY(999, 999);
+        } 
 
         else if (geygar->getIsAttacking()) {
             playSequence("Attacking");
@@ -190,7 +209,7 @@ void AnimationComp :: playSequence(string seqName) {
         }
     }
 
-    if (seqName == "Popping" && currentFrameIndex == sequence.end()) {
+    if ((seqName == "Popping" || seqName == "Squashed") && currentFrameIndex == sequence.end()) {
         Enemy* enemy = dynamic_cast<Enemy*>(owner);
         enemy->setIsDead(true);
     }
@@ -201,9 +220,11 @@ void AnimationComp :: playSequence(string seqName) {
         currentFrameIndex++;
     } else if (sequence.isLooped()) {
         currentFrameIndex = sequence.start();
-    } else if (seqName == "Defeat" && currentFrameIndex == sequence.end()) {
+    } else if ((seqName == "Defeat" || seqName == "Squashed1" || seqName == "Squashed2")
+               && currentFrameIndex == sequence.end()) {
         Drillku* player = dynamic_cast<Drillku*>(owner);
         player->setIsDying(false);
+        player->setIsSquashed(false);
         currentFrameIndex = allSequences[WALK].start();
     } 
  

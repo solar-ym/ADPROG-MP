@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Scenes/Scene.h"
+#include "../Scenes/BattleScene.h"
 
 class CollisionSystem{
     private: 
@@ -12,7 +12,7 @@ class CollisionSystem{
         CollisionSystem();
         void listen(Scene* scene, vector<Enemy*> enemies, Drillku* player, TunnelManager* manager);
         
-        void onPlayerCollision(Scene* scene, Drillku* player, Enemy* enemy);
+        void onPlayerCollision(int deathType, Drillku* player);
 
         bool collisionComputation(Entity* attacker, TunnelManager* manager);
 

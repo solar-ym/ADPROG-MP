@@ -28,6 +28,11 @@ void Enemy :: kill() {
     getMoveComp()->setMovingBool(false);
 }
 
+void Enemy :: squash() {
+    squashed = true;
+    getMoveComp()->setMovingBool(false);
+}
+
 // POSITION
 
 void Enemy :: setTileXY(int xV, int yV) {
@@ -133,6 +138,12 @@ bool Enemy :: getIsDead() {
 }
 void Enemy :: setIsDead(bool value) {
     isDead = value;
+}
+bool Enemy :: getIsSquashed() {
+    return squashed;
+}
+void Enemy :: setIsSquashed(bool value) {
+    squashed = value;
 }
 bool Enemy :: getGhostMode() {
     return ghostMode;

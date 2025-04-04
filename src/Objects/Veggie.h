@@ -12,7 +12,7 @@ class Veggie : public Entity {
         Sprite* entSprite;
         
         int timer;
-        bool isEnabled;
+        bool isEnabled = false;
     public:
         Veggie();
         Veggie(string textureName);

@@ -16,6 +16,7 @@ class Enemy : public Entity {
         // animation
         bool isDying = false;
         bool isDead = false;
+        bool squashed = false;
         bool isAttacking = false;
         bool ghostMode = false;
     public:
@@ -25,6 +26,7 @@ class Enemy : public Entity {
         void addComponent(Component* newComp);
 
         void kill();
+        void squash();
 
         void setTileXY(int xV, int yV);
         int getTileX();
@@ -45,6 +47,9 @@ class Enemy : public Entity {
         void setIsDying(bool value);
         bool getIsDead();
         void setIsDead(bool value);
+        bool getIsSquashed();
+        void setIsSquashed(bool value);
+
         bool getGhostMode();
         void setGhostMode(bool value);
         void setIsAttacking(bool value);

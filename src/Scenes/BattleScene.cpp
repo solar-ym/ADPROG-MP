@@ -29,9 +29,10 @@ void BattleScene :: onLoad() {
     // VEGGIES
     for(int i = VeggieFactory::CARROT; i <= VeggieFactory::GARLIC; i++){
         //Create all of the veggies
-        currentVeggies.push_back(dynamic_cast<Veggie*>(veggieMaker.create(i, 6, 6)));
+        currentVeggies.push_back(dynamic_cast<Veggie*>(veggieMaker.create(i, 6, 5)));
     }
 
+    roundVeggie = currentVeggies[VeggieFactory::CARROT];
     makeRocks();
 }
 
@@ -116,8 +117,6 @@ void BattleScene :: reloadRoundData() {
         }
     }
 
-    makeRocks();
-
     if (!roundData.empty()) {
         roundData.clear();
     }
@@ -147,6 +146,38 @@ void BattleScene :: reloadRoundData() {
         }
     }
 
+    switch(roundNum){
+        case 1: // ROUND 1 - CARROT
+            roundVeggie = currentVeggies[VeggieFactory::CARROT];
+            break;
+        case 2: // ROUND 2 - TURNIP
+            roundVeggie = currentVeggies[VeggieFactory::TURNIP];
+            break;
+        case 3: // ROUND 3 - MUSHROOM
+            roundVeggie = currentVeggies[VeggieFactory::MUSHROOM];
+            break;
+        case 4: // ROUND 4-5 - LEEK
+        case 5: 
+            roundVeggie = currentVeggies[VeggieFactory::LEEK];
+            break;
+        case 6: // ROUND 6-7 - EGGPLANT
+        case 7:
+            roundVeggie = currentVeggies[VeggieFactory::EGGPLANT];
+            break;
+        case 8: // ROUND 8-9 - PEPPER
+        case 9:
+            roundVeggie = currentVeggies[VeggieFactory::PEPPER];
+            break;
+        case 10: // ROUND 10-11 - TOMATO
+        case 11:
+            roundVeggie = currentVeggies[VeggieFactory::TOMATO];
+            break;
+        case 12: // ROUND 12 - GARLIC
+            roundVeggie = currentVeggies[VeggieFactory::GARLIC];
+            break;
+    }
+
+    makeRocks();
     droppedRocks = 0;
 
     prevRoundNum = roundNum;
@@ -274,7 +305,6 @@ void BattleScene :: update() {
                 n++;
         }
         droppedRocks = n;
-         cout << "rocks: " << droppedRocks << endl;
     }
     
     colSystem->listen(this, currentEnemies, player, tunManager);
@@ -288,37 +318,8 @@ void BattleScene :: update() {
     lastFacing = player->getMoveComp()->isFacing();
     playerPrevTile.x = player->getTileX();    playerPrevTile.y = player->getTileY();
 
-    if(droppedRocks >= 3){
-        switch(roundNum){
-            case 1: // ROUND 1 - CARROT
-                currentVeggies[VeggieFactory::CARROT]->setEnabled(true);
-                break;
-            case 2: // ROUND 2 - TURNIP
-                currentVeggies[VeggieFactory::TURNIP]->setEnabled(true);
-                break;
-            case 3: // ROUND 3 - MUSHROOM
-                currentVeggies[VeggieFactory::MUSHROOM]->setEnabled(true);
-                break;
-            case 4: // ROUND 4-5 - LEEK
-            case 5: 
-                currentVeggies[VeggieFactory::LEEK]->setEnabled(true);
-                break;
-            case 6: // ROUND 6-7 - EGGPLANT
-            case 7:
-                currentVeggies[VeggieFactory::EGGPLANT]->setEnabled(true);
-                break;
-            case 8: // ROUND 8-9 - PEPPER
-            case 9:
-                currentVeggies[VeggieFactory::PEPPER]->setEnabled(true);
-                break;
-            case 10: // ROUND 10-11 - TOMATO
-            case 11:
-                currentVeggies[VeggieFactory::TOMATO]->setEnabled(true);
-                break;
-            case 12: // ROUND 12 - GARLIC
-                currentVeggies[VeggieFactory::GARLIC]->setEnabled(true);
-                break;
-        }
+    if(droppedRocks >= 3) {
+        roundVeggie->setEnabled(true);
     }
 }
 
@@ -328,8 +329,7 @@ void BattleScene :: draw(RenderWindow* window) {
         en->draw(window);
     for (Flower* flower : currentFlowers)
         flower->draw(window);
-    for (Veggie* veggie: currentVeggies)
-        veggie->draw(window);
+    roundVeggie->draw(window);
     for (Rock* rock: currentRocks)
         rock->draw(window);
 
@@ -423,7 +423,7 @@ void BattleScene :: makeRocks() {
         int x = MovementComp::randomize(0, DIRT_WIDTH-1);
         int y = MovementComp::randomize(0, DIRT_HEIGHT-1);
 
-        while (tunManager->hasTunnel(x, y)) {
+        while (tunManager->hasTunnel(x, y) || tunManager->hasTunnel(x, y+1)) {
             x = MovementComp::randomize(0, DIRT_WIDTH-1);
             y = MovementComp::randomize(0, DIRT_HEIGHT-1);
         }
@@ -436,6 +436,10 @@ void BattleScene :: setRoundNum(int id) {
     roundNum = id;
 }
 
-vector<Veggie*> BattleScene::getAllVeggies(){
-    return currentVeggies;
+Veggie* BattleScene :: getRoundVeggie(){
+    return roundVeggie;
+}
+
+vector<Rock*> BattleScene :: getAllRocks() {
+    return currentRocks;
 }

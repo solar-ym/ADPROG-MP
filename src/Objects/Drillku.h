@@ -8,7 +8,6 @@ class AnimationComp;
 
 class Drillku : public Entity {
     private:
-        enum ALTER_LIFE {INCREASELIVES, DECREASELIVES, RESETLIVES};
         int livesLeft = 3;
 
         // tile coords
@@ -29,16 +28,18 @@ class Drillku : public Entity {
         bool isDigging = false;
         bool isAttacking = false;
         bool isDying = false;
+        bool squashed = false;
     public:
+        enum ALTER_LIFE {INCREASELIVES, DECREASELIVES, RESETLIVES};
         Drillku();
         Drillku(string name, string textureName);
 
-        // void mikuMove(float x, float y);
-
         void setLives(ALTER_LIFE changeType);
-        void kill();
+        int getLives();
+        void kill(int type);
         bool getIsDying();
         void setIsDying(bool value);
+        void setIsSquashed(bool value);
 
         // attack-related
         void unextendHair();
@@ -59,6 +60,7 @@ class Drillku : public Entity {
         bool getIsDigging();
         void toggleIsAttacking(bool newVaue);
         bool getIsAttacking();
+        bool getIsSquashed();
 
         MovementComp* getMoveComp();
         AttackComp* getAtkComp();

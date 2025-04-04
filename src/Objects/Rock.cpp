@@ -37,9 +37,9 @@ void Rock::update() {
     if (manager->hasTunnel(x, y+1) && isRunning == false)
         isRunning = true;
     
-    if (internalTime < 500 && isRunning) internalTime++;
+    if (internalTime < 200 && isRunning) internalTime++;
 
-    if (internalTime > 200) {
+    if (internalTime > 80) {
         fall();
         internalTime = 0;
     }

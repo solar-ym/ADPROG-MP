@@ -28,25 +28,39 @@ Drillku :: Drillku (string name, string textureName) : Entity(name) {
 
 void Drillku :: setLives(ALTER_LIFE changeType) {
     switch (changeType) {
-        case INCREASELIVES: livesLeft++;
+        case INCREASELIVES: 
+            if (livesLeft < 5) livesLeft++;
             break;
-        case DECREASELIVES: livesLeft--;
+        case DECREASELIVES: 
+            if (livesLeft > 0) livesLeft--;
             break;
         case RESETLIVES: livesLeft = 3;
     }
 }
 
-void Drillku :: kill() {
-    isDying = true;
+int Drillku :: getLives() {
+    return livesLeft;
+}
+
+void Drillku :: kill(int type) {
+    if (type)
+        isDying = true;
+    else 
+        squashed = true;
+
+    // resetting all of drillku's states
     isDigging = false;
     isAttacking = false;
     movement->setMovingBool(false);
     attack->setExtendBool(false);
     attack->setUNExtendBool(false);
     attack->setIsVisible(false);
-    if (movement->checkFlipped()) movement->invertTexture();
+    if (movement->checkFlipped()) 
+        movement->invertTexture();
     entSprite->setRotation(degrees(0));
     attack->reorient();
+
+    setLives(DECREASELIVES);
 }
 
 bool Drillku :: getIsDying() {
@@ -55,6 +69,10 @@ bool Drillku :: getIsDying() {
 
 void Drillku :: setIsDying(bool value) {
     isDying = value;
+}
+
+void Drillku :: setIsSquashed(bool value) {
+    squashed = value;
 }
 
 // ATTACK-RELATED
@@ -149,4 +167,8 @@ void Drillku :: toggleIsDigging(bool newValue) {
 
 EntityAttack* Drillku :: getAttackSprite() {
     return attackSprite;
+}
+
+bool Drillku :: getIsSquashed() {
+    return squashed;
 }

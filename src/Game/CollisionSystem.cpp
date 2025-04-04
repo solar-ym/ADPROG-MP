@@ -2,6 +2,10 @@
 
 CollisionSystem::CollisionSystem() {}
 void CollisionSystem::listen(Scene* scene, vector<Enemy*> enemies, Drillku* player, TunnelManager* manager) {
+    BattleScene* battle = dynamic_cast<BattleScene*>(scene);
+    vector<Rock*> rocks = battle->getAllRocks();
+    Veggie* veggie = battle->getRoundVeggie();
+    
     if (internalTime > 80) {
         scene->reloadRoundData();
         internalTime = 0;
@@ -9,10 +13,16 @@ void CollisionSystem::listen(Scene* scene, vector<Enemy*> enemies, Drillku* play
     }
     
     for (int i = 0; i < enemies.size(); i++) {
+        for (Rock* r : rocks) {
+            if(r->getTileX() == enemies[i]->getTileX() &&
+               r->getTileY() == enemies[i]->getTileY())
+               enemies[i]->squash();
+        }
 
-        // if(enemies[i]->getTileX() == player->getTileX() &&
-        //     enemies[i]->getTileY() == player->getTileY())
-        //     onPlayerCollision(scene, player, enemies[i]);
+        if(enemies[i]->getTileX() == player->getTileX() &&
+            enemies[i]->getTileY() == player->getTileY() &&
+            !(enemies[i]->getIsSquashed()) && !(enemies[i]->getIsDead()) && !(enemies[i]->getIsDying()))
+            onPlayerCollision(1, player);
         if(forcefulComputation(player, enemies[i], true) && player->getAtkComp()->isVisible()) {
             enemyCollided = true;
             onAttackCollision(scene, player, enemies[i]);
@@ -24,7 +34,7 @@ void CollisionSystem::listen(Scene* scene, vector<Enemy*> enemies, Drillku* play
 
         if (enemies[i]->getAtkComp() != nullptr && forcefulComputation(player, enemies[i], false) 
             && enemies[i]->getAtkComp()->isVisible()) {
-            onPlayerCollision(scene, player, enemies[i]);
+            onPlayerCollision(1, player);
             onAttackCollision(enemies[i]);
         } 
         
@@ -33,15 +43,27 @@ void CollisionSystem::listen(Scene* scene, vector<Enemy*> enemies, Drillku* play
             onAttackCollision(enemies[i]);
     }
 
+    for (Rock* r : rocks) {
+        if(r->getTileX() == player->getTileX() &&
+           r->getTileY() == player->getTileY())
+            onPlayerCollision(0, player);
+    }
+
     if (collisionComputation(player, manager) && player->getHairVisibility() && !enemyCollided)
         onAttackCollision(player);
+    
+    if(6 == player->getTileX() &&
+        5 == player->getTileY() && veggie->getEnabled()) {
+            veggie->setTileXY(999,999);
+            player->setLives(Drillku::INCREASELIVES);
+        }
 
     update();
 }
 
-void CollisionSystem::onPlayerCollision(Scene* scene, Drillku* player, Enemy* enemy) {
+void CollisionSystem::onPlayerCollision(int deathType, Drillku* player) {
     if (internalTime == 0) {
-        player->kill();
+        player->kill(deathType);
         running = true;
     }
 }

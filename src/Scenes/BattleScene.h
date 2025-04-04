@@ -32,6 +32,7 @@ class BattleScene : public Scene {
 
         VeggieFactory veggieMaker;
         vector<Veggie*> currentVeggies;
+        Veggie* roundVeggie;
 
         vector<Rock*> currentRocks;
         int droppedRocks = 0;
@@ -56,5 +57,6 @@ class BattleScene : public Scene {
         
         void setRoundNum(int id);
 
-        vector<Veggie*> getAllVeggies();
+        Veggie* getRoundVeggie();
+        vector<Rock*> getAllRocks();
 };
