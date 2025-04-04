@@ -7,7 +7,8 @@ class Enemy;
 
 class EnemyBehaviorComp : public Component {
     private:
-        int internalTime = 0;
+        int cooldown = 150;
+        int internalTime = 150;
         Drillku* target = nullptr;
         TunnelManager* manager = nullptr;
         Enemy* enemy = nullptr;

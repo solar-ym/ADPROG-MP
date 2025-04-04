@@ -53,7 +53,7 @@ class Drillku : public Entity {
         void update();
         void draw(RenderWindow *window);
 
-        void toggleHairVisibility();
+        void setHairVisibility(bool value);
         bool getHairVisibility();
         void toggleIsDigging(bool newValue);
         bool getIsDigging();

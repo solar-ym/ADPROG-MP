@@ -43,8 +43,10 @@ void Drillku :: kill() {
     movement->setMovingBool(false);
     attack->setExtendBool(false);
     attack->setUNExtendBool(false);
+    attack->setIsVisible(false);
     if (movement->checkFlipped()) movement->invertTexture();
     entSprite->setRotation(degrees(0));
+    attack->reorient();
 }
 
 bool Drillku :: getIsDying() {
@@ -90,15 +92,10 @@ int Drillku :: getTileY() {
 void Drillku :: initialize() {}
 
 void Drillku :: update() {
-
-    // attackSprite->update();
-    // x = (entSprite->getPosition().x / TILE_SIZE);
-    // y = (entSprite->getPosition().y / TILE_SIZE) - SKY_HEIGHT;
-
     extendHair();
     unextendHair();
 
-    movement->move();
+    if (!isDying) movement->move();
     anim->animate();
 }
 
@@ -126,8 +123,8 @@ Sprite* Drillku :: getSprite() {
     return entSprite;
 }
 
-void Drillku :: toggleHairVisibility() {
-    attackSprite->toggleVisibility();
+void Drillku :: setHairVisibility(bool value) {
+    attackSprite->setVisibility(value);
 }
 
 bool Drillku :: getIsDigging() {

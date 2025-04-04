@@ -26,7 +26,7 @@ void AttackComp :: unextend() {
             50}));
     } else {
         shouldUnextend = false;
-        attackSprite->toggleVisibility();
+        attackSprite->setVisibility(false);
     }
 }
 
@@ -99,6 +99,9 @@ bool AttackComp :: getExtendBool(int type) {
     else return shouldExtend;
 }
 
+void AttackComp :: setIsVisible(bool newValue) {
+    attackSprite->setVisibility(newValue);
+}
 bool AttackComp :: isVisible() {
     return attackSprite->getVisibility();
 }

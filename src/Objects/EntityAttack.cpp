@@ -10,8 +10,8 @@ EntityAttack::EntityAttack(Entity* owner, string textureName) : Entity("Attack")
     collision->attachComponent(this);
 }
 
-void EntityAttack::toggleVisibility() {
-    isVisible = !isVisible;
+void EntityAttack::setVisibility(bool value) {
+    isVisible = value;
 }
 bool EntityAttack::getVisibility() {
     return isVisible;

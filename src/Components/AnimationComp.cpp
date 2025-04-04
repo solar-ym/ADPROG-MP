@@ -101,10 +101,16 @@ void AnimationComp :: animate() {
     if (owner->getName() == "Player") {
         Drillku* player = dynamic_cast<Drillku*>(owner);
 
-        if (player->getIsAttacking()) {
+        if (player->getIsDying() && internalTime >= 20) {
+            playSequence("Defeat");
+            changeTexture(currentFrameIndex);
+        }
+
+        else if (player->getIsAttacking()) {
             playSequence("Attacking");
             changeTexture(currentFrameIndex);
         } 
+
         else if (player->getMoveComp()->getIsMoving() && player->getIsDigging() && internalTime >= 10) {
             playSequence("Drill");
             changeTexture(currentFrameIndex);
@@ -114,11 +120,6 @@ void AnimationComp :: animate() {
             playSequence("Walk");
             changeTexture(currentFrameIndex);
         } 
-
-        else if (player->getIsDying() && internalTime >= 20) {
-            playSequence("Defeat");
-            changeTexture(currentFrameIndex);
-        }
 
         else {
             changeTexture(currentFrameIndex);

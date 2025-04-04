@@ -2,7 +2,7 @@
 
 CollisionSystem::CollisionSystem() {}
 void CollisionSystem::listen(Scene* scene, vector<Enemy*> enemies, Drillku* player) {
-    if (internalTime > 90) {
+    if (internalTime > 80) {
         scene->reloadRoundData();
         internalTime = 0;
         running = false;

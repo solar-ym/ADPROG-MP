@@ -88,7 +88,7 @@ void EnemyBehaviorComp :: chase() {
                 moveRight(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x+1, y)) && internalTime >= 70) {
+            } else if (!(manager->hasTunnel(x+1, y)) && internalTime >= cooldown) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
@@ -100,7 +100,7 @@ void EnemyBehaviorComp :: chase() {
                 moveLeft(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x-1, y))&& internalTime >= 70) {
+            } else if (!(manager->hasTunnel(x-1, y)) && internalTime >= cooldown) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
@@ -113,7 +113,7 @@ void EnemyBehaviorComp :: chase() {
                 moveDown(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x, y+1))&& internalTime >= 70) {
+            } else if (!(manager->hasTunnel(x, y+1))&& internalTime >= cooldown) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
@@ -125,7 +125,7 @@ void EnemyBehaviorComp :: chase() {
                 moveUp(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x, y-1))&& internalTime >= 70) {
+            } else if (!(manager->hasTunnel(x, y-1))&& internalTime >= cooldown) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
             } else {

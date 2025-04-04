@@ -17,7 +17,7 @@ class EntityAttack : public Entity {
         EntityAttack();
         EntityAttack(Entity* owner, string textureName);
 
-        void toggleVisibility();
+        void setVisibility(bool value);
         bool getVisibility();
         void alterTextureRect(IntRect newRect);
         void setSpriteRotation(Angle newRotation);
