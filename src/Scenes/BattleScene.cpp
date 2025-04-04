@@ -21,13 +21,8 @@ void BattleScene :: onLoad() {
                                 TILE_SIZE * (SKY_HEIGHT-1)});
     addObject(livesText);
 
-/*
- 0 1 2
- 3 4 5
-*/
-
-    for(int i = 0; i < player->getLives(); i++){
-        if(i > 3)  
+    for(int i = 0; i < 6; i++){
+        if(i < 3)  
         noOfLives.push_back(new UIAsset("UI_livesIcon", 
                                     {TILE_SIZE * (DIRT_WIDTH+i), 
                                     TILE_SIZE * (SKY_HEIGHT)}));
@@ -37,18 +32,14 @@ void BattleScene :: onLoad() {
                 TILE_SIZE * (SKY_HEIGHT+1)}));
     }
 
-    //TEMP
-    UIAsset* control = new UIAsset("UI_nextRound",
-                                   {TILE_SIZE * DIRT_WIDTH, 
-                                    TILE_SIZE * (DIRT_HEIGHT)});
-    addObject(control);
-    //TEMP
-    UIAsset* K = new UIAsset("UI_K",
-        {TILE_SIZE * DIRT_WIDTH, 
-         TILE_SIZE * (DIRT_HEIGHT-1)});
-    addObject(K);
+    //UI Assets
+    uiNextRound = new UIAsset("UI_nextRound",
+                            {TILE_SIZE * DIRT_WIDTH, 
+                            TILE_SIZE * (DIRT_HEIGHT)});
+    uiPressK = new UIAsset("UI_K",
+                        {TILE_SIZE * DIRT_WIDTH, 
+                        TILE_SIZE * (DIRT_HEIGHT-1)});
 
-    
     // TUNNELS
     initStartTunnel();
     for (int i = 0; i < roundData.size(); i += 4) {
@@ -361,8 +352,12 @@ void BattleScene :: update() {
 
 void BattleScene :: draw(RenderWindow* window) {
     Scene::draw(window);
-    for (UIAsset* livesIcon : noOfLives)
-        livesIcon->draw(window);
+    if(getAliveEnemies() == 0){
+        uiNextRound->draw(window);
+        uiPressK->draw(window);
+    }
+    for(int i = 0; i < player->getLives(); i++)
+        noOfLives[i]->draw(window);
     for (Enemy* en : currentEnemies) 
         en->draw(window);
     for (Flower* flower : currentFlowers)
@@ -468,6 +463,14 @@ void BattleScene :: makeRocks() {
 
         currentRocks.push_back(new Rock(x, y, tunManager));
     }
+}
+
+int BattleScene::getAliveEnemies(){
+    int countAlive = 0;
+    for(int i = 0; i < currentEnemies.size(); i++)
+        if(!(currentEnemies[i]->getIsDead())) countAlive++;
+    
+    return countAlive;
 }
 
 void BattleScene :: setRoundNum(int id) {

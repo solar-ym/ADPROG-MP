@@ -70,10 +70,12 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
             player->getAtkComp()->reorient();
         }
 
-        //TEMPORARY
-        if (keyCode == sf::Keyboard::Scan::I) {
-            if (roundNum < 12) roundNum++;
-            sceneManager->reloadBattle(roundNum);
+        if (keyCode == sf::Keyboard::Scan::K) {
+            if(dynamic_cast<BattleScene*>
+              (sceneManager->getSpecificScene(sceneManager->SCREEN_round1))->getAliveEnemies() == 0){
+                if (roundNum < 12) roundNum++;
+                sceneManager->reloadBattle(roundNum);
+            }
         }
     } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_starting) { //It is at the starting screen
         if (keyCode == sf::Keyboard::Scan::M){ 

@@ -52,12 +52,14 @@ void CollisionSystem::listen(Scene* scene, vector<Enemy*> enemies, Drillku* play
     if (collisionComputation(player, manager) && player->getHairVisibility() && !enemyCollided)
         onAttackCollision(player);
     
-    if(6 == player->getTileX() &&
-        5 == player->getTileY() && veggie->getEnabled()) {
-            veggie->setTileXY(999,999);
-            player->setLives(Drillku::INCREASELIVES);
-        }
-
+        if(veggie->getTileX() == player->getTileX() &&
+           veggie->getTileY() == player->getTileY() && veggie->getEnabled() &&
+                cooldown > 80) {
+                veggie->setTileXY(999,999);
+                veggie->setEnabled(false);
+                player->setLives(Drillku::INCREASELIVES);
+                cooldown = 0;
+            }
     update();
 }
 
@@ -152,6 +154,7 @@ bool CollisionSystem::forcefulComputation(Drillku* player, Enemy* opponent, bool
 
 void CollisionSystem::update() {
     if (running && internalTime < 100) internalTime++;
+    cooldown++;
 }
 
 void CollisionSystem::onAttackCollision(Scene* scene, Drillku* player, Enemy* enemy){

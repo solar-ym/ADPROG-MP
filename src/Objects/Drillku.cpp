@@ -29,7 +29,7 @@ Drillku :: Drillku (string name, string textureName) : Entity(name) {
 void Drillku :: setLives(ALTER_LIFE changeType) {
     switch (changeType) {
         case INCREASELIVES: 
-            if (livesLeft < 5) livesLeft++;
+            if (livesLeft < 6) livesLeft++;
             break;
         case DECREASELIVES: 
             if (livesLeft > 0) livesLeft--;
