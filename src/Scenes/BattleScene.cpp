@@ -16,6 +16,30 @@ void BattleScene :: onLoad() {
     Background* bg  = new Background("BG1_norm", 2);
     addObject(bg);
 
+    UIAsset* livesText = new UIAsset("UI_lives", 
+                                {TILE_SIZE * DIRT_WIDTH, 
+                                TILE_SIZE * (SKY_HEIGHT-1)});
+    addObject(livesText);
+
+    for(int i = 0; i < player->getLives(); i++){
+        noOfLives.push_back(new UIAsset("UI_livesIcon", 
+                                    {TILE_SIZE * (DIRT_WIDTH+i), 
+                                    TILE_SIZE * (SKY_HEIGHT)}));
+
+    }
+
+    //TEMP
+    UIAsset* control = new UIAsset("UI_nextRound",
+                                   {TILE_SIZE * DIRT_WIDTH, 
+                                    TILE_SIZE * (DIRT_HEIGHT)});
+    addObject(control);
+    //TEMP
+    UIAsset* K = new UIAsset("UI_K",
+        {TILE_SIZE * DIRT_WIDTH, 
+         TILE_SIZE * (DIRT_HEIGHT-1)});
+    addObject(K);
+
+    
     // TUNNELS
     initStartTunnel();
     for (int i = 0; i < roundData.size(); i += 4) {
@@ -45,6 +69,9 @@ void BattleScene :: onUnload() {
     tunManager->fullReset();
     lastFacing = MovementComp::RIGHT;
     currentEnemies.clear();
+    for(UIAsset* livesIcon : noOfLives)
+        delete livesIcon;
+    noOfLives.clear();
     for(Flower* flower : currentFlowers)
         delete flower;
     currentFlowers.clear();
@@ -135,8 +162,6 @@ void BattleScene :: reloadRoundData() {
     }
 
     player->setTileXY(6,5);
-
-    //No need to reload flowers when going to the next round
 
     //Reload veggies when moving onto the next round
     for(int i = 0; i < currentVeggies.size(); i++){
@@ -327,6 +352,8 @@ void BattleScene :: update() {
 
 void BattleScene :: draw(RenderWindow* window) {
     Scene::draw(window);
+    for (UIAsset* livesIcon : noOfLives)
+        livesIcon->draw(window);
     for (Enemy* en : currentEnemies) 
         en->draw(window);
     for (Flower* flower : currentFlowers)

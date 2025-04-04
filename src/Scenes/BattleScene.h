@@ -6,6 +6,7 @@
 #include "../Objects/Drillku.h"
 #include "../Game/CollisionSystem.h"
 #include "../Objects/Background.h"
+#include "../Objects/UIAsset.h"
 
 #include "../Objects/Flower.h"
 #include "../Objects/Rock.h"
@@ -26,6 +27,7 @@ class BattleScene : public Scene {
         RoundDataLoader dataLoader;
         TunnelManager* tunManager;
 
+        vector<UIAsset*> noOfLives;
         vector<Flower*> currentFlowers;
 
         Vector2i playerPrevTile;
