@@ -15,13 +15,14 @@ void Rock :: fall() {
     if (currentStage == BROKEN)
         isEnabled = false;
     else {
-        if (manager->hasTunnel(x, y) && currentStage == PARTIAL)
+        if ((!(manager->hasTunnel(x, y)) || (manager->hasTunnel(x, y) && manager->hasTunnel(x, y+1)))
+                && currentStage == WHOLE) {
+            setTileXY(x, y+1); 
+        } 
+        else if (manager->hasTunnel(x, y) && currentStage == PARTIAL)
             changeTexture(BROKEN);
         else if (manager->hasTunnel(x, y) && currentStage == WHOLE)
             changeTexture(PARTIAL);
-        else if (!(manager->hasTunnel(x, y)) && currentStage == WHOLE) {
-            setTileXY(x, y+1); 
-        }
     }
 }
 
@@ -43,6 +44,9 @@ void Rock::update() {
         fall();
         internalTime = 0;
     }
+
+    if (isEnabled == false)
+        setTileXY(999, 999);
 
 }
 void Rock::draw(RenderWindow *window) {
@@ -79,4 +83,5 @@ void Rock::setEnabled(bool value){
     isEnabled = value;
 }
 
+bool Rock::getEnabled(){ return isEnabled; }
 bool Rock::getRunning(){ return isRunning; }

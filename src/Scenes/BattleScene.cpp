@@ -142,6 +142,7 @@ void BattleScene :: reloadRoundData() {
     for(int i = 0; i < currentVeggies.size(); i++){
         if(currentVeggies[i]->getEnabled()){
             currentVeggies[i]->setEnabled(false);
+            currentVeggies[i]->setTileXY(6,5);
             break;
         }
     }
@@ -177,6 +178,7 @@ void BattleScene :: reloadRoundData() {
             break;
     }
 
+    currentRocks.clear();
     makeRocks();
     droppedRocks = 0;
 
@@ -295,7 +297,7 @@ void BattleScene :: update() {
         Scene::update();
         for (Enemy* en : currentEnemies) {
             en->update();
-            if (!en->getIsDead()) 
+            if (!en->getIsDead() && !en->getIsDying()) 
                 en->behave()->perform(tunManager);
         }
         int n = 0;
@@ -421,7 +423,7 @@ void BattleScene :: makeRocks() {
 
     for (int i = 0; i < n; i++) {
         int x = MovementComp::randomize(0, DIRT_WIDTH-1);
-        int y = MovementComp::randomize(0, DIRT_HEIGHT-1);
+        int y = MovementComp::randomize(0, DIRT_HEIGHT-2);
 
         while (tunManager->hasTunnel(x, y) || tunManager->hasTunnel(x, y+1)) {
             x = MovementComp::randomize(0, DIRT_WIDTH-1);

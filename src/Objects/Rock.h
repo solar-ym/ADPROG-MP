@@ -23,6 +23,7 @@ class Rock : public Entity {
         void changeTexture(ROCK_STAGE stage);
 
         void setEnabled(bool value);
+        bool getEnabled();
         bool getRunning();
 
         Sprite* getSprite();
