@@ -63,7 +63,7 @@ int main()
     // Create a game class with the corresponding window size
     Game game;
     // Run the game
-    game.run("DRILLKU", 
+    game.run("DIG, DRILLKU!  |  GDADPRG S22 Machine Project by Sadio & Montuerto", 
             (DIRT_WIDTH + MENU_WIDTH) * TILE_SIZE,
             (DIRT_HEIGHT + SKY_HEIGHT) * TILE_SIZE);
 
