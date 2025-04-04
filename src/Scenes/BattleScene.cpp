@@ -427,7 +427,7 @@ void BattleScene :: makeRocks() {
 
         while (tunManager->hasTunnel(x, y) || tunManager->hasTunnel(x, y+1)) {
             x = MovementComp::randomize(0, DIRT_WIDTH-1);
-            y = MovementComp::randomize(0, DIRT_HEIGHT-1);
+            y = MovementComp::randomize(0, DIRT_HEIGHT-2);
         }
 
         currentRocks.push_back(new Rock(x, y, tunManager));
