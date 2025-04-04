@@ -22,11 +22,6 @@ void Veggie::draw(RenderWindow *window) {
         window->draw(*entSprite);
 }
 
-void Veggie::addComponent(Component* newComp){
-    newComp->attachComponent(this);
-    comps.push_back(newComp);
-}
-
 void Veggie::setEnabled(bool enable){
     isEnabled = enable;
 }
@@ -38,16 +33,6 @@ void Veggie::setTimer(int newTime){
 bool Veggie::getEnabled(){ return isEnabled; }
 
 int Veggie::getTimer() { return timer; }
-
-ColliderComp* Veggie::getColliderComp() { 
-    for(Component* cmp: comps) {
-        if(cmp->getName() == "ColliderComp") {
-            ColliderComp* col = (ColliderComp*)cmp;
-            return col;
-        }
-    }
-        return nullptr;
-}
 
 Sprite* Veggie::getSprite() {
     return entSprite;

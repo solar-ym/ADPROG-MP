@@ -3,6 +3,7 @@
 #include "../Utility/configurations.h"
 #include "../ObjectManipulation/Factories/Factories.h"
 
+// from class 
 class Scene{
     private:
         string name;
@@ -14,6 +15,7 @@ class Scene{
         
         virtual void onLoad() = 0;
         virtual void onUnload() = 0;
+        // added these two below
         virtual void reloadRoundData() = 0;
         virtual void setRoundNum(int id) = 0;
         

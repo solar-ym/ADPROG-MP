@@ -3,6 +3,11 @@
 #include "GD_AtlasParserM.h"
 #include "../Utility/configurations.h"
 
+// from class
+
+/*
+	We added a couple more atlases to organize the UI from the other game assets/
+*/
 class GD_GameResource{
 	public:
 		static GD_GameResource* createInstance();

@@ -2,6 +2,10 @@
 
 #include "../Objects/EntityAttack.h"
 
+/*
+    Lets Drillku and Geygar attack.
+*/
+
 class AttackComp : public Component {
     private:
         enum ALTER_POS {INCREASE, DECREASE};

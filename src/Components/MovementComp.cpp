@@ -7,6 +7,8 @@ MovementComp :: MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSpri
         ownerEntType = entType;
         this->ownerSprite = ownerSprite;
         originalTexRec = ownerSprite->getTextureRect();
+
+        //  Enemy is randomly assigned to be either slightly slower or faster than the player
         if (entType == ENEMY) {
             if (randomize(0,1))
                 speed += 0.5f;
@@ -15,6 +17,7 @@ MovementComp :: MovementComp(string name, ENTITY_TYPE entType, Sprite* ownerSpri
         }
 }
 
+// Where the sprite actually gets moved
 void MovementComp :: move() {
     if (isMoving) {
         switch (movementType) {
@@ -82,6 +85,7 @@ void MovementComp :: moveFreely(Vector2f playerLoc) {
     }
 }
 
+// Puts the entity back on the grid
 void MovementComp :: reCenter(MOVE_TYPE from) {
     int x = owner->getTileX();      float realX = ownerSprite->getPosition().x;
     int y = owner->getTileY();      float realY = ownerSprite->getPosition().y;
@@ -126,6 +130,8 @@ void MovementComp :: reCenter(MOVE_TYPE from) {
     }
 }
 
+// The two functions below are related to the flipping of the texture when moving
+
 void MovementComp :: invertTexture() {
     IntRect texRec = ownerSprite->getTextureRect();
 
@@ -147,6 +153,8 @@ void MovementComp :: fixInversion() {
         }
     }
 }
+
+// Utility
 
 void MovementComp :: setMovingBool(bool value) {
     isMoving = value;

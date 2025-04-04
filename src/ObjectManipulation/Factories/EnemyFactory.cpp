@@ -1,5 +1,6 @@
 #include "EnemyFactory.h"
 
+// Makes enemies
 Entity* EnemyFactory::create(int id, int x, int y) {
     string name, texturePath;
     if (!id) {
@@ -15,7 +16,6 @@ Entity* EnemyFactory::create(int id, int x, int y) {
     newEnemy->setTileXY(x, y);
     newEnemy->addComponent(new MovementComp("MoveComp", MovementComp::ENEMY, newEnemy->getSprite()));
     newEnemy->addComponent(new AnimationComp("AnimationComp"));
-    newEnemy->addComponent(new ColliderComp(TILE_SIZE));
     newEnemy->addComponent(new EnemyBehaviorComp());
 
     newEnemy->getAnimComp()->loadFrames();

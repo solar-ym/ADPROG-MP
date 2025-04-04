@@ -1,7 +1,6 @@
 #include "EndingScene.h"
 
-EndingScreen::EndingScreen(string name) : Scene(name) {
-}
+EndingScreen::EndingScreen(string name) : Scene(name) {}
 
 void EndingScreen::onLoad() {
 

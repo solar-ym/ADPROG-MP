@@ -5,6 +5,10 @@
 
 class Enemy;
 
+/*
+    This component handles the Enemy AI.
+    Further documentation provided as a .pdf in GDrive link.
+*/
 class EnemyBehaviorComp : public Component {
     private:
         int cooldown = 0;

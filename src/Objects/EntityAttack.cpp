@@ -5,9 +5,6 @@ EntityAttack::EntityAttack() {}
 EntityAttack::EntityAttack(Entity* owner, string textureName) : Entity("Attack") {
     if (attTexture.loadFromFile("../../sprites/" + textureName))
         attackSprite = new Sprite(attTexture);
-    
-    collision = new ColliderComp(TILE_SIZE);
-    collision->attachComponent(this);
 }
 
 void EntityAttack::setVisibility(bool value) {

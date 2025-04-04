@@ -94,6 +94,10 @@ void AnimationComp :: loadFrames() {
     } 
 }
 
+/*
+    Will animate change the animation sequence being played based on
+    the [ owner ]'s information and state.
+*/
 void AnimationComp :: animate() {
     if (internalTime < 50) internalTime++;
 
@@ -199,6 +203,10 @@ void AnimationComp :: animate() {
     }
 }
 
+/*
+    Will play a specific sequence from the allSequences vector based on what was
+    called in animate()
+*/
 void AnimationComp :: playSequence(string seqName) {
     AnimationSequence sequence;
     for (AnimationSequence seq: allSequences) {
@@ -234,6 +242,10 @@ vector<IntRect> AnimationComp :: getAllFrames() {
     return allFrames;
 }
 
+/*
+    Updates the texture rect based on the recieved index. Takes
+    from the vector of IntRects saved in [ allFrames ]
+*/
 void AnimationComp :: changeTexture(int index) {
     owner->getSprite()->setTextureRect(allFrames[index]);
 }

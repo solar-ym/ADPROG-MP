@@ -2,6 +2,10 @@
 
 #include "../Utility/configurations.h"
 
+/*
+    Allows for easier animation handling. Essentially just info
+    about what frames to play in AnimationComp's [ allFrames ].
+*/
 class AnimationSequence {
     private:
         string name;

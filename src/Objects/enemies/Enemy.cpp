@@ -72,16 +72,6 @@ Sprite* Enemy :: getSprite() {
     return entSprite;
 }
 
-ColliderComp* Enemy :: getColliderComp() {
-    for(Component* cmp: comps) {
-        if(cmp->getName() == "ColliderComp") {
-            ColliderComp* col = (ColliderComp*)cmp;
-            return col;
-        }
-    }
-        return nullptr;
-}
-
 AnimationComp* Enemy :: getAnimComp() {
     for(Component* cmp: comps) {
         if(cmp->getName() == "AnimationComp") {

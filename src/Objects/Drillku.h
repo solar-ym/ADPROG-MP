@@ -64,7 +64,6 @@ class Drillku : public Entity {
 
         MovementComp* getMoveComp();
         AttackComp* getAtkComp();
-        ColliderComp* getColliderComp();
         Sprite* getSprite();
         EntityAttack* getAttackSprite();
 };

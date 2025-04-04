@@ -2,6 +2,9 @@
 
 #include "../Scenes/BattleScene.h"
 
+/*
+    Handles collision in the game.
+*/
 class CollisionSystem{
     private: 
         int internalTime = 0;

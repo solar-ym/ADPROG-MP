@@ -4,6 +4,7 @@
 #include "../Objects/Background.h"
 #include "../Objects/UIAsset.h"
 
+// The same as starting screen
 class EndingScreen : public Scene {
     private:
         enum objIndex {BACKGROUND, MENU_BUTTON, EXIT_BUTTON};

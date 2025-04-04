@@ -22,6 +22,7 @@ void StartingScene::onUnload() {
 void StartingScene::reloadRoundData() {}
 void StartingScene:: setRoundNum(int id) {} 
 
+// Changes selected button
 void StartingScene::toggleOnStart(){ 
     isOnStart = !isOnStart;
     UIAsset* startButton = (UIAsset*)getAllObjects()[START_BUTTON];
@@ -40,6 +41,7 @@ void StartingScene::toggleOnStart(){
 
 bool StartingScene::getOnStart(){ return isOnStart; }
 
+// Lets the selected button blink
 void StartingScene::update() {
     UIAsset* startButton = (UIAsset*)getAllObjects()[START_BUTTON];
     UIAsset* exitButton  = (UIAsset*)getAllObjects()[EXIT_BUTTON];

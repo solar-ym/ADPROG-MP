@@ -2,6 +2,9 @@
 
 #include "Component.h"
 
+/*
+    Handles how the player and enemies move.
+*/
 class MovementComp : public Component {
     public:
         enum MOVE_TYPE {UP, DOWN, LEFT, RIGHT};

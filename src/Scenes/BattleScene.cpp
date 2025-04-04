@@ -9,13 +9,20 @@ BattleScene :: BattleScene(string name, int roundNum, Drillku* player) : Scene(n
     tunManager = new TunnelManager();
 }
 
+/*
+    Will load in all things necessary for Round 1 as well as objects
+    that will persist through all rounds.
+*/
 void BattleScene :: onLoad() {
+    // Round info (enemies and tunnels)
     roundData = dataLoader.loadData(roundNum);
     prevRoundNum = roundNum;
 
+    // Background
     Background* bg  = new Background("BG1_norm", 2);
     addObject(bg);
 
+    //UI Assets
     UIAsset* livesText = new UIAsset("UI_lives", 
                                 {TILE_SIZE * DIRT_WIDTH, 
                                 TILE_SIZE * (SKY_HEIGHT-1)});
@@ -32,7 +39,6 @@ void BattleScene :: onLoad() {
                 TILE_SIZE * (SKY_HEIGHT+1)}));
     }
 
-    //UI Assets
     uiNextRound = new UIAsset("UI_nextRound",
                             {TILE_SIZE * DIRT_WIDTH, 
                             TILE_SIZE * (DIRT_HEIGHT)});
@@ -102,6 +108,10 @@ void BattleScene :: onUnload() {
     player->setIsDying(false);
 }
 
+/*
+    Called when switching from one round to the next.
+    Resets the round and loads in whatever the next round needs.
+*/
 void BattleScene :: reloadRoundData() {
     getAllObjects().clear();
 
@@ -161,6 +171,7 @@ void BattleScene :: reloadRoundData() {
         }
     }
 
+    // resets
     if (!roundData.empty()) {
         roundData.clear();
     }
@@ -171,6 +182,7 @@ void BattleScene :: reloadRoundData() {
     lastFacing = MovementComp::RIGHT;
     currentEnemies.clear();
     
+    // round initialization
     roundData = dataLoader.loadData(roundNum);
     
     initStartTunnel();
@@ -178,6 +190,7 @@ void BattleScene :: reloadRoundData() {
         initializeTunnel(roundData[i], roundData[i+1], roundData[i+2], roundData[i+3]);
     }
 
+    // reset player position
     player->setTileXY(6,5);
 
     //Reload veggies when moving onto the next round
@@ -189,6 +202,7 @@ void BattleScene :: reloadRoundData() {
         }
     }
 
+    // change active veggie
     switch(roundNum){
         case 1: // ROUND 1 - CARROT
             roundVeggie = currentVeggies[VeggieFactory::CARROT];
@@ -220,6 +234,7 @@ void BattleScene :: reloadRoundData() {
             break;
     }
 
+    // reset and produce new rocks
     currentRocks.clear();
     makeRocks();
     droppedRocks = 0;
@@ -227,7 +242,11 @@ void BattleScene :: reloadRoundData() {
     prevRoundNum = roundNum;
 }
 
+/*
+    When the player is trying to traverse a tile without an existing tunnel, they'll dig.
+*/
 void BattleScene :: dig() {
+    // Makes a new tunnel or continues digging the current one
     if (currentTunnel == nullptr && !(tunManager->hasTunnel(player->getTileX(), player->getTileY()))) {
         createTunnel(Tunnel::STRAIGHT);
     } else if (currentTunnel != nullptr) {
@@ -235,6 +254,8 @@ void BattleScene :: dig() {
         player->toggleIsDigging(true);
     }
 
+    // If current tunnel is already at max width or if the player is move away from the current tunnel,
+    // stops digging and automatically sets the current tunnel to max length
     if (currentTunnel != nullptr && currentTunnel->isMaxExtended() &&
         (player->getTileX() != currentTunnel->getTileX() ||
         player->getTileY() != currentTunnel->getTileY())) {  
@@ -243,6 +264,13 @@ void BattleScene :: dig() {
     }
 }
 
+/*
+    Changes the texture of the tunnel based on player movement.
+    Unfortunately does not account for adjacency.
+
+    (We couldn't find a way to do it without making every tunnel connection permutation or
+    letting the tunnels overlap.)
+*/
 void BattleScene :: fixTunnel() {
     currentTunnel->maxExtend();
     currentTunnel->getSprite()->setRotation(degrees(0));
@@ -299,6 +327,9 @@ void BattleScene :: fixTunnel() {
     }
 }
 
+/*
+    Makes a new tunnel.
+*/
 void BattleScene :: createTunnel(Tunnel::TunnelType stage) {
     Tunnel* newTunnel = new Tunnel(stage);
     
@@ -337,6 +368,7 @@ void BattleScene :: update() {
 
     colSystem->listen(this, currentEnemies, player, tunManager);
 
+    // Makes sure the game "freezes" when the player is dying.
     if (!(player->getIsDying())) {
         Scene::update();
         for (Enemy* en : currentEnemies) {
@@ -362,11 +394,13 @@ void BattleScene :: update() {
     lastFacing = player->getMoveComp()->isFacing();
     playerPrevTile.x = player->getTileX();    playerPrevTile.y = player->getTileY();
 
+    // Spawns a veggie if the player has managed to drop 3 rocks
     if(droppedRocks >= 3) {
         roundVeggie->setEnabled(true);
     }
 }
 
+// Since new tunnels would be drawn over existing assets, we separated them
 void BattleScene :: draw(RenderWindow* window) {
     Scene::draw(window);
     if(getAliveEnemies() == 0){
@@ -386,6 +420,7 @@ void BattleScene :: draw(RenderWindow* window) {
     player->draw(window);
 }
 
+// Creates the tunnels the player spawns in
 void BattleScene :: initStartTunnel(){
     for(int i = 0; i < 5; i++){
         Tunnel* straight = new Tunnel(Tunnel::STRAIGHT);
@@ -465,14 +500,16 @@ void BattleScene :: initializeTunnel(int x, int y, int enemyType, int type) {
     currentEnemies.push_back(newEnemy);
 }
 
+// Generates rocks at random places on the map
 void BattleScene :: makeRocks() {
     currentRocks.clear();
-    int n = MovementComp::randomize(3, 5);
+    int n = MovementComp::randomize(3, 5); // there can be 3-5 rocks per round
 
     for (int i = 0; i < n; i++) {
         int x = MovementComp::randomize(0, DIRT_WIDTH-1);
         int y = MovementComp::randomize(0, DIRT_HEIGHT-2);
 
+        // ensures the rock does not spawn on an existing tunnel or at the bottom row of the map where they cannot be dropped
         while (tunManager->hasTunnel(x, y) || tunManager->hasTunnel(x, y+1)) {
             x = MovementComp::randomize(0, DIRT_WIDTH-1);
             y = MovementComp::randomize(0, DIRT_HEIGHT-2);
@@ -481,6 +518,8 @@ void BattleScene :: makeRocks() {
         currentRocks.push_back(new Rock(x, y, tunManager));
     }
 }
+
+// Utility
 
 int BattleScene::getAliveEnemies(){
     int countAlive = 0;

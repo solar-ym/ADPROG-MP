@@ -1,5 +1,6 @@
 #pragma once
-// Originally Sir's "GD_Trn"
+
+// From class | Originally Sir's "GD_Trn"
 
 #include "../Objects/Entity.h"
 

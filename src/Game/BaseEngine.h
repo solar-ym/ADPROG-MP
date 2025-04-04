@@ -2,6 +2,8 @@
 
 #include "../Utility/configurations.h"
 
+// From class
+
 class BaseEngine{
     private:
         RenderWindow window;

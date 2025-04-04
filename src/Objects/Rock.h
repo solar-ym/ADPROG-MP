@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Entity.h"
-#include "../Components/ColliderComp.h"
 #include "../ObjectManipulation/TunnelManager.h"
-// #include "../Components/AllComponents.h"
 
 class Rock : public Entity {
     public:

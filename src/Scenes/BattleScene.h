@@ -11,6 +11,7 @@
 #include "../Objects/Flower.h"
 #include "../Objects/Rock.h"
 
+// This one scene is used for all rounds
 class BattleScene : public Scene {
     private:
         int roundNum;

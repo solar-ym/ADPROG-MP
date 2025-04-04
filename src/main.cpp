@@ -30,7 +30,6 @@
 #include "Components/MovementComp.cpp"
 #include "Components/AnimationComp.cpp"
 #include "Components/AnimationSequence.cpp"
-#include "Components/ColliderComp.cpp"
 #include "Components/EnemyBehaviorComp.cpp"
 
 /* Game Folder */
@@ -46,8 +45,7 @@
 #include "ObjectManipulation/TunnelManager.cpp"
     // Factories Folder in Object Manipulation
 #include "ObjectManipulation/Factories/EnemyFactory.cpp"
-#include "ObjectManipulation/Factories/RockFactory.cpp" //TO BE FILLED OUT
-#include "ObjectManipulation/Factories/VeggieFactory.cpp" //TO BE FILLED OUT
+#include "ObjectManipulation/Factories/VeggieFactory.cpp" 
 
 /* Scenes Folder */
 #include "Scenes/Scene.cpp"

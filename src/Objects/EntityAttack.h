@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Entity.h"
-#include "../Components/ColliderComp.h"
 
 class EntityAttack : public Entity {
     private:

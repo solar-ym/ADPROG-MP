@@ -5,23 +5,20 @@
 #include "../Objects/enemies/Enemy.h"
 
 /*
-    PLAYER SEQUENCES
-        0: Walking
-        1: Drilling
-        2: Attacking
-        3: Died from enemy
-        4: Died from rock ver 1
-        5: Died from rock ver 2
+    This component is responsible for all of the animations,
 */
 
 class AnimationComp : public Component {
     private:
         int internalTime = 0;
         int currentFrameIndex = 0;
+
+        // allFrames contains all possible frames an entity has (all animations)
         vector<IntRect> allFrames;
+        // an AnimationSequence contains information about a specific animation sequence or loop
         vector<AnimationSequence> allSequences;
 
-        // enums for easier sequence handling
+        // enums for easier sequence handling for player
         enum PLAYER_SEQ {WALK, DRILL, ATTACK, DEATH, 
                             SQUASHED1, SQUASHED2};
     public:

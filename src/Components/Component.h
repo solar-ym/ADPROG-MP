@@ -3,6 +3,9 @@
 #include "../Utility/configurations.h"
 #include "../Utility/SpriteManip.h"
 
+/*
+    Base class for components.
+*/
 class Component {
     protected:
         string compName;

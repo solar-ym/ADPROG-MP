@@ -1,10 +1,15 @@
 #include "AttackComp.h"
 
+/*
+    EntityAttack is a class referring to the actual entity that the attack
+    takes the form of.
+*/
 AttackComp :: AttackComp(string name, EntityAttack* attackSprite) 
     : Component(name) {  
         this->attackSprite = attackSprite;
 }
 
+// Increases the texture rect width while moving the sprite closer to the player, giving an extending effect.
 void AttackComp :: extend() {
     if (attackSprite->getTextRect_X() < 150 && canExtend) {
         makePos(DECREASE);
@@ -20,6 +25,7 @@ void AttackComp :: extend() {
     }
 }
 
+// Same as above but for unextending.
 void AttackComp :: unextend() {
     shouldExtend = false;
     if (attackSprite->getTextRect_X() > 10) {
@@ -34,9 +40,12 @@ void AttackComp :: unextend() {
     }
 }
 
+// Fixes the attack sprite's location in relation to the player
 void AttackComp :: reorient() {
     Vector2f ownerLoc = owner->getSprite()->getPosition();
     bool isPlayer = true;
+
+    // since Drillku's attack sprite requires more manipulation to reorient than Geygar's, we keep track of the owner.
     if (owner->getName() != "Player") {
         offset2 = 25;
         isPlayer = false;
@@ -96,6 +105,11 @@ void AttackComp :: reorient() {
     }
 }
 
+/*
+    Used in extend() and unextend() to alter where in the texture image 
+    (the actual .png) the IntRect starts taking from. This is what 
+    causes the actual extending/shooting out effect.
+*/
 void AttackComp :: makePos(ALTER_POS alterType) {
     switch (alterType) {
         case INCREASE:
@@ -108,6 +122,8 @@ void AttackComp :: makePos(ALTER_POS alterType) {
             break;
     }
 }
+
+// Utility Functions below
 
 void AttackComp :: setUNExtendBool(bool newValue) {
     shouldUnextend = newValue;

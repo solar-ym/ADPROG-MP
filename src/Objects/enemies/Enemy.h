@@ -37,7 +37,6 @@ class Enemy : public Entity {
         void draw(RenderWindow *window);
 
         Sprite* getSprite();
-        ColliderComp* getColliderComp();
         AnimationComp* getAnimComp();
         MovementComp* getMoveComp();
         AttackComp* getAtkComp();

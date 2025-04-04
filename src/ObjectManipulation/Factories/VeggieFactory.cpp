@@ -23,8 +23,6 @@ Entity* VeggieFactory::create(int id, int x, int y) {
     
     //Set the tile it spawns in (this is the same for all of them)
     newVeggie->setTileXY(x, y);
-    //Add a collision component
-    newVeggie->addComponent(new ColliderComp(TILE_SIZE));
     newVeggie->setTimer(20); //sets how long the veggie can stay on the ground
     newVeggie->setEnabled(false);
 
