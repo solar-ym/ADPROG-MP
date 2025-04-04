@@ -16,11 +16,11 @@ void EnemyBehaviorComp :: perform(TunnelManager* manager) {
     if (enemy == nullptr) enemy = dynamic_cast<Enemy*>(owner);
     if (this->manager == nullptr) this->manager = manager;
     
-    // if (targetDetected() || enemy->getGhostMode()) {
+    if (targetDetected() || enemy->getGhostMode()) {
         chase();
-    // }
-    // else
-        // neutral();
+    }
+    else
+        neutral();
 }
 
 void EnemyBehaviorComp :: neutral() {
@@ -32,51 +32,27 @@ void EnemyBehaviorComp :: neutral() {
     int y = enemy->getTileY();
 
     if (isFacing == MovementComp::RIGHT && manager->hasTunnel(x+1, y)) {
-        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-            move->reCenter(MovementComp::RIGHT);
-        prevFacing = move->isFacing();
-        move->setMovementType(MovementComp::RIGHT);
+        moveRight(move, true);
     } else if (isFacing == MovementComp::RIGHT && !(manager->hasTunnel(x+1, y))) {
-        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-            move->reCenter(MovementComp::RIGHT);
-        prevFacing = move->isFacing();
-        decideFacing();
+        moveRight(move, false);
     }
     
     else if (isFacing == MovementComp::LEFT && manager->hasTunnel(x-1, y)) {
-        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-            move->reCenter(MovementComp::LEFT);
-        prevFacing = move->isFacing();
-        move->setMovementType(MovementComp::LEFT);
+        moveLeft(move, true);
     } else if (isFacing == MovementComp::LEFT && !(manager->hasTunnel(x-1, y))) {
-        if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-            move->reCenter(MovementComp::LEFT);
-        prevFacing = move->isFacing();
-        decideFacing();
+        moveLeft(move, false);
     }
 
     else if (isFacing == MovementComp::UP && manager->hasTunnel(x, y-1)) {
-        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-            move->reCenter(MovementComp::UP);
-        prevFacing = move->isFacing();
-        move->setMovementType(MovementComp::UP);
+        moveUp(move, true);
     } else if (isFacing == MovementComp::UP && !(manager->hasTunnel(x, y-1))) {
-        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-            move->reCenter(MovementComp::UP);
-        prevFacing = move->isFacing();
-        decideFacing();
+        moveUp(move, false);
     }
 
     else if (isFacing == MovementComp::DOWN && manager->hasTunnel(x, y+1)) {
-        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-            move->reCenter(MovementComp::DOWN);
-        prevFacing = move->isFacing();
-        move->setMovementType(MovementComp::DOWN);
+        moveDown(move, true);
     } else if (isFacing == MovementComp::DOWN && !(manager->hasTunnel(x, y+1))) {
-        if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-            move->reCenter(MovementComp::DOWN);
-        prevFacing = move->isFacing();
-        decideFacing();
+        moveDown(move, false);
     } 
     
     else {
@@ -109,77 +85,51 @@ void EnemyBehaviorComp :: chase() {
     if(abs(xDif) > abs(yDif)){
         if(xDif>0) {
             if (manager->hasTunnel(x+1, y) && !(enemy->getGhostMode())) {
-                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-                    move->reCenter(MovementComp::RIGHT);
-                prevFacing = move->isFacing();
-                move->setMovementType(MovementComp::RIGHT);
+                moveRight(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
             } else if (!(manager->hasTunnel(x+1, y)) && internalTime >= 70) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
-                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-                    move->reCenter(MovementComp::RIGHT);
-                prevFacing = move->isFacing();
-                decideFacing();
+                moveRight(move, false);
             }
         } 
         else {
             if (manager->hasTunnel(x-1, y) && !(enemy->getGhostMode())) {
-                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-                    move->reCenter(MovementComp::LEFT);
-                prevFacing = move->isFacing();
-                move->setMovementType(MovementComp::LEFT);
+                moveLeft(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
             } else if (!(manager->hasTunnel(x-1, y))&& internalTime >= 70) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
-                if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
-                    move->reCenter(MovementComp::LEFT);
-                prevFacing = move->isFacing();
-                decideFacing();
+                moveLeft(move, false);
             }
         }
     }else {
         if(yDif>0) {
             if (manager->hasTunnel(x, y+1) && !(enemy->getGhostMode())) {
-                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-                    move->reCenter(MovementComp::DOWN);
-                prevFacing = move->isFacing();
-                move->setMovementType(MovementComp::DOWN);
+                moveDown(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
             } else if (!(manager->hasTunnel(x, y+1))&& internalTime >= 70) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
             } else {
-                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-                    move->reCenter(MovementComp::DOWN);
-                prevFacing = move->isFacing();
-                decideFacing();
+                moveDown(move, false);
             }
         }
         else {
             if (manager->hasTunnel(x, y-1) && !(enemy->getGhostMode())) {
-                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-                    move->reCenter(MovementComp::UP);
-                prevFacing = move->isFacing();
-                move->setMovementType(MovementComp::UP);
+                moveUp(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
             } else if (!(manager->hasTunnel(x, y-1))&& internalTime >= 70) {
                 enemy->setGhostMode(true);
                 internalTime = 0;
-            }
-            
-            else {
-                if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
-                    move->reCenter(MovementComp::UP);
-                prevFacing = move->isFacing();
-                decideFacing();
+            } else {
+                moveUp(move, false);
             }
         }
     }
@@ -227,6 +177,42 @@ void EnemyBehaviorComp :: decideFacing(){
     }
 }
 
-// void EnemyBehaviorComp :: findTunnel() {
+void EnemyBehaviorComp :: moveRight(MovementComp* move, bool tunnelExists) {
+    if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+        move->reCenter(MovementComp::RIGHT);
+    prevFacing = move->isFacing();
+    if (tunnelExists)
+        move->setMovementType(MovementComp::RIGHT);
+    else
+        decideFacing();
+}
 
-// }
+void EnemyBehaviorComp :: moveLeft(MovementComp* move, bool tunnelExists) {
+    if (prevFacing == MovementComp::UP || prevFacing == MovementComp::DOWN)
+        move->reCenter(MovementComp::LEFT);
+    prevFacing = move->isFacing();
+    if (tunnelExists)
+        move->setMovementType(MovementComp::LEFT);
+    else
+        decideFacing();
+}
+
+void EnemyBehaviorComp :: moveUp(MovementComp* move, bool tunnelExists) {
+    if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+        move->reCenter(MovementComp::UP);
+    prevFacing = move->isFacing();
+    if (tunnelExists)
+        move->setMovementType(MovementComp::UP);
+    else
+        decideFacing();
+}
+
+void EnemyBehaviorComp :: moveDown(MovementComp* move, bool tunnelExists) {
+    if (prevFacing == MovementComp::LEFT || prevFacing == MovementComp::RIGHT)
+            move->reCenter(MovementComp::DOWN);
+    prevFacing = move->isFacing();
+    if (tunnelExists)
+        move->setMovementType(MovementComp::DOWN);
+    else
+        decideFacing();
+}

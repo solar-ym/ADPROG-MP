@@ -24,5 +24,8 @@ class EnemyBehaviorComp : public Component {
         void ghostChase();
         void decideFacing();
 
-        // void findTunnel();
+        void moveUp(MovementComp* move, bool tunnelExists);
+        void moveDown(MovementComp* move, bool tunnelExists);
+        void moveLeft(MovementComp* move, bool tunnelExists);
+        void moveRight(MovementComp* move, bool tunnelExists);
 };

@@ -46,7 +46,8 @@ void Enemy :: initialize() {}
 
 void Enemy :: update() {
     getAnimComp()->animate();
-    getMoveComp()->move();
+    if (!ghostMode)
+        getMoveComp()->move();
 }
 
 void Enemy :: draw(RenderWindow *window) {
