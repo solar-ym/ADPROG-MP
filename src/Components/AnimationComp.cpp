@@ -159,6 +159,11 @@ void AnimationComp :: animate() {
             changeTexture(currentFrameIndex);
         }  
 
+        else if (geygar->getIsAttacking()) {
+            playSequence("Attacking");
+            changeTexture(currentFrameIndex);
+        } 
+
         else if (geygar->getMoveComp()->getIsMoving() && geygar->getGhostMode() && internalTime >= 10) {
             playSequence("Ghost");
             changeTexture(currentFrameIndex);
@@ -185,7 +190,12 @@ void AnimationComp :: playSequence(string seqName) {
         }
     }
 
-    if (currentFrameIndex < sequence.start() || currentFrameIndex > sequence.end()) {
+    if (seqName == "Popping" && currentFrameIndex == sequence.end()) {
+        Enemy* enemy = dynamic_cast<Enemy*>(owner);
+        enemy->setIsDead(true);
+    }
+
+    else if (currentFrameIndex < sequence.start() || currentFrameIndex > sequence.end()) {
         currentFrameIndex = sequence.start();
     } else if (currentFrameIndex < sequence.end()){
         currentFrameIndex++;
@@ -196,11 +206,6 @@ void AnimationComp :: playSequence(string seqName) {
         player->setIsDying(false);
         currentFrameIndex = allSequences[WALK].start();
     } 
-
-    else if (seqName == "Popping" && currentFrameIndex == sequence.end()) {
-        Enemy* enemy = dynamic_cast<Enemy*>(owner);
-        enemy->setIsDead(true);
-    }
  
     internalTime = 0;
 }

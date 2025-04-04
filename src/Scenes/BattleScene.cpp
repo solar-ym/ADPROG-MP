@@ -267,10 +267,8 @@ void BattleScene :: update() {
             en->behave()->perform(tunManager);
         }
     }
-
-    // player updates
     
-    colSystem->listen(this, currentEnemies, player);
+    colSystem->listen(this, currentEnemies, player, tunManager);
 
     if (lastFacing != player->getMoveComp()->isFacing() && currentTunnel != nullptr) {
         fixTunnel();

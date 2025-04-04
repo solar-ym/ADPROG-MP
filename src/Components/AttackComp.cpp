@@ -1,12 +1,12 @@
 #include "AttackComp.h"
 
 AttackComp :: AttackComp(string name, EntityAttack* attackSprite) 
-    : Component("name") {  
+    : Component(name) {  
         this->attackSprite = attackSprite;
 }
 
 void AttackComp :: extend() {
-    if (attackSprite->getTextRect_X() < 150) {
+    if (attackSprite->getTextRect_X() < 150 && canExtend) {
         makePos(DECREASE);
         attackSprite->alterTextureRect(IntRect({pos,0}, {
             attackSprite->getTextRect_X() + 10,
@@ -14,6 +14,9 @@ void AttackComp :: extend() {
         }));
     } else {
         shouldExtend = false;
+        if (owner->getName() == "Geygar") {
+            shouldUnextend = true;
+        }
     }
 }
 
@@ -26,47 +29,67 @@ void AttackComp :: unextend() {
             50}));
     } else {
         shouldUnextend = false;
+        canExtend = true;
         attackSprite->setVisibility(false);
     }
 }
 
 void AttackComp :: reorient() {
     Vector2f ownerLoc = owner->getSprite()->getPosition();
-    float offset = TILE_SIZE/2;
+    bool isPlayer = true;
+    if (owner->getName() != "Player") {
+        offset2 = 25;
+        isPlayer = false;
+    }
     
-    MovementComp* moveComp = dynamic_cast<Drillku*>(owner)->getMoveComp();
+    MovementComp* moveComp;
+    if (owner->getName() == "Player")
+        moveComp = dynamic_cast<Drillku*>(owner)->getMoveComp();
+    else 
+        moveComp = dynamic_cast<Enemy*>(owner)->getMoveComp();
+
     bool isFlipped = moveComp->checkFlipped();
 
     if (moveComp->isFacing() == MovementComp::UP) {
         attackSprite->setSpriteRotation(degrees(-90));
-        if (!isFlipped)
+        if (!isPlayer)
+            attackSprite->setSpritePosition(ownerLoc.x-offset2, ownerLoc.y-offset);
+        else if (!isFlipped)
             attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y-offset);
         else 
-        attackSprite->setSpritePosition(ownerLoc.x-4, ownerLoc.y-offset);
+            attackSprite->setSpritePosition(ownerLoc.x-offset2, ownerLoc.y-offset);
 
         x = owner->getTileX();
         y = owner->getTileY() - 1;
     }
     if (moveComp->isFacing() == MovementComp::DOWN) {
         attackSprite->setSpriteRotation(degrees(90));
-        if (!isFlipped)
+        if (!isPlayer)
+            attackSprite->setSpritePosition(ownerLoc.x+offset2, ownerLoc.y+offset);
+        else if (!isFlipped)
             attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y+offset);
-        else 
-        attackSprite->setSpritePosition(ownerLoc.x+4, ownerLoc.y+offset);
+        else
+            attackSprite->setSpritePosition(ownerLoc.x+offset2, ownerLoc.y+offset);
 
         x = owner->getTileX();
         y = owner->getTileY() + 1;
     }
     if (moveComp->isFacing() == MovementComp::LEFT) {
         attackSprite->setSpriteRotation(degrees(180));
-        attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y+4); 
+        if (!isPlayer)
+            attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y+offset2);
+        else
+            attackSprite->setSpritePosition(ownerLoc.x-offset, ownerLoc.y+offset2); 
 
         x = owner->getTileX() - 1;
         y = owner->getTileY();
     }
     if (moveComp->isFacing() == MovementComp::RIGHT) {
         attackSprite->setSpriteRotation(degrees(0));
-        attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y-offset);
+        if (!isPlayer)
+            attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y-offset2);
+        else
+            attackSprite->setSpritePosition(ownerLoc.x+offset, ownerLoc.y-offset);
 
         x = owner->getTileX() + 1;
         y = owner->getTileY();
@@ -99,6 +122,14 @@ bool AttackComp :: getExtendBool(int type) {
     else return shouldExtend;
 }
 
+void AttackComp :: setCanExtend(bool newValue) {
+    canExtend = newValue;
+}
+
+bool AttackComp :: getCanExtend() {
+    return canExtend;
+}
+
 void AttackComp :: setIsVisible(bool newValue) {
     attackSprite->setVisibility(newValue);
 }
@@ -112,4 +143,8 @@ int AttackComp :: getAttX() {
 
 int AttackComp :: getAttY() {
     return y;
+}
+
+EntityAttack* AttackComp :: getAttackEntity() {
+    return attackSprite;
 }

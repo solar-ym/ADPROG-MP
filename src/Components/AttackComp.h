@@ -10,9 +10,13 @@ class AttackComp : public Component {
 
         bool shouldUnextend = false;
         bool shouldExtend = false;
+        bool canExtend = true;
 
         int x = 0;
         int y = 0;
+
+        float offset = TILE_SIZE/2;
+        float offset2 = 4;
     public:
         AttackComp(string name, EntityAttack* attackSprite);
         void extend();
@@ -24,10 +28,14 @@ class AttackComp : public Component {
         void setUNExtendBool(bool newValue);
         void setExtendBool(bool newValue);
         bool getExtendBool(int type);
+        void setCanExtend(bool newValue);
+        bool getCanExtend();
 
         void setIsVisible(bool newValue);
         bool isVisible();
 
         int getAttX();
         int getAttY();
+
+        EntityAttack* getAttackEntity();
 };

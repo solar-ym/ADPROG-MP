@@ -11,6 +11,7 @@ class Enemy : public Entity {
         vector<Component*> comps;
 
         Sprite* entSprite;
+        EntityAttack* attackSprite = nullptr;
 
         // animation
         bool isDying = false;
@@ -37,6 +38,7 @@ class Enemy : public Entity {
         ColliderComp* getColliderComp();
         AnimationComp* getAnimComp();
         MovementComp* getMoveComp();
+        AttackComp* getAtkComp();
         EnemyBehaviorComp* behave();
 
         bool getIsDying();
@@ -45,4 +47,6 @@ class Enemy : public Entity {
         void setIsDead(bool value);
         bool getGhostMode();
         void setGhostMode(bool value);
+        void setIsAttacking(bool value);
+        bool getIsAttacking();
 }; 

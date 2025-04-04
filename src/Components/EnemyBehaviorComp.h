@@ -7,8 +7,8 @@ class Enemy;
 
 class EnemyBehaviorComp : public Component {
     private:
-        int cooldown = 150;
-        int internalTime = 150;
+        int cooldown = 0;
+        int internalTime = 70;
         Drillku* target = nullptr;
         TunnelManager* manager = nullptr;
         Enemy* enemy = nullptr;
@@ -24,6 +24,8 @@ class EnemyBehaviorComp : public Component {
         void chase();
         void ghostChase();
         void decideFacing();
+
+        void attack();
 
         void moveUp(MovementComp* move, bool tunnelExists);
         void moveDown(MovementComp* move, bool tunnelExists);

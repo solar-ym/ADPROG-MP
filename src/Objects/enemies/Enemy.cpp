@@ -10,7 +10,8 @@ Enemy :: Enemy(string name, string textureName) : Entity(name) {
     entSprite->setOrigin({rect.size.x/2.f, rect.size.y/2.f});
     
     if (name == "Geygar") {
-        EntityAttack* attackSprite = new EntityAttack(this, "ATTACK_geygar.png");
+        cout << "Giving geygar aattack comp" << endl;
+        attackSprite = new EntityAttack(this, "ATTACK_geygar.png");
         attackSprite->alterTextureRect(IntRect({140, 0}, {10,50})); 
 
         addComponent(new AttackComp("AttackComp", attackSprite));
@@ -45,13 +46,22 @@ int Enemy :: getTileY() {
 void Enemy :: initialize() {}
 
 void Enemy :: update() {
+    if (getAtkComp() != nullptr) {
+        if (getAtkComp()->getExtendBool(0)) getAtkComp()->extend();
+        if (getAtkComp()->getExtendBool(1)) getAtkComp()->unextend();
+    }
+
     getAnimComp()->animate();
-    if (!ghostMode)
+    if (!ghostMode && !isAttacking)
         getMoveComp()->move();
+    if (getAtkComp() != nullptr && !(getAtkComp()->isVisible()))
+        isAttacking = false;
 }
 
 void Enemy :: draw(RenderWindow *window) {
     window->draw(*entSprite);
+    if (attackSprite != nullptr && attackSprite->getVisibility())
+        attackSprite->draw(window);
 }
 
 Sprite* Enemy :: getSprite() {
@@ -89,6 +99,17 @@ MovementComp* Enemy :: getMoveComp() {
     return nullptr;
 }
 
+AttackComp* Enemy :: getAtkComp() {
+    for(Component* cmp: comps) {
+        if(cmp->getName() == "AttackComp") {
+            AttackComp* atk = (AttackComp*)cmp;
+            return atk;
+        }
+    }
+    // cout << "[ERROR] Failed to get [ENEMY: " << getName() << "] Attack Comp." << endl;
+    return nullptr;
+}
+
 EnemyBehaviorComp* Enemy :: behave() {
     for(Component* cmp: comps) {
         if(cmp->getName() == "BehaviorComp") {
@@ -98,6 +119,8 @@ EnemyBehaviorComp* Enemy :: behave() {
     }
     return nullptr;
 }
+
+// STATES
 
 bool Enemy :: getIsDying() {
     return isDying;
@@ -116,4 +139,10 @@ bool Enemy :: getGhostMode() {
 }
 void Enemy :: setGhostMode(bool value) {
     ghostMode = value;
+}
+void Enemy :: setIsAttacking(bool value) {
+    isAttacking = value;
+}
+bool Enemy :: getIsAttacking() {
+    return isAttacking;
 }

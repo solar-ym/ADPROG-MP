@@ -71,12 +71,6 @@ void MovementComp :: moveFreely(Vector2f playerLoc) {
         float x = owner->getSprite()->getPosition().x;
         float y = owner->getSprite()->getPosition().y;
 
-        cout << "player X: " << playerLoc.x << endl;
-        cout << "player Y: " << playerLoc.y << endl;
-
-        cout << "Owner X: " << x << endl;
-        cout << "Owner Y: " << y << endl;
-
         Vector2f direction = Vector2f(0,0);
 
         direction.x = playerLoc.x - x;

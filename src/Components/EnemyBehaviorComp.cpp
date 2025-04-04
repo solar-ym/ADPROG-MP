@@ -12,13 +12,19 @@ void EnemyBehaviorComp :: makeTarget(Drillku* player) {
 }
 
 void EnemyBehaviorComp :: perform(TunnelManager* manager) {
-    if (internalTime < 200) internalTime++;
+    if (internalTime < 80) internalTime++;
+    if (cooldown < 500) cooldown++;
+
     if (enemy == nullptr) enemy = dynamic_cast<Enemy*>(owner);
     if (this->manager == nullptr) this->manager = manager;
     
-    if (targetDetected() || enemy->getGhostMode()) {
-        chase();
+    if (enemy->getAtkComp() != nullptr && !(enemy->getGhostMode()) && cooldown >= 300) {
+        attack();
+        cooldown = 0;
     }
+    else if (targetDetected() || enemy->getGhostMode() && !(enemy->getIsAttacking())) {
+        chase();
+    } 
     else
         neutral();
 }
@@ -88,9 +94,8 @@ void EnemyBehaviorComp :: chase() {
                 moveRight(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x+1, y)) && internalTime >= cooldown) {
+            } else if (!(manager->hasTunnel(x+1, y))) {
                 enemy->setGhostMode(true);
-                internalTime = 0;
             } else {
                 moveRight(move, false);
             }
@@ -100,9 +105,8 @@ void EnemyBehaviorComp :: chase() {
                 moveLeft(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x-1, y)) && internalTime >= cooldown) {
+            } else if (!(manager->hasTunnel(x-1, y))) {
                 enemy->setGhostMode(true);
-                internalTime = 0;
             } else {
                 moveLeft(move, false);
             }
@@ -113,9 +117,8 @@ void EnemyBehaviorComp :: chase() {
                 moveDown(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x, y+1))&& internalTime >= cooldown) {
+            } else if (!(manager->hasTunnel(x, y+1))) {
                 enemy->setGhostMode(true);
-                internalTime = 0;
             } else {
                 moveDown(move, false);
             }
@@ -125,9 +128,8 @@ void EnemyBehaviorComp :: chase() {
                 moveUp(move, true);
             } else if (enemy->getGhostMode()) {
                 ghostChase();
-            } else if (!(manager->hasTunnel(x, y-1))&& internalTime >= cooldown) {
+            } else if (!(manager->hasTunnel(x, y-1))) {
                 enemy->setGhostMode(true);
-                internalTime = 0;
             } else {
                 moveUp(move, false);
             }
@@ -175,6 +177,16 @@ void EnemyBehaviorComp :: decideFacing(){
     else {
         cout << "[ERROR : decide facing] Failed to find available tile to move to." << endl;
     }
+}
+
+void EnemyBehaviorComp :: attack() {
+    AttackComp* atk = enemy->getAtkComp();
+
+    enemy->setIsAttacking(true);
+    if (atk->isVisible() == false) 
+        atk->setIsVisible(true);
+    atk->setExtendBool(true);
+    atk->reorient();
 }
 
 void EnemyBehaviorComp :: moveRight(MovementComp* move, bool tunnelExists) {
