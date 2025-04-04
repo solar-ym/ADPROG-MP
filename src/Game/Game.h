@@ -8,6 +8,7 @@
 #include "../Scenes/SceneManager.h"
 #include "../Scenes/StartingScene.h"
 #include "../Scenes/BattleScene.h"
+#include "../Scenes/EndingScene.h"
 
 class Game: public BaseEngine{
     private:

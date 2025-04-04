@@ -38,24 +38,32 @@ void BattleScene :: onLoad() {
 
 void BattleScene :: onUnload() {
     removeAllObjects();
+    cout << "removed round objects" << endl;
     if (!roundData.empty()) {
         roundData.clear();
     }
-
+    cout << "Unloaded round data" << endl;
     tunManager->fullReset();
+    cout << "reset tun manager" << endl;
     lastFacing = MovementComp::RIGHT;
-    currentEnemies.clear();
+    if (!currentEnemies.empty())
+        currentEnemies.clear();
+    cout << "cleared enemies" << endl;
     for(Flower* flower : currentFlowers)
         delete flower;
-    currentFlowers.clear();
+    if (!currentFlowers.empty())
+        currentFlowers.clear();
+    cout << "cleared flowers" << endl;
     for(Veggie* veggie : currentVeggies)
         delete veggie;
-    currentVeggies.clear();
+    if (!currentVeggies.empty())
+        currentVeggies.clear();
+    cout << "cleared veggies" << endl;
     for (Rock* rock : currentRocks)
         delete rock;
-    currentRocks.clear();
-    delete currentTunnel;
-    delete colSystem;
+    if (!currentRocks.empty())
+        currentRocks.clear();
+    cout << "cleared rocks" << endl;
 }
 
 void BattleScene :: reloadRoundData() {
@@ -444,4 +452,9 @@ Veggie* BattleScene :: getRoundVeggie(){
 
 vector<Rock*> BattleScene :: getAllRocks() {
     return currentRocks;
+}
+
+BattleScene :: ~BattleScene() {
+    delete currentTunnel;
+    delete colSystem;
 }

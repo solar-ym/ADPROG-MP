@@ -10,6 +10,8 @@ void Game::init(){
     
     sceneManager->registerScene(new BattleScene("Battle Screen", roundNum, player));
     
+    sceneManager->registerScene(new EndingScreen("Ending Screen"));
+
     sceneManager->loadScene(sceneManager->SCREEN_starting);
 
     time_t nTime;
@@ -20,6 +22,11 @@ void Game::init(){
 
 void Game::update(Time deltaTime) {
     sceneManager->updateCurrentScene();
+    if (player->getLives() <= 0) {
+        player->setLives(Drillku::RESETLIVES);
+        sceneManager->loadScene(SceneManager::SCREEN_ending);
+        cout << "Should be loading ending..." << endl;
+    }
 }
 
 void Game::draw(RenderWindow *window){
@@ -75,6 +82,12 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
             if (roundNum < 12) roundNum++;
             sceneManager->reloadBattle(roundNum);
         }
+        if (keyCode == sf::Keyboard::Scan::Left) {
+            sceneManager->loadScene(sceneManager->SCREEN_starting);
+        }
+        if (keyCode == sf::Keyboard::Scan::Right) {
+            sceneManager->loadScene(sceneManager->SCREEN_ending);
+        }
     } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_starting) { //It is at the starting screen
         if (keyCode == sf::Keyboard::Scan::M){ 
             //Player is selecting the starting button
@@ -92,8 +105,21 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode) {
                 (sceneManager->getSpecificScene(sceneManager->SCREEN_starting))->toggleOnStart();
         }
     } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_ending) { //At the ending screen
-        //If toggle is on main menu, load starting screen
-        //Else close the game
+        if (keyCode == sf::Keyboard::Scan::M){ 
+            //Player is selecting the starting button
+            if(dynamic_cast<EndingScreen*>
+              (sceneManager->getSpecificScene(sceneManager->SCREEN_ending))->getOnStart()){
+              sceneManager->loadScene(sceneManager->SCREEN_starting);
+            } else //Exit from game
+                cout << "SHOULD EXIT!" << endl;
+        }
+        if (keyCode == sf::Keyboard::Scan::W || 
+            keyCode == sf::Keyboard::Scan::A ||
+            keyCode == sf::Keyboard::Scan::S ||
+            keyCode == sf::Keyboard::Scan::D ){
+                dynamic_cast<EndingScreen*>
+                (sceneManager->getSpecificScene(sceneManager->SCREEN_ending))->toggleOnStart();
+        }
     }
 }
 

@@ -11,7 +11,7 @@ class SceneManager {
         //@! Loading Scenes
         //There should be a way for the manager to load scenes.
         void registerScene(Scene* scene);
-        Scene* loadScene(SCENE_ID id);
+        void loadScene(SCENE_ID id);
 	    //@!e
 
         void reloadBattle(int id);

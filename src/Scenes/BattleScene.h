@@ -59,4 +59,6 @@ class BattleScene : public Scene {
 
         Veggie* getRoundVeggie();
         vector<Rock*> getAllRocks();
+
+        ~BattleScene();
 };

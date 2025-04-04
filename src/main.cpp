@@ -53,6 +53,7 @@
 #include "Scenes/BattleScene.cpp"
 #include "Scenes/SceneManager.cpp"
 #include "Scenes/StartingScene.cpp"
+#include "Scenes/EndingScene.cpp"
 
 /* Utilities Folder */
 #include "Utility/configurations.h"

@@ -8,13 +8,14 @@ void SceneManager :: registerScene(Scene* scene){
     scenes.push_back(scene);
 }
 
-Scene* SceneManager :: loadScene(SCENE_ID id) {
+void SceneManager :: loadScene(SCENE_ID id) {
+    cout << "id recieved: " << endl;
     if(-1!=currentScene && id!=currentScene)
         scenes[currentScene]->onUnload();
+    cout << "previous scene unloaded." << endl;
     currentScene = id;
 
     scenes[currentScene]->onLoad();
-    return scenes[currentScene];
 }
 
 void SceneManager :: reloadBattle(int id) {

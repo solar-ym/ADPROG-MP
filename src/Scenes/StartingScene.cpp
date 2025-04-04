@@ -14,6 +14,9 @@ void StartingScene::onLoad() {
 
 void StartingScene::onUnload() {
     removeAllObjects();
+    internalTime = 0;
+    toggleButtonState = false;
+    isOnStart = true;
 }
 
 void StartingScene::reloadRoundData() {}
@@ -21,6 +24,18 @@ void StartingScene:: setRoundNum(int id) {}
 
 void StartingScene::toggleOnStart(){ 
     isOnStart = !isOnStart;
+    UIAsset* startButton = (UIAsset*)getAllObjects()[START_BUTTON];
+    UIAsset* exitButton  = (UIAsset*)getAllObjects()[EXIT_BUTTON];
+
+    if (isOnStart) {
+        startButton->changeTexture("START_on");
+        exitButton->changeTexture("EXIT_off");
+    } else {
+        exitButton->changeTexture("EXIT_on");
+        startButton->changeTexture("START_off");
+    }
+
+    toggleButtonState = true;
 }
 
 bool StartingScene::getOnStart(){ return isOnStart; }
@@ -30,26 +45,22 @@ void StartingScene::update() {
     UIAsset* exitButton  = (UIAsset*)getAllObjects()[EXIT_BUTTON];
     internalTime++;
     
-    if (internalTime == 60) {
-        //I feel like might need to restart the texture if i switch from it when its toggled on
-        if (!toggleButtonState) {
-            if(isOnStart){
+    if (internalTime > 60) {
+        if (toggleButtonState) {
+            if (isOnStart) {
                 startButton->changeTexture("START_on");
-                exitButton->changeTexture("EXIT_off");
-            }
-            else {
+            } else {
                 exitButton->changeTexture("EXIT_on");
-                startButton->changeTexture("START_off");
             }
-            toggleButtonState = !toggleButtonState;
         } else {
-            if(isOnStart)
+            if (isOnStart) {
                 startButton->changeTexture("START_off");
-            else 
+            } else {
                 exitButton->changeTexture("EXIT_off");
-                
-            toggleButtonState = !toggleButtonState;
+            }
         }
         internalTime = 0;
     }
+
+    toggleButtonState = !toggleButtonState;
 }
