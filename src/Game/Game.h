@@ -14,7 +14,6 @@ class Game: public BaseEngine{
         int roundNum = 1;
         Drillku* player;
         SceneManager* sceneManager;
-        vector<Veggie*> fruitList;
     public:
         void init();
         void update(Time deltaTime);

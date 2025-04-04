@@ -6,9 +6,10 @@
 
 class StartingScene : public Scene {
     private:
-        enum objIndex {BACKGROUND, BUTTON, ARROW};
+        enum objIndex {BACKGROUND, START_BUTTON, EXIT_BUTTON};
         int internalTime = 0;
         bool toggleButtonState = false;
+        bool isOnStart = true;
     public:
         StartingScene(string name);
 
@@ -17,6 +18,9 @@ class StartingScene : public Scene {
 
         void reloadRoundData();
         void setRoundNum(int id);
+
+        void toggleOnStart();
+        bool getOnStart();
 
         void update();
 };

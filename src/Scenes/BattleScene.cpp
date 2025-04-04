@@ -13,7 +13,7 @@ void BattleScene :: onLoad() {
     roundData = dataLoader.loadData(roundNum);
     prevRoundNum = roundNum;
 
-    Background* bg  = new Background("BG1_norm");
+    Background* bg  = new Background("BG1_norm", 2);
     addObject(bg);
 
     // TUNNELS
@@ -62,7 +62,7 @@ void BattleScene :: reloadRoundData() {
     getAllObjects().clear();
 
     if (roundNum < 5) {
-        Background* bg  = new Background("BG1_norm");
+        Background* bg  = new Background("BG1_norm", 2);
         addObject(bg);
 
         //Adds a bud flower
@@ -79,7 +79,7 @@ void BattleScene :: reloadRoundData() {
         }
 
     } else if (roundNum > 8) {
-        Background* bg  = new Background("BG3_norm");
+        Background* bg  = new Background("BG3_norm", 2);
         addObject(bg);
 
         //If the current one is a mid stage, turn into a bloom
@@ -97,7 +97,7 @@ void BattleScene :: reloadRoundData() {
             }
         }
     } else {
-        Background* bg  = new Background("BG2_norm");
+        Background* bg  = new Background("BG2_norm", 2);
         addObject(bg);
 
         //If the current one is a bud, then change current one to mid and then break

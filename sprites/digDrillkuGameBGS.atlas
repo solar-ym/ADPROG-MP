@@ -1,0 +1,9 @@
+digDrillkuGameBGS.png
+size:2048,2048
+repeat:none
+BG1_norm
+bounds:2,2,700,700
+BG2_norm
+bounds:704,704,700,700
+BG3_norm
+bounds:2,704,700,700

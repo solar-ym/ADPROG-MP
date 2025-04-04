@@ -10,7 +10,7 @@ class Background : public Entity {
         Texture tex;
     public:
         Background();
-        Background(string textureName);
+        Background(string textureName, int atlasNo);
 
         void setTileXY(int xV, int yV);
         int getTileX();
@@ -21,8 +21,5 @@ class Background : public Entity {
         void draw(RenderWindow *window);
         ColliderComp* getColliderComp();
         
-        // TEMPORARY
-        void manualCreation(string textureName);
-
         Sprite* getSprite();
 };

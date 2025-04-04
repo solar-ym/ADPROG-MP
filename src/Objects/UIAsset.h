@@ -15,7 +15,4 @@ class UIAsset : public GameObject {
         void draw(RenderWindow *window);
 
         void changeTexture(string textureName);
-
-        // TEMPORARY
-        void manualCreation(string textureName, float x, float y);
 };

@@ -19,6 +19,7 @@ class SceneManager {
 	    void updateCurrentScene();
 	    void drawCurrentScene(RenderWindow *window);
         int getCurrentScene();
+        Scene* getSpecificScene(SCENE_ID id);
 
         ~SceneManager();
     private:
