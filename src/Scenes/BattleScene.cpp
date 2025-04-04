@@ -326,6 +326,8 @@ void BattleScene :: draw(RenderWindow* window) {
     for (Veggie* veggie: currentVeggies){
         veggie->draw(window);
     }
+
+    player->draw(window);
 }
 
 void BattleScene :: initStartTunnel(){
