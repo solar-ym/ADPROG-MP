@@ -10,6 +10,7 @@
 */
 class AudioManager {
     private:
+        static AudioManager* myInstance;
         vector<Music*> allBGM;
     public:
         enum MUSIC_ID {MUSIC_START, MUSIC_1to4, MUSIC_5to8, MUSIC_9to12, MUSIC_LOSE, MUSIC_WIN};
