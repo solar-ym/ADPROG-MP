@@ -30,6 +30,7 @@ void Game::init(){
 void Game::update(Time deltaTime) {
     sceneManager->updateCurrentScene();
     if (player->getLives() <= 0) {
+        roundNum = 1;
         player->setLives(Drillku::RESETLIVES);
         audioManager->stopAll();
         audioManager->play(audioManager->MUSIC_LOSE);
@@ -120,7 +121,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
               audioManager->play(audioManager->MUSIC_1to4);
 
             } else {
-                sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
+                sceneManager->getSpecificScene(sceneManager->SCREEN_starting)->onUnload();
                 audioManager->stopAll();
                 window->close();
             }
@@ -141,7 +142,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
               audioManager->stopAll();
               audioManager->play(audioManager->MUSIC_START);
             } else {
-                sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
+                sceneManager->getSpecificScene(sceneManager->getCurrentScene())->onUnload();
                 audioManager->stopAll();
                 window->close();
             }
