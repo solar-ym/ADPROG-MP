@@ -15,6 +15,10 @@ BattleScene :: BattleScene(string name, int roundNum, Drillku* player) : Scene(n
 */
 void BattleScene :: onLoad() {
     // Round info (enemies and tunnels)
+    if (!roundData.empty()) {
+        roundData.clear();
+        roundNum = 1;
+    }
     roundData = dataLoader.loadData(roundNum);
     prevRoundNum = roundNum;
 

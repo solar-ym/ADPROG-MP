@@ -35,7 +35,6 @@ void Game::update(Time deltaTime) {
         audioManager->stopAll();
         audioManager->play(audioManager->MUSIC_LOSE);
         sceneManager->loadScene(SceneManager::SCREEN_loss);
-        roundNum = 1;
     }
 }
 
@@ -116,7 +115,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
             //Player is selecting the starting button
             if(dynamic_cast<StartingScene*>
               (sceneManager->getSpecificScene(sceneManager->SCREEN_starting))->getOnStart()){
-              sceneManager->loadScene(sceneManager->SCREEN_battle);
+                sceneManager->loadScene(sceneManager->SCREEN_battle);
               
               audioManager->stop(audioManager->MUSIC_START);
               audioManager->play(audioManager->MUSIC_1to4);
