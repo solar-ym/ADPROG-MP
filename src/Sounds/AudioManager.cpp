@@ -14,7 +14,7 @@ void AudioManager::loadAllMusic(){
     allBGM.push_back(new Music("../../sounds/MUSIC_win.mp3"));
 
     for(Music* music : allBGM){
-        music->setVolume(30);
+        music->setVolume(8);
         music->setLooping(true);
     }
 }
