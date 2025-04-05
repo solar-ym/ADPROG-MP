@@ -100,6 +100,7 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
                     }
                 }
                 if (roundNum > 12) {
+                    roundNum = 1;
                     player->setLives(Drillku::RESETLIVES);
                     sceneManager->loadScene(SceneManager::SCREEN_ending);
                     audioManager->stopAll();

@@ -22,7 +22,6 @@ void TunnelManager :: updateTunnels(Tunnel* newTunnel) {
 void TunnelManager :: fullReset() {
     for (int i = 0; i < DIRT_HEIGHT; i++) {
         for (int j = 0; j < DIRT_WIDTH; j++) {
-            delete allTunnels[i][j];
             allTunnels[i][j] = nullptr;
         }
     }
