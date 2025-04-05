@@ -37,9 +37,5 @@ void AudioManager::stopAll(){
 
 //Deconstructor
 AudioManager::~AudioManager(){
-    for(Music* music : allBGM){
-        delete music;
-    }
-
-    allBGM.clear();
+    for(Music* music : allBGM) delete music;
 }

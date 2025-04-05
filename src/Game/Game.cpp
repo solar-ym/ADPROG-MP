@@ -34,6 +34,7 @@ void Game::update(Time deltaTime) {
         audioManager->stopAll();
         audioManager->play(audioManager->MUSIC_LOSE);
         sceneManager->loadScene(SceneManager::SCREEN_loss);
+        roundNum = 1;
     }
 }
 
