@@ -4,7 +4,36 @@
     +-------------------------------------------------------+     
 
                    Created and Programmed by:
-                 Yza Montuerto and Megan Sadio
+                  Yza Montuerto and Megan Sadio
+
+                    All Art and UI Assets by:
+                  Yza Montuerto and Megan Sadio
+
+        |------------------------------------------------|
+
+                SOURCE CODE GITHUB REPOSITORY LINK:
+
+               https://github.com/solar-ym/ADPROG-MP
+
+        |------------------------------------------------|
+                    BACKGROUND MUSIC CREDITS:
+        - Start:
+        https://www.youtube.com/watch?v=KG-Q2v2kdsw
+
+        - Rounds 1-4:
+        https://www.youtube.com/watch?v=ABQvefYR9ec
+
+        - Rounds 5-8:
+        https://www.youtube.com/watch?v=9GcYTkRoA9A
+
+        - Rounds 9-12:
+        https://www.youtube.com/watch?v=VxjledMkwyk
+
+        - Win:
+        https://www.youtube.com/watch?v=19y8YTbvri8
+
+        - Lose:
+        https://www.youtube.com/watch?v=0yNk8I-Yno4
 */
 
 #include <iostream>
