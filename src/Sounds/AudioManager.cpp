@@ -1,7 +1,8 @@
 #include "AudioManager.h"
 
 AudioManager::AudioManager(){}
-        
+
+//Loads all of the music into the BGM vector
 void AudioManager::loadAllMusic(){
     enum MUSIC_ID {MUSIC_START, MUSIC_1to4, MUSIC_5to8, MUSIC_9to12, MUSIC_LOSE, MUSIC_WIN};
 
@@ -18,19 +19,23 @@ void AudioManager::loadAllMusic(){
     }
 }
 
+//Plays a specific music
 void AudioManager::play(MUSIC_ID id){
     allBGM[id]->play();
 }
 
+//Stops a specific music
 void AudioManager::stop(MUSIC_ID id){
     allBGM[id]->stop();
 }
 
+//Stops all music
 void AudioManager::stopAll(){
     for(Music* music : allBGM)
         music->stop();
 }
 
+//Deconstructor
 AudioManager::~AudioManager(){
     for(Music* music : allBGM){
         delete music;

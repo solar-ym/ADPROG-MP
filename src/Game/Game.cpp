@@ -85,8 +85,8 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
         }
 
         if (keyCode == sf::Keyboard::Scan::K) {
-            // if(dynamic_cast<BattleScene*>
-            //   (sceneManager->getSpecificScene(sceneManager->SCREEN_battle))->getAliveEnemies() == 0){
+             if(dynamic_cast<BattleScene*>
+               (sceneManager->getSpecificScene(sceneManager->SCREEN_battle))->getAliveEnemies() == 0){
                 if (roundNum < 13) {
                     roundNum++;
                     //Plays the corresponding music based on the round number
@@ -106,16 +106,9 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
                     audioManager->play(audioManager->MUSIC_WIN);
                 } else
                     sceneManager->reloadBattle(roundNum);
-            //}
+            }
         }
-        // if (keyCode == sf::Keyboard::Scan::Left) {
-        //     sceneManager->loadScene(sceneManager->SCREEN_starting);
-        // }
-        // if (keyCode == sf::Keyboard::Scan::Right) {
-        //     sceneManager->loadScene(sceneManager->SCREEN_ending);
-        // }
     } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_starting) { //It is at the starting screen
-        //roundNum = 1;
         if (keyCode == sf::Keyboard::Scan::M){ 
             //Player is selecting the starting button
             if(dynamic_cast<StartingScene*>
@@ -128,7 +121,6 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
             } else {
                 sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
                 audioManager->stopAll();
-                //audioManager->~AudioManager();
                 window->close();
             }
         }
@@ -150,7 +142,6 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
             } else {
                 sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
                 audioManager->stopAll();
-                //audioManager->~AudioManager();
                 window->close();
             }
         }

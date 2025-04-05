@@ -2,6 +2,12 @@
 
 #include "../Utility/configurations.h"
 
+/*
+    Audio Manager Class.
+
+    Holds the vector for all of the background music, and an enum to play the corresponding music
+    Also stops a specific music or all of them
+*/
 class AudioManager {
     private:
         vector<Music*> allBGM;
