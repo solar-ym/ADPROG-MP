@@ -3,6 +3,8 @@
 StartingScene::StartingScene(string name) : Scene(name) {}
 
 void StartingScene::onLoad() {
+    
+
     Background* bg = new Background("BG_start", 1);
     UIAsset* startButton = new UIAsset("START_off", {83.7f, 494.2f});
     UIAsset* exitButton = new UIAsset("EXIT_off", {83.7f, 587.8f});

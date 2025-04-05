@@ -16,6 +16,11 @@ void Game::init(){
 
     sceneManager->loadScene(sceneManager->SCREEN_starting);
 
+    audioManager = new AudioManager();
+
+    audioManager->loadAllMusic();
+    audioManager->play(audioManager->MUSIC_START);
+
     time_t nTime;
     srand((unsigned) time(&nTime));
     int n = rand();
@@ -26,6 +31,8 @@ void Game::update(Time deltaTime) {
     sceneManager->updateCurrentScene();
     if (player->getLives() <= 0) {
         player->setLives(Drillku::RESETLIVES);
+        audioManager->stopAll();
+        audioManager->play(audioManager->MUSIC_LOSE);
         sceneManager->loadScene(SceneManager::SCREEN_loss);
     }
 }
@@ -78,30 +85,50 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
         }
 
         if (keyCode == sf::Keyboard::Scan::K) {
-            if(dynamic_cast<BattleScene*>
-              (sceneManager->getSpecificScene(sceneManager->SCREEN_battle))->getAliveEnemies() == 0){
-                if (roundNum < 13) roundNum++;
+            // if(dynamic_cast<BattleScene*>
+            //   (sceneManager->getSpecificScene(sceneManager->SCREEN_battle))->getAliveEnemies() == 0){
+                if (roundNum < 13) {
+                    roundNum++;
+                    //Plays the corresponding music based on the round number
+                    //Rounds 1-4, 5-8, and 9-12 have different soundtracks
+                    if(roundNum == 5){
+                        audioManager->stop(audioManager->MUSIC_1to4);
+                        audioManager->play(audioManager->MUSIC_5to8);
+                    } else if (roundNum == 9){
+                        audioManager->stop(audioManager->MUSIC_5to8);
+                        audioManager->play(audioManager->MUSIC_9to12);
+                    }
+                }
                 if (roundNum > 12) {
                     player->setLives(Drillku::RESETLIVES);
                     sceneManager->loadScene(SceneManager::SCREEN_ending);
+                    audioManager->stopAll();
+                    audioManager->play(audioManager->MUSIC_WIN);
                 } else
                     sceneManager->reloadBattle(roundNum);
-            }
+            //}
         }
-        if (keyCode == sf::Keyboard::Scan::Left) {
-            sceneManager->loadScene(sceneManager->SCREEN_starting);
-        }
-        if (keyCode == sf::Keyboard::Scan::Right) {
-            sceneManager->loadScene(sceneManager->SCREEN_ending);
-        }
+        // if (keyCode == sf::Keyboard::Scan::Left) {
+        //     sceneManager->loadScene(sceneManager->SCREEN_starting);
+        // }
+        // if (keyCode == sf::Keyboard::Scan::Right) {
+        //     sceneManager->loadScene(sceneManager->SCREEN_ending);
+        // }
     } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_starting) { //It is at the starting screen
+        //roundNum = 1;
         if (keyCode == sf::Keyboard::Scan::M){ 
             //Player is selecting the starting button
             if(dynamic_cast<StartingScene*>
               (sceneManager->getSpecificScene(sceneManager->SCREEN_starting))->getOnStart()){
               sceneManager->loadScene(sceneManager->SCREEN_battle);
+              
+              audioManager->stop(audioManager->MUSIC_START);
+              audioManager->play(audioManager->MUSIC_1to4);
+
             } else {
                 sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
+                audioManager->stopAll();
+                //audioManager->~AudioManager();
                 window->close();
             }
         }
@@ -118,8 +145,12 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
             if(dynamic_cast<EndingScreen*>
               (sceneManager->getSpecificScene(sceneManager->getCurrentScene()))->getOnStart()){
               sceneManager->loadScene(sceneManager->SCREEN_starting);
+              audioManager->stopAll();
+              audioManager->play(audioManager->MUSIC_START);
             } else {
                 sceneManager->getSpecificScene(sceneManager->SCREEN_battle)->onUnload();
+                audioManager->stopAll();
+                //audioManager->~AudioManager();
                 window->close();
             }
         }
@@ -156,4 +187,5 @@ void Game::keyReleaseTrigger(Keyboard::Scan keyCode) {
 Game::~Game() {
     delete player;
     delete sceneManager;
+    delete audioManager;
 }

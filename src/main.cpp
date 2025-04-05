@@ -54,13 +54,16 @@
 #include "Scenes/StartingScene.cpp"
 #include "Scenes/EndingScene.cpp"
 
+/* Sounds Folder */
+#include "Sounds/AudioManager.cpp"
+
 /* Utilities Folder */
 #include "Utility/configurations.h"
 #include "Utility/SpriteManip.cpp"
 
 int main()
 {
-    // Create a game class with the corresponding window size
+    //Create a game class with the corresponding window size
     Game game;
     // Run the game
     game.run("DIG, DRILLKU!  |  GDADPRG S22 Machine Project by Sadio & Montuerto", 
