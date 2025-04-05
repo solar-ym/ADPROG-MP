@@ -17,8 +17,8 @@ void BattleScene :: onLoad() {
     // Round info (enemies and tunnels)
     if (!roundData.empty()) {
         roundData.clear();
-        roundNum = 1;
     }
+    roundNum = 1;
     roundData = dataLoader.loadData(roundNum);
     prevRoundNum = roundNum;
 
