@@ -110,6 +110,19 @@ void Game::keyPressTrigger(Keyboard::Scan keyCode, RenderWindow *window) {
                     sceneManager->reloadBattle(roundNum);
             }
         }
+
+        //DEBUGGING BUTTONS
+        if (keyCode == sf::Keyboard::Scan::Left) {
+            sceneManager->loadScene(sceneManager->SCREEN_starting);
+        }
+        if (keyCode == sf::Keyboard::Scan::Right) {
+            roundNum = 1;
+            player->setLives(Drillku::RESETLIVES);
+            sceneManager->loadScene(SceneManager::SCREEN_ending);
+            audioManager->stopAll();
+            audioManager->play(audioManager->MUSIC_WIN);
+        }
+
     } else if (sceneManager->getCurrentScene() == sceneManager->SCREEN_starting) { //It is at the starting screen
         if (keyCode == sf::Keyboard::Scan::M){ 
             //Player is selecting the starting button
