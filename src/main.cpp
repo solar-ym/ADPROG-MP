@@ -60,11 +60,6 @@
 
 int main()
 {
-    // Music music("../../sounds/MUSIC/MUSIC_start.mp3");
-    // music.setVolume(50);
-    // music.setLooping(true);
-    // music.play();
-
     // Create a game class with the corresponding window size
     Game game;
     // Run the game
