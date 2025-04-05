@@ -26,4 +26,6 @@ class CollisionSystem{
         
         void onAttackCollision(Scene* scene, Drillku* player, Enemy* enemy);
         void onAttackCollision(Entity* attacker);
+
+        void fullReset();
 };

@@ -15,6 +15,7 @@ BattleScene :: BattleScene(string name, int roundNum, Drillku* player) : Scene(n
 */
 void BattleScene :: onLoad() {
     // Round info (enemies and tunnels)
+    roundNum = 1;
     roundData = dataLoader.loadData(roundNum);
     prevRoundNum = roundNum;
 
@@ -74,6 +75,7 @@ void BattleScene :: onUnload() {
     }
 
     tunManager->fullReset();
+    colSystem->fullReset();
 
     lastFacing = MovementComp::RIGHT;
     if (!currentEnemies.empty())
@@ -113,7 +115,7 @@ void BattleScene :: onUnload() {
     Resets the round and loads in whatever the next round needs.
 */
 void BattleScene :: reloadRoundData() {
-    getAllObjects().clear();
+    removeAllObjects();
 
     if (roundNum < 5) {
         Background* bg  = new Background("BG1_norm", 2);
@@ -172,11 +174,9 @@ void BattleScene :: reloadRoundData() {
     }
 
     // resets
-    if (!roundData.empty()) {
-        roundData.clear();
-    }
-
+    roundData.clear();
     tunManager->fullReset();
+    colSystem->fullReset();
 
     currentTunnel = nullptr;
     lastFacing = MovementComp::RIGHT;

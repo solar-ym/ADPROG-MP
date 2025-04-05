@@ -14,8 +14,8 @@
 // This one scene is used for all rounds
 class BattleScene : public Scene {
     private:
-        int roundNum;
-        int prevRoundNum;
+        int roundNum = 0;
+        int prevRoundNum = 1;
         vector<int> roundData;
         Drillku* player;
         Tunnel* currentTunnel = nullptr;

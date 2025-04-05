@@ -207,3 +207,10 @@ void CollisionSystem::onAttackCollision(Entity* attacker) {
     attack->setExtendBool(false);
     attack->setCanExtend(false);
 }
+
+void CollisionSystem :: fullReset() {
+    internalTime = 0;
+    cooldown = 0;
+    running = false;
+    enemyCollided = false;
+}
